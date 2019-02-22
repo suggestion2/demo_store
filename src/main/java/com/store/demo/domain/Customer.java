@@ -1,5 +1,7 @@
 package com.store.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -8,13 +10,19 @@ public class Customer {
     private Integer id;
     private String name;
     private String phone;
+    @JsonIgnore
     private String password;
     private Integer cartId;
+    @JsonIgnore
     private Date createTime;
+    @JsonIgnore
     private Date updateTime;
+    @JsonIgnore
     private Integer createBy;
+    @JsonIgnore
     private Integer updateBy;
     private Integer status;
+    @JsonIgnore
     private Integer valid;
 
     public Integer getId() {

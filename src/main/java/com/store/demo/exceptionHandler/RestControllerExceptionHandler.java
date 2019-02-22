@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 @RestControllerAdvice({
-        "com.store.demo.controller"
+        "com.store.demo.controller.management"
 })
 public class RestControllerExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(RestControllerExceptionHandler.class);

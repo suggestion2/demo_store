@@ -102,7 +102,7 @@ var commonModule = {
     login: function () {
         var settings = {
             type: "POST",
-            url: "/management/login",
+            url: "/management/user/login",
             dataType: "json",
             data: JSON.stringify({
                 "name": $("#login-m-name").val(),
@@ -114,7 +114,7 @@ var commonModule = {
     resetPwd: function () {
         var settings = {
             type: "PUT",
-            url: "/management/password",
+            url: "/management/user/resetPassword",
             dataType: "json",
             data: JSON.stringify({
                 "originPassword": $("#resetPwd-m-originPwd").val(),
@@ -126,7 +126,7 @@ var commonModule = {
     currentUser: function () {
         var settings = {
             type: "GET",
-            url: "/management/current",
+            url: "/management/user/current",
             dataType: "json"
         };
         showResult(settings);
@@ -134,7 +134,7 @@ var commonModule = {
     logout: function () {
         var settings = {
             type: "GET",
-            url: "/management/logout",
+            url: "/management/user/logout",
             dataType: "json"
         };
         showResult(settings);
@@ -872,15 +872,14 @@ var customerMaModule= {
             url: "/management/customer/list",
             dataType: "json" ,
             data: JSON.stringify({
-                "managementContent": $("#customer-m-list-managementContent").val(),
-                "type": $("#customer-m-list-status").val(),
+                "content": $("#customer-m-list-content").val(),
                 "pageIndex": $("#customer-m-List-startIndex").val(),
                 "pageSize": $("#customer-m-List-pageSize").val()
             })
         };
         showResult(settings);
     },
-    deleteById: function () {
+    detail: function () {
         var settings = {
             type: "GET",
             url: "/management/customer/" + $("#customer-m-detail-id").val(),
