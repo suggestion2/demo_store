@@ -1,8 +1,7 @@
-package com.store.demo.controller.controller;
+package com.store.demo.controller.management;
 
 import com.store.demo.domain.GoodsCategory;
 import com.store.demo.request.GoodsCategoryCreateForm;
-import com.store.demo.request.GoodsCategoryListForm;
 import com.store.demo.request.GoodsCategoryStatusForm;
 import com.store.demo.request.GoodsCategoryUpdateForm;
 import com.store.demo.response.GoodsCategoryListView;

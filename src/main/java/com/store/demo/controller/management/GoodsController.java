@@ -1,4 +1,4 @@
-package com.store.demo.controller.controller;
+package com.store.demo.controller.management;
 
 import com.store.demo.service.oss.OssService;
 import com.sug.core.platform.exception.ResourceNotFoundException;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import static com.store.demo.constants.CommonConstants.*;
