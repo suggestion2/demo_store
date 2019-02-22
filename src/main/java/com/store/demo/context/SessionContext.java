@@ -2,6 +2,8 @@ package com.store.demo.context;
 
 
 
+import com.store.demo.domain.Customer;
+import com.store.demo.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,7 @@ public class SessionContext {
     @Autowired
     private HttpSession httpSession;
 
-    /*public void setUser(User user){
+    public void setUser(User user){
         httpSession.setAttribute("user",user);
     }
 
@@ -32,5 +34,5 @@ public class SessionContext {
 
     public void logout(){
         httpSession.invalidate();
-    }*/
+    }
 }

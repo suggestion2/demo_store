@@ -29,7 +29,7 @@ public class CommonConstants {
     public static final String INDEX = "/index";
 
     //params
-    public static final String MD5_SALT = "longyan";
+    public static final String MD5_SALT = "store";
 
     public static final int CREATE_BY_SERVER = 0;
 }
