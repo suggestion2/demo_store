@@ -872,15 +872,14 @@ var customerMaModule= {
             url: "/management/customer/list",
             dataType: "json" ,
             data: JSON.stringify({
-                "managementContent": $("#customer-m-list-managementContent").val(),
-                "type": $("#customer-m-list-status").val(),
+                "content": $("#customer-m-list-content").val(),
                 "pageIndex": $("#customer-m-List-startIndex").val(),
                 "pageSize": $("#customer-m-List-pageSize").val()
             })
         };
         showResult(settings);
     },
-    deleteById: function () {
+    detail: function () {
         var settings = {
             type: "GET",
             url: "/management/customer/" + $("#customer-m-detail-id").val(),
