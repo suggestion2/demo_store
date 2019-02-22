@@ -13,7 +13,7 @@
         </if>
     </select>
 
-    <insert id="batchInsert" parameterType="com.store.demo.domain.GoodsSpec" useGeneratedKeys="true" keyProperty="id">
+    <insert id="batchInsert" parameterType="com.store.demo.request.SpecUnitEditForm" useGeneratedKeys="true" keyProperty="id">
         insert into `goods_spec`
         (
         `goodsId`,

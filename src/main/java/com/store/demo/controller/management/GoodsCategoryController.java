@@ -1,5 +1,6 @@
 package com.store.demo.controller.management;
 
+import com.store.demo.context.SessionContext;
 import com.store.demo.domain.GoodsCategory;
 import com.store.demo.request.GoodsCategoryCreateForm;
 import com.store.demo.request.GoodsCategoryStatusForm;
@@ -29,6 +30,9 @@ public class GoodsCategoryController {
     @Autowired
     private GoodsCategoryService goodsCategoryService;
 
+    @Autowired
+    private SessionContext sessionContext;
+
     @RequestMapping(value = LIST,method = RequestMethod.GET)
     public GoodsCategoryListView list(){
         return new GoodsCategoryListView(goodsCategoryService.selectList(null));
@@ -43,7 +47,7 @@ public class GoodsCategoryController {
     public SuccessView create(@Valid @RequestBody GoodsCategoryCreateForm form){
         GoodsCategory goodsCategory = new GoodsCategory();
         BeanUtils.copyProperties(form,goodsCategory);
-        //TODO 添加user
+        goodsCategory.setCreateBy(sessionContext.getUser().getId());
         goodsCategoryService.create(goodsCategory);
         return new SuccessView();
     }
@@ -55,7 +59,7 @@ public class GoodsCategoryController {
             throw new ResourceNotFoundException("goodsCategory not exists");
         }
         BeanUtils.copyProperties(form,goodsCategory);
-        //TODO 添加user
+        goodsCategory.setUpdateBy(sessionContext.getUser().getId());
         goodsCategoryService.update(goodsCategory);
         return new SuccessView();
     }

@@ -1,6 +1,7 @@
 package com.store.demo.service;
 
 import com.store.demo.domain.GoodsSpecUnit;
+import com.store.demo.request.SpecUnitEditForm;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -22,4 +23,6 @@ public interface GoodsSpecUnitService {
     int update(GoodsSpecUnit goodsSpecUnit);
 
     int deleteById(Integer id);
+
+    int batchCreate(List<SpecUnitEditForm> list);
 }

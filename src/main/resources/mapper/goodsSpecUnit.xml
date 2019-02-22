@@ -30,6 +30,44 @@
         </if>
     </select>
 
+    <insert id="batchInsert" parameterType="com.store.demo.request.SpecUnitEditForm" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into `goods_spec_unit`
+        (
+        `goodsId`,
+        `specIds`,
+        `title`,
+        `titleEng`,
+        `stocks`,
+        `promotionPrice`,
+        `price`,
+        `fare`,
+        `salesVolume`,
+        `primary`,
+        `imageUrl`,
+        `createBy`,
+        `updateBy`
+        )
+        values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.specIds},
+            #{item.title},
+            #{item.titleEng},
+            #{item.stocks},
+            #{item.promotionPrice},
+            #{item.price},
+            #{item.fare},
+            #{item.salesVolume},
+            #{item.primary},
+            #{item.imageUrl},
+            #{item.updateBy},
+            #{item.updateBy}
+            )
+        </foreach>
+    </insert>
+
     <insert id="insert" parameterType="com.store.demo.domain.GoodsSpecUnit" useGeneratedKeys="true" keyProperty="id">
         insert into `goods_spec_unit`
         (
