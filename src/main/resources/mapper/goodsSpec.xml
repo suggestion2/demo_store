@@ -13,6 +13,30 @@
         </if>
     </select>
 
+    <insert id="batchInsert" parameterType="com.store.demo.domain.GoodsSpec" useGeneratedKeys="true" keyProperty="id">
+        insert into `goods_spec`
+        (
+        `goodsId`,
+        `title`,
+        `titleEng`,
+        `parentId`,
+        `primary`,
+        `createBy`,
+        `updateBy`
+        )
+        values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.title},
+            #{item.titleEng},
+            #{item.parentId},
+            #{item.primary},
+            #{item.updateBy},
+            #{item.updateBy}
+            )
+        </foreach>
+    </insert>
     <select id="selectList" resultType="com.store.demo.domain.GoodsSpec" parameterType="java.util.Map">
         select * from `goods_spec` where `valid` = 1
         <if test="id!=null">

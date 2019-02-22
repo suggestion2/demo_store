@@ -1,6 +1,8 @@
 package com.store.demo.mapper;
 
 import com.store.demo.domain.GoodsSpec;
+import com.store.demo.mapper.sku.GoodsSpecUpdateParams;
+import com.store.demo.request.SpecEditForm;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,4 +23,6 @@ public interface GoodsSpecMapper {
     int update(GoodsSpec goodsSpec);
 
     int deleteById(Integer id);
+
+    int batchInsert(List<SpecEditForm> specEditFormList);
 }

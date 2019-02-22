@@ -1,6 +1,7 @@
 package com.store.demo.service.Impl;
 
 import com.store.demo.domain.GoodsSpec;
+import com.store.demo.request.SpecEditForm;
 import com.store.demo.service.GoodsSpecService;
 import com.store.demo.mapper.GoodsSpecMapper;
 import org.springframework.stereotype.Service;
@@ -48,5 +49,10 @@ public class GoodsSpecServiceImpl implements GoodsSpecService{
     @Override
     public int deleteById(Integer id){
         return goodsSpecMapper.deleteById(id);
+    }
+
+    @Override
+    public int batchCreate(List<SpecEditForm> specEditFormList) {
+        return goodsSpecMapper.batchInsert(specEditFormList);
     }
 }

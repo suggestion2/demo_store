@@ -28,10 +28,7 @@ public class GoodsCreateForm {
     private String bannerUrl;
     @NotEmpty
     private String imagesUrl;
-    @NotEmpty
     private String remarks;
-    @NotNull
-    private BigDecimal shippingCost;
     private List<SpecEditListForm> specList;
 
     private List<SpecUnitEditForm> unitList;
@@ -128,13 +125,6 @@ public class GoodsCreateForm {
 
     public void setRemarks(String remarks) {
     this.remarks = remarks;
-    }
-    public BigDecimal getShippingCost() {
-    return shippingCost;
-    }
-
-    public void setShippingCost(BigDecimal shippingCost) {
-    this.shippingCost = shippingCost;
     }
 
 }
