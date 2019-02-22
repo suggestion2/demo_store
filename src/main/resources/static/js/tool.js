@@ -583,7 +583,9 @@ var goodsCategoryModule= {
             url: "/management/goodsCategory/create",
             dataType: "json",
             data: JSON.stringify({
-                "name": $("#goodsCategory-create-name").val()
+                "name": $("#goodsCategory-create-name").val(),
+                "level": $("#goodsCategory-create-level").val(),
+                "parentId": $("#goodsCategory-create-parentId").val()
             })
         };
         showResult(settings);
@@ -595,7 +597,9 @@ var goodsCategoryModule= {
             dataType: "json",
             data: JSON.stringify({
                 "id": $("#goodsCategory-update-id").val(),
-                "name": $("#goodsCategory-update-name").val()
+                "name": $("#goodsCategory-update-name").val(),
+                "level": $("#goodsCategory-update-level").val(),
+                "parentId": $("#goodsCategory-update-parentId").val()
             })
         };
         showResult(settings);

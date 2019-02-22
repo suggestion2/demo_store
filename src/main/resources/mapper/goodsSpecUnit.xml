@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.demo.mapper.GoodsSpecUnitMapper">
+
+    <select id="selectById" resultType="com.store.demo.domain.GoodsSpecUnit" parameterType="java.lang.Integer">
+        select * from `goods_spec_unit` where id= #{id} and `valid` = 1
+    </select>
+
+    <select id="select" resultType="com.store.demo.domain.GoodsSpecUnit" parameterType="java.util.Map">
+        select * from `goods_spec_unit` where `valid` = 1
+        <if test="id!=null">
+            and `id` = #{id}
+        </if>
+    </select>
+
+    <select id="selectList" resultType="com.store.demo.domain.GoodsSpecUnit" parameterType="java.util.Map">
+        select * from `goods_spec_unit` where `valid` = 1
+        <if test="id!=null">
+
+        </if>
+        <if test="startIndex != null and pageSize != null">
+            limit #{startIndex},#{pageSize}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(*) from `goods_spec_unit` where `valid` = 1
+        <if test="id!=null">
+
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.store.demo.domain.GoodsSpecUnit" useGeneratedKeys="true" keyProperty="id">
+        insert into `goods_spec_unit`
+        (
+        `title`,
+        `goodsId`,
+        `specIds`,
+        `stocks`,
+        `price`,
+        `salesVolume`,
+        `primary`,
+        `shippingCost`,
+        `createBy`,
+        `updateBy`,
+        `status`,
+        `imageUrl`
+        )
+        values
+        (
+        #{title},
+        #{goodsId},
+        #{specIds},
+        #{stocks},
+        #{price},
+        #{salesVolume},
+        #{primary},
+        #{shippingCost},
+        #{createBy},
+        #{createBy},
+        #{status},
+        #{imageUrl}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.store.demo.domain.GoodsSpecUnit">
+        update `goods_spec_unit` set
+        `title` = #{title},
+        `goodsId` = #{goodsId},
+        `specIds` = #{specIds},
+        `stocks` = #{stocks},
+        `price` = #{price},
+        `salesVolume` = #{salesVolume},
+        `primary` = #{primary},
+        `shippingCost` = #{shippingCost},
+        `updateBy` = #{updateBy},
+        `status` = #{status},
+        `imageUrl` = #{imageUrl},
+        `updateTime` = now()
+        where `id` = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        update `goods_spec_unit` set valid = 0 where `id` = #{id}
+    </delete>
+</mapper>

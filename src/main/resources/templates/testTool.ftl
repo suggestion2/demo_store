@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
-    <title>龙岩</title>
+    <title>商城模板</title>
     <link href="/resources/images/favicon.ico" rel="icon" type="image/x-icon"/>
     <link rel="stylesheet" href="/resources/css/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/style.css">
@@ -466,15 +466,23 @@
             <div>
                 <strong>[创建]</strong><br/>
                 name:<input class="textbox" type="text" id="goodsCategory-create-name" style="width: 100px;"
-                            value=""/>
+                            value="测试品类一级"/>
+                level:<input class="textbox" type="text" id="goodsCategory-create-level" style="width: 100px;"
+                            value="1"/>
+                parentId:<input class="textbox" type="text" id="goodsCategory-create-parentId" style="width: 100px;"
+                            value="0"/>
                 <input type="button" value="创建" onclick="goodsCategoryModule.create()"/><br>
             </div>
             <div>
                 <strong>[修改]</strong><br/>
                 id:<input class="textbox" type="text" id="goodsCategory-update-id" style="width: 100px;"
-                          value=""/>
+                          value="1"/>
                 name:<input class="textbox" type="text" id="goodsCategory-update-name" style="width: 100px;"
                             value=""/><br>
+                level:<input class="textbox" type="text" id="goodsCategory-update-level" style="width: 100px;"
+                             value="1"/>
+                parentId:<input class="textbox" type="text" id="goodsCategory-update-parentId" style="width: 100px;"
+                                value="0"/>
                 <input type="button" value="修改" onclick="goodsCategoryModule.update()"/><br>
             </div>
             <div>
