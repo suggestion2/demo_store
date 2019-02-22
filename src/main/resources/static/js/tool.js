@@ -693,12 +693,98 @@ var goodsModule= {
             url: "/management/goods/create",
             dataType: "json",
             data: JSON.stringify({
-                "categoryId1": $("#goods-create-categoryId1").val(),
-                "category1": $("#goods-create-category1").val(),
                 "name": $("#goods-create-name").val(),
-                "description": $("#goods-create-description").val(),
+                "categoryId1": $("#goods-create-categoryId1").val(),
+                "categoryId2": $("#goods-create-categoryId2").val(),
+                "category1": $("#goods-create-category1").val(),
+                "category2": $("#goods-create-category2").val(),
+                "bannerUrl": $("#goods-create-bannerUrl").val(),
                 "imagesUrl": $("#goods-create-imagesUrl").val(),
-                "price": $("#goods-create-price").val()
+                "remarks": $("#goods-create-remarks").val(),
+                "specList":[
+                    {
+                        "form":{
+                            "tempId": $("#goods-create-sku1-tempId").val(),
+                            "title": $("#goods-create-sku1-title").val()
+                        },
+                        "subList":[
+                            {
+                                "tempId": $("#goods-create-sku11-tempId").val(),
+                                "tempParentId": $("#goods-create-sku11-parentTempId").val(),
+                                "title": $("#goods-create-sku11-title").val(),
+                                "primary": $("#goods-create-sku11-primary").is(':checked') ? 1 : 0
+                            },
+                            {
+                                "tempId": $("#goods-create-sku12-tempId").val(),
+                                "tempParentId": $("#goods-create-sku12-parentTempId").val(),
+                                "title": $("#goods-create-sku12-title").val(),
+                                "primary": $("#goods-create-sku12-primary").is(':checked') ? 1 : 0
+                            }
+                        ]
+                    },
+                    {
+                        "form":{
+                            "tempId": $("#goods-create-sku2-tempId").val(),
+                            "title": $("#goods-create-sku2-title").val()
+                        },
+                        "subList":[
+                            {
+                                "tempId": $("#goods-create-sku21-tempId").val(),
+                                "tempParentId": $("#goods-create-sku21-parentTempId").val(),
+                                "title": $("#goods-create-sku21-title").val(),
+                                "primary": $("#goods-create-sku21-primary").is(':checked') ? 1 : 0
+                            },
+                            {
+                                "tempId": $("#goods-create-sku22-tempId").val(),
+                                "tempParentId": $("#goods-create-sku22-parentTempId").val(),
+                                "title": $("#goods-create-sku22-title").val(),
+                                "primary": $("#goods-create-sku22-primary").is(':checked') ? 1 : 0
+                            }
+                        ]
+                    }
+                ],
+                "unitList":[
+                    {
+                        "specIds": $("#goods-create-unit1-specIds").val(),
+                        "title": $("#goods-create-unit1-title").val(),
+                        "stocks": $("#goods-create-unit1-stocks").val(),
+                        "price": $("#goods-create-unit1-price").val(),
+                        "shippingCost": $("#goods-create-unit1-shippingCost").val(),
+                        "salesVolume": $("#goods-create-unit1-salesVolume").val(),
+                        "imageUrl": $("#goods-create-unit1-imageUrl").val(),
+                        "primary": $("#goods-create-unit1-primary").is(':checked') ? 1 : 0
+                    },
+                    {
+                        "specIds": $("#goods-create-unit2-specIds").val(),
+                        "title": $("#goods-create-unit2-title").val(),
+                        "stocks": $("#goods-create-unit2-stocks").val(),
+                        "price": $("#goods-create-unit2-price").val(),
+                        "shippingCost": $("#goods-create-unit2-shippingCost").val(),
+                        "salesVolume": $("#goods-create-unit2-salesVolume").val(),
+                        "imageUrl": $("#goods-create-unit2-imageUrl").val(),
+                        "primary": $("#goods-create-unit2-primary").is(':checked') ? 1 : 0
+                    },
+                    {
+                        "specIds": $("#goods-create-unit3-specIds").val(),
+                        "title": $("#goods-create-unit3-title").val(),
+                        "stocks": $("#goods-create-unit3-stocks").val(),
+                        "price": $("#goods-create-unit3-price").val(),
+                        "shippingCost": $("#goods-create-unit3-shippingCost").val(),
+                        "salesVolume": $("#goods-create-unit3-salesVolume").val(),
+                        "imageUrl": $("#goods-create-unit3-imageUrl").val(),
+                        "primary": $("#goods-create-unit3-primary").is(':checked') ? 1 : 0
+                    },
+                    {
+                        "specIds": $("#goods-create-unit4-specIds").val(),
+                        "title": $("#goods-create-unit4-title").val(),
+                        "stocks": $("#goods-create-unit4-stocks").val(),
+                        "price": $("#goods-create-unit4-price").val(),
+                        "shippingCost": $("#goods-create-unit4-shippingCost").val(),
+                        "salesVolume": $("#goods-create-unit4-salesVolume").val(),
+                        "imageUrl": $("#goods-create-unit4-imageUrl").val(),
+                        "primary": $("#goods-create-unit4-primary").is(':checked') ? 1 : 0
+                    }
+                ]
             })
         };
         showResult(settings);

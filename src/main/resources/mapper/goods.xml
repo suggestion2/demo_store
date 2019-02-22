@@ -35,37 +35,29 @@
         (
         `categoryId1`,
         `categoryId2`,
-        `categoryId3`,
         `category1`,
         `category2`,
-        `category3`,
         `name`,
         `number`,
         `bannerUrl`,
         `imagesUrl`,
         `remarks`,
-        `shippingCost`,
         `createBy`,
-        `updateBy`,
-        `status`,
+        `updateBy`
         )
         values
         (
         #{categoryId1},
         #{categoryId2},
-        #{categoryId3},
         #{category1},
         #{category2},
-        #{category3},
         #{name},
         #{number},
         #{bannerUrl},
         #{imagesUrl},
         #{remarks},
-        #{shippingCost},
         #{createBy},
-        #{createBy},
-        #{status},
+        #{updateBy}
         )
     </insert>
 

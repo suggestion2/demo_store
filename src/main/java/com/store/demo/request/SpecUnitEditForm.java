@@ -7,26 +7,18 @@ import java.math.BigDecimal;
 
 public class SpecUnitEditForm {
 
-    @NotNull
     private Integer id;
-    @NotNull
     private Integer goodsId;
-    @NotEmpty
     private String specIds;
-    @NotEmpty
     private String title;
-    @NotNull
     private Integer stocks;
-    @NotNull
     @Digits(integer = 8,fraction = 2,message = "invalid digits")
     private BigDecimal price;
-    @NotNull
     @Digits(integer = 5,fraction = 2,message = "invalid digits")
     private BigDecimal shippingCost;
     private Integer salesVolume;
     private Integer primary;
     private Integer updateBy;
-    @NotEmpty
     private String imageUrl;
 
     public Integer getId() {

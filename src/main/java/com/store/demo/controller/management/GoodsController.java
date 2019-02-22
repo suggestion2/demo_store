@@ -3,6 +3,7 @@ package com.store.demo.controller.management;
 import com.store.demo.context.SessionContext;
 import com.store.demo.domain.GoodsSpecUnit;
 import com.store.demo.domain.User;
+import com.store.demo.interceptor.UserLoginRequired;
 import com.store.demo.request.*;
 import com.store.demo.service.GoodsSpecService;
 import com.store.demo.service.GoodsSpecUnitService;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,6 +31,7 @@ import static com.store.demo.constants.ImageConstants.GOODS;
 
 @RestController
 @RequestMapping(value = "/management/goods")
+@UserLoginRequired
 public class GoodsController {
 
     private static final Logger logger = LoggerFactory.getLogger(GoodsController.class);
@@ -61,14 +64,14 @@ public class GoodsController {
     }
 
     @RequestMapping(value = CREATE,method = RequestMethod.POST)
+    @Transactional
     public SuccessView create(@Valid @RequestBody GoodsCreateForm form){
         User currentUser = sessionContext.getUser();
-        //TODO 获取user
         Goods goods = new Goods();
         BeanUtils.copyProperties(form, goods);
         goods.setNumber("G" + JUGUUIDGenerator.generateShort(24));
-//        goods.setCreateBy(currentUser.getId());
-//        goods.setUpdateBy(currentUser.getId());
+        goods.setCreateBy(currentUser.getId());
+        goods.setUpdateBy(currentUser.getId());
         goodsService.create(goods);
         List<SpecEditListForm> specList = form.getSpecList();
         if (Objects.isNull(specList) || specList.size() == 0) {
@@ -80,24 +83,23 @@ public class GoodsController {
         List<SpecEditForm> subList = specList.stream().flatMap(s -> s.getSubList().stream()).collect(Collectors.toList());
 
         parentList.forEach(f -> {
-            //父类默认没有首选
             f.setPrimary(0);
             f.setGoodsId(goods.getId());
             f.setParentId(0);
-//            f.setUpdateBy(currentUser.getId());
+            f.setUpdateBy(currentUser.getId());
         });
 
         Map<String, Integer> tempParentIdMap = new HashMap<>();
         Map<String, Integer> tempIdMap = new HashMap<>();
         //创建商品规格表示这些规格的总称比如颜色，或者尺码，然后下面进行如颜色的添加，红色，蓝色，所以parentId=0
         goodsSpecService.batchCreate(parentList);
-        //拿到上面添加的规格的id作为parentId进行关联添加
+        //
         parentList.forEach(f -> tempParentIdMap.put(f.getTempId(), f.getId()));
-
+        //拿到上面添加的规格的id作为parentId进行关联添加
         subList.forEach(f -> {
             f.setParentId(tempParentIdMap.get(f.getTempParentId()));
             f.setGoodsId(goods.getId());
-//            f.setUpdateBy(currentUser.getId());
+            f.setUpdateBy(currentUser.getId());
         });
         //添加如红色，蓝色，或者尺码35，36，并拿到上面添加的规格的id作为parentId进行关联添加
         goodsSpecService.batchCreate(subList);
@@ -108,10 +110,11 @@ public class GoodsController {
         if (Objects.isNull(unitList) || unitList.size() == 0) {
             throw new ResourceNotFoundException("unit not found");
         }
-        //把上面记录的临时goodsSpec的id和创建goodsSpecUnit页面传过来的specIds进行比较，看看是否是上面有创建的goodsSpec的id，如果有，才能根据goodsSpec的id去创建goodsSpecUnit的specIds
+        //把unitList的specId传过来的字符串如2,5变成字符数组
         unitList.forEach(f -> {
             List<String> tempSpecIdList = Arrays.stream(f.getSpecIds().split(",")).collect(Collectors.toList());
             StringBuilder specIds = new StringBuilder();
+            //判断该字符数组有没有为空
             tempSpecIdList.forEach(s -> {
                 if (Objects.isNull(tempIdMap.get(s))) {
                     throw new ResourceNotFoundException("specId not found in specUnit");
@@ -124,7 +127,7 @@ public class GoodsController {
             f.setGoodsId(goods.getId());
             f.setUpdateBy(currentUser.getId());
         });
-
+        //保存商品unit
         goodsSpecUnitService.batchCreate(unitList);
         return new SuccessView();
     }

@@ -18,7 +18,6 @@
         (
         `goodsId`,
         `title`,
-        `titleEng`,
         `parentId`,
         `primary`,
         `createBy`,
@@ -29,7 +28,6 @@
             (
             #{item.goodsId},
             #{item.title},
-            #{item.titleEng},
             #{item.parentId},
             #{item.primary},
             #{item.updateBy},

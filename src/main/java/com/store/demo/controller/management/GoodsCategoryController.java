@@ -2,6 +2,7 @@ package com.store.demo.controller.management;
 
 import com.store.demo.context.SessionContext;
 import com.store.demo.domain.GoodsCategory;
+import com.store.demo.interceptor.UserLoginRequired;
 import com.store.demo.request.GoodsCategoryCreateForm;
 import com.store.demo.request.GoodsCategoryStatusForm;
 import com.store.demo.request.GoodsCategoryUpdateForm;
@@ -23,6 +24,7 @@ import static com.store.demo.constants.CommonConstants.*;
 
 @RestController("managementGoodsCategoryController")
 @RequestMapping(value = "/management/goodsCategory")
+@UserLoginRequired
 public class GoodsCategoryController {
 
     private static final Logger logger = LoggerFactory.getLogger(GoodsCategoryController.class);

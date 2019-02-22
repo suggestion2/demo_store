@@ -4,8 +4,10 @@ public class SpecEditForm {
 
     private Integer id;
     private Integer parentId;
+    //临时id
     private String tempId;
     private String title;
+    //临时父类id
     private String tempParentId;
     private Integer primary;
     private Integer goodsId;

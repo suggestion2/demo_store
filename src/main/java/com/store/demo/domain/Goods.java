@@ -1,5 +1,8 @@
 package com.store.demo.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.sug.core.util.jsonFormat.SimpleDateTimeSerializer;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -18,6 +21,7 @@ public class Goods {
     private String imagesUrl;
     private String remarks;
     private BigDecimal shippingCost;
+    @JsonSerialize(using = SimpleDateTimeSerializer.class)
     private Date createTime;
     private Date updateTime;
     private Integer createBy;
