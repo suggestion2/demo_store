@@ -26,4 +26,6 @@ public interface GoodsSpecService {
     int deleteById(Integer id);
 
     int batchCreate(List<SpecEditForm> specEditFormList);
+
+    List<GoodsSpec> selectListByGoodsId(Integer goodsId);
 }

@@ -1,10 +1,13 @@
 package com.store.demo.controller.management;
 
 import com.store.demo.context.SessionContext;
+import com.store.demo.domain.GoodsSpec;
 import com.store.demo.domain.GoodsSpecUnit;
 import com.store.demo.domain.User;
 import com.store.demo.interceptor.UserLoginRequired;
 import com.store.demo.request.*;
+import com.store.demo.response.GoodsSpecAndUnitView;
+import com.store.demo.response.SpecView;
 import com.store.demo.service.GoodsSpecService;
 import com.store.demo.service.GoodsSpecUnitService;
 import com.store.demo.service.oss.OssService;
@@ -19,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,7 +33,7 @@ import java.util.stream.Collectors;
 import static com.store.demo.constants.CommonConstants.*;
 import static com.store.demo.constants.ImageConstants.GOODS;
 
-@RestController
+@RestController("managementGoodsController")
 @RequestMapping(value = "/management/goods")
 @UserLoginRequired
 public class GoodsController {
@@ -58,10 +62,6 @@ public class GoodsController {
         return new GoodsListView(list, goodsService.selectCount(form.getQueryMap()));
     }
 
-    @RequestMapping(value = DETAIL,method = RequestMethod.GET)
-    public Goods detail(@PathVariable Integer id){
-        return goodsService.getById(id);
-    }
 
     @RequestMapping(value = CREATE,method = RequestMethod.POST)
     @Transactional
@@ -93,9 +93,10 @@ public class GoodsController {
         Map<String, Integer> tempIdMap = new HashMap<>();
         //创建商品规格表示这些规格的总称比如颜色，或者尺码，然后下面进行如颜色的添加，红色，蓝色，所以parentId=0
         goodsSpecService.batchCreate(parentList);
-        //
+        //把页面传过来的临时goodsSpec的id作为key，利用mybatis的插入goodsSpec成功返回的subList的goodsSpec的id作为值保存下来
+        //也就是用传过来的goodsSpec临时id对应到插入数据库的这个goodsSpec的id的值，这样定位到每个前面插入数据库的goodsSpec的id
         parentList.forEach(f -> tempParentIdMap.put(f.getTempId(), f.getId()));
-        //拿到上面添加的规格的id作为parentId进行关联添加
+        //拿到上面添加进数据库的规格的id作为parentId进行关联添加，用临时父类id去取对应的id
         subList.forEach(f -> {
             f.setParentId(tempParentIdMap.get(f.getTempParentId()));
             f.setGoodsId(goods.getId());
@@ -103,14 +104,15 @@ public class GoodsController {
         });
         //添加如红色，蓝色，或者尺码35，36，并拿到上面添加的规格的id作为parentId进行关联添加
         goodsSpecService.batchCreate(subList);
-        //把当前的临时goodsSpec的id保存下来
+        //把页面传过来的临时goodsSpec的id作为key，利用mybatis的插入goodsSpec成功返回的subList的goodsSpec的id作为值保存下来
+        //也就是用传过来的goodsSpec临时id对应到插入数据库的这个goodsSpec的id的值，这样定位到每个前面插入数据库的goodsSpec的id
         subList.forEach(f -> tempIdMap.put(f.getTempId(), f.getId()));
 
         List<SpecUnitEditForm> unitList = form.getUnitList();
         if (Objects.isNull(unitList) || unitList.size() == 0) {
             throw new ResourceNotFoundException("unit not found");
         }
-        //把unitList的specId传过来的字符串如2,5变成字符数组
+        //把unitList的specId传过来的字符串如2,5变成字符数组,然后用这个当key去取数据库对应的spec所对应的id
         unitList.forEach(f -> {
             List<String> tempSpecIdList = Arrays.stream(f.getSpecIds().split(",")).collect(Collectors.toList());
             StringBuilder specIds = new StringBuilder();
@@ -119,6 +121,7 @@ public class GoodsController {
                 if (Objects.isNull(tempIdMap.get(s))) {
                     throw new ResourceNotFoundException("specId not found in specUnit");
                 }
+                //用临时的id key去取刚刚插入数据库对应的spec所对应的id
                 specIds.append(tempIdMap.get(s));
                 specIds.append(",");
             });
@@ -130,6 +133,37 @@ public class GoodsController {
         //保存商品unit
         goodsSpecUnitService.batchCreate(unitList);
         return new SuccessView();
+    }
+
+    @RequestMapping(value = DETAIL, method = RequestMethod.GET)
+    public GoodsSpecAndUnitView detail(@PathVariable Integer id) {
+        Goods goods = goodsService.getById(id);
+        if(Objects.isNull(goods)){
+            throw new ResourceNotFoundException("goods not found");
+        }
+
+        List<GoodsSpec> specList = goodsSpecService.selectListByGoodsId(goods.getId());
+
+        Map<Integer,List<GoodsSpec>> specMap = new HashMap<>();
+        //一开始判断specMap有没有parentId对应的list，一开始new的map，没有新建一个list放入，保存成ke是goodsSpec的parentId，value是goodsSpec
+        specList.forEach(s->{
+            List<GoodsSpec> list = specMap.get(s.getParentId());
+            if(Objects.isNull(list)){
+                list = new ArrayList<>();
+            }
+            list.add(s);
+            specMap.put(s.getParentId(),list);
+        });
+        //拿出goodsSpec的父级，parentId为0的时候就是父级
+        List<GoodsSpec> parentList = specMap.get(0);
+
+        List<SpecView> specViewList = new ArrayList<>();
+        //把specMap添加的goodsSpec的父级添加进SpecView的GoodsSpec goodsSpec，子级添加进SpecView的GoodsSpec goodsSpecList<GoodsSpec> list
+        parentList.forEach(s->specViewList.add(new SpecView(s,specMap.get(s.getId()))));
+
+        List<GoodsSpecUnit> unitList = goodsSpecUnitService.selectListByGoodsId(goods.getId());
+        //TODO 记得修改一下
+        return new GoodsSpecAndUnitView(goods,specViewList,unitList);
     }
 
     @RequestMapping(value = UPDATE,method = RequestMethod.PUT)

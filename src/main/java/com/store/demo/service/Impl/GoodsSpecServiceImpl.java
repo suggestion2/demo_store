@@ -1,6 +1,7 @@
 package com.store.demo.service.Impl;
 
 import com.store.demo.domain.GoodsSpec;
+import com.store.demo.domain.GoodsSpecUnit;
 import com.store.demo.request.SpecEditForm;
 import com.store.demo.service.GoodsSpecService;
 import com.store.demo.mapper.GoodsSpecMapper;
@@ -17,6 +18,12 @@ public class GoodsSpecServiceImpl implements GoodsSpecService{
     @Autowired
     private GoodsSpecMapper goodsSpecMapper;
 
+    @Override
+    public List<GoodsSpec> selectListByGoodsId(Integer goodsId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("goodsId",goodsId);
+        return goodsSpecMapper.selectList(map);
+    }
     @Override
     public GoodsSpec getById(Integer id){
         return goodsSpecMapper.selectById(id);

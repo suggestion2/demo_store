@@ -5,6 +5,7 @@ import com.store.demo.mapper.sku.GoodsSpecUnitUpdateParams;
 import com.store.demo.request.SpecUnitEditForm;
 import com.store.demo.service.GoodsSpecUnitService;
 import com.store.demo.mapper.GoodsSpecUnitMapper;
+import com.store.demo.service.oss.OssService;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,12 +13,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.store.demo.constants.ImageConstants.GOODS;
+
 @Service
 public class GoodsSpecUnitServiceImpl implements GoodsSpecUnitService{
 
     @Autowired
     private GoodsSpecUnitMapper goodsSpecUnitMapper;
-
+    @Autowired
+    private OssService ossService;
     @Override
     public GoodsSpecUnit getById(Integer id){
         return goodsSpecUnitMapper.selectById(id);
@@ -25,6 +29,19 @@ public class GoodsSpecUnitServiceImpl implements GoodsSpecUnitService{
     @Override
     public GoodsSpecUnit select(Map<String, Object> map){
         return goodsSpecUnitMapper.select(map);
+    }
+
+    @Override
+    public List<GoodsSpecUnit> selectListByGoodsId(Integer goodsId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("goodsId",goodsId);
+        List<GoodsSpecUnit> list = goodsSpecUnitMapper.selectList(map);
+        list.forEach(u->u.setImageUrl(getImage(u.getImageUrl())));
+        return list;
+    }
+
+    private String getImage(String imageUrl){
+        return ossService.getPublicObject(GOODS + imageUrl);
     }
 
     @Override
