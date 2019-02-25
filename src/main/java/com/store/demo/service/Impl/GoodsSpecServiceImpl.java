@@ -2,6 +2,7 @@ package com.store.demo.service.Impl;
 
 import com.store.demo.domain.GoodsSpec;
 import com.store.demo.domain.GoodsSpecUnit;
+import com.store.demo.mapper.sku.GoodsSpecUpdateParams;
 import com.store.demo.request.SpecEditForm;
 import com.store.demo.service.GoodsSpecService;
 import com.store.demo.mapper.GoodsSpecMapper;
@@ -53,13 +54,17 @@ public class GoodsSpecServiceImpl implements GoodsSpecService{
         return goodsSpecMapper.update(goodsSpec);
     }
 
-    @Override
-    public int deleteById(Integer id){
-        return goodsSpecMapper.deleteById(id);
-    }
 
     @Override
     public int batchCreate(List<SpecEditForm> specEditFormList) {
         return goodsSpecMapper.batchInsert(specEditFormList);
+    }
+    @Override
+    public int batchUpdate(GoodsSpecUpdateParams params) {
+        return goodsSpecMapper.batchUpdate(params);
+    }
+    @Override
+    public int deleteByGoodsId(Integer id) {
+        return goodsSpecMapper.deleteByGoodsId(id);
     }
 }

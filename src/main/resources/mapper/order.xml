@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.demo.mapper.OrderMapper">
+
+    <select id="selectById" resultType="com.store.demo.domain.Order" parameterType="java.lang.Integer">
+        select * from `order` where id= #{id} and `valid` = 1
+    </select>
+
+    <select id="select" resultType="com.store.demo.domain.Order" parameterType="java.util.Map">
+        select * from `order` where `valid` = 1
+        <if test="id!=null">
+            and `id` = #{id}
+        </if>
+    </select>
+
+    <select id="selectList" resultType="com.store.demo.domain.Order" parameterType="java.util.Map">
+        select * from `order` where `valid` = 1
+        <if test="id!=null">
+
+        </if>
+        <if test="startIndex != null and pageSize != null">
+            limit #{startIndex},#{pageSize}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(*) from `order` where `valid` = 1
+        <if test="id!=null">
+
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.store.demo.domain.Order" useGeneratedKeys="true" keyProperty="id">
+        insert into `order`
+        (
+        `number`,
+        `customerId`,
+        `customerName`,
+        `goodsName`,
+        `customerPhone`,
+        `customerAddress`,
+        `customerAddressId`,
+        `dispatchCompany`,
+        `dispatchNumber`,
+        `remarks`,
+        `cancelReason`,
+        `goodsAmount`,
+        `totalAmount`,
+        `amount`,
+        `count`,
+        `shippingCostAmount`,
+        `comment`,
+        `createBy`,
+        `updateBy`,
+        `status`,
+        )
+        values
+        (
+        #{number},
+        #{customerId},
+        #{customerName},
+        #{goodsName},
+        #{customerPhone},
+        #{customerAddress},
+        #{customerAddressId},
+        #{dispatchCompany},
+        #{dispatchNumber},
+        #{remarks},
+        #{cancelReason},
+        #{goodsAmount},
+        #{totalAmount},
+        #{amount},
+        #{count},
+        #{shippingCostAmount},
+        #{comment},
+        #{createBy},
+        #{createBy},
+        #{status},
+        )
+    </insert>
+
+    <update id="update" parameterType="com.store.demo.domain.Order">
+        update `order` set
+        `number` = #{number},
+        `customerId` = #{customerId},
+        `customerName` = #{customerName},
+        `goodsName` = #{goodsName},
+        `customerPhone` = #{customerPhone},
+        `customerAddress` = #{customerAddress},
+        `customerAddressId` = #{customerAddressId},
+        `dispatchCompany` = #{dispatchCompany},
+        `dispatchNumber` = #{dispatchNumber},
+        `remarks` = #{remarks},
+        `cancelReason` = #{cancelReason},
+        `goodsAmount` = #{goodsAmount},
+        `totalAmount` = #{totalAmount},
+        `amount` = #{amount},
+        `count` = #{count},
+        `shippingCostAmount` = #{shippingCostAmount},
+        `comment` = #{comment},
+        `updateBy` = #{updateBy},
+        `status` = #{status},
+        `updateTime` = now()
+        where `id` = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        update `order` set valid = 0 where `id` = #{id}
+    </delete>
+</mapper>

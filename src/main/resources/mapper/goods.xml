@@ -62,6 +62,14 @@
         )
     </insert>
 
+    <update id="updateStatus" parameterType="com.store.demo.domain.Goods">
+        update `goods` set
+        `status` = #{status},
+        `updateTime` = now(),
+        `updateBy` = #{updateBy}
+        where `id` = #{id}
+    </update>
+
     <update id="update" parameterType="com.store.demo.domain.Goods">
         update `goods` set
         `categoryId1` = #{categoryId1},

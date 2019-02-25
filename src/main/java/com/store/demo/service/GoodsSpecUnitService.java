@@ -1,7 +1,9 @@
 package com.store.demo.service;
 
 import com.store.demo.domain.GoodsSpecUnit;
+import com.store.demo.mapper.sku.GoodsSpecUnitUpdateParams;
 import com.store.demo.request.SpecUnitEditForm;
+import com.store.demo.service.stock.GoodsStocks;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -22,9 +24,15 @@ public interface GoodsSpecUnitService {
 
     int update(GoodsSpecUnit goodsSpecUnit);
 
-    int deleteById(Integer id);
+    int deleteByGoodsId(Integer id);
 
     int batchCreate(List<SpecUnitEditForm> list);
 
     List<GoodsSpecUnit> selectListByGoodsId(Integer goodsId);
+
+    int batchUpdate(GoodsSpecUnitUpdateParams params);
+
+
+    GoodsStocks getStocks(Integer unitId);
+
 }

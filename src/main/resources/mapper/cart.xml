@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.demo.mapper.CartMapper">
+
+    <select id="selectById" resultType="com.store.demo.domain.Cart" parameterType="java.lang.Integer">
+        select * from `cart` where id= #{id} and `valid` = 1
+    </select>
+
+    <select id="select" resultType="com.store.demo.domain.Cart" parameterType="java.util.Map">
+        select * from `cart` where `valid` = 1
+        <if test="id!=null">
+            and `id` = #{id}
+        </if>
+    </select>
+
+    <select id="selectList" resultType="com.store.demo.domain.Cart" parameterType="java.util.Map">
+        select * from `cart` where `valid` = 1
+        <if test="id!=null">
+
+        </if>
+        <if test="startIndex != null and pageSize != null">
+            limit #{startIndex},#{pageSize}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(*) from `cart` where `valid` = 1
+        <if test="id!=null">
+
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.store.demo.domain.Cart" useGeneratedKeys="true" keyProperty="id">
+        insert into `cart`
+        (
+        `amount`,
+        `count`,
+        `createBy`,
+        `updateBy`,
+        `status`,
+        )
+        values
+        (
+        #{amount},
+        #{count},
+        #{createBy},
+        #{createBy},
+        #{status},
+        )
+    </insert>
+
+    <update id="update" parameterType="com.store.demo.domain.Cart">
+        update `cart` set
+        `amount` = #{amount},
+        `count` = #{count},
+        `updateBy` = #{updateBy},
+        `status` = #{status},
+        `updateTime` = now()
+        where `id` = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        update `cart` set valid = 0 where `id` = #{id}
+    </delete>
+</mapper>

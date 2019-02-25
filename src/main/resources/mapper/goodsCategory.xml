@@ -73,4 +73,11 @@
     <delete id="deleteById" parameterType="java.lang.Integer">
         update `goods_category` set valid = 0 where `id` = #{id}
     </delete>
+
+    <select id="selectInvalidCountByIdList" resultType="java.lang.Integer" parameterType="java.util.List">
+        select count(*) from `goods_category` where `valid` = 1 and `status` = 0 and id in
+        <foreach item="item" index="index" open="(" close=")" collection="list" separator=",">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

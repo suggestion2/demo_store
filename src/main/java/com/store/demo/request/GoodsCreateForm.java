@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class GoodsCreateForm {
 
@@ -17,6 +18,7 @@ public class GoodsCreateForm {
     @NotEmpty
     private String category2;
     @NotEmpty
+    @Size(max = 64)
     private String name;
     @NotEmpty
     private String bannerUrl;

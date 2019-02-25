@@ -24,4 +24,6 @@ public interface GoodsCategoryService {
     int updateStatus(GoodsCategory goodsCategory);
 
     int deleteById(Integer id);
+
+    boolean checkInvalidCategory(List<Integer> list);
 }

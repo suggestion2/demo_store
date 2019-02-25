@@ -502,7 +502,7 @@
                 <input type="button" value="删除" onclick="goodsCategoryModule.deleteById()"/><br>
             </div>
         </div>
-        <div style="float: left; width: 400px;">
+        <div style="float: left; width: 800px;">
             <h2>商品(goods)</h2>
             <div>
                 <strong>[列表]</strong><br/>
@@ -556,7 +556,7 @@
                 临时parentId:<input class="textbox" type="text" id="goods-create-sku11-parentTempId" style="width: 100px;"
                                   value="1"/> &ensp;
                 标题:<input class="textbox" type="text" id="goods-create-sku11-title" style="width: 100px;"
-                          value="红色"/>
+                          value="红色"/><br>
                 <input class="textbox" type="checkbox" id="goods-create-sku11-primary" checked style="width: 10px;"/>首选sku<br>
 
                 子项2: &ensp;
@@ -672,26 +672,141 @@
 
                 <input type="button" value="创建" onclick="goodsModule.create()"/><br>
             </div>
-            <div>
-                <strong>[修改]</strong><br/>
+            <div >
+                <strong>[编辑商品]</strong><br/>
                 id:<input class="textbox" type="text" id="goods-update-id" style="width: 100px;"
-                          value=""/><br>
-                categoryId1:<input class="textbox" type="text" id="goods-update-categoryId1" style="width: 100px;"
-                                   value=""/>
-                category1:<input class="textbox" type="text" id="goods-update-category1" style="width: 100px;"
-                                 value=""/><br>
-                name:<input class="textbox" type="text" id="goods-update-name" style="width: 100px;"
-                            value=""/>
-                description:<input class="textbox" type="text" id="goods-update-description" style="width: 100px;"
-                                   value=""/><br>
-                imagesUrl:<input class="textbox" type="text" id="goods-update-imagesUrl" style="width: 100px;"
-                                 value=""/>
-                price:<input class="textbox" type="text" id="goods-update-price" style="width: 100px;"
-                             value=""/><br>
-                <input type="button" value="修改" onclick="goodsModule.update()"/><br>
+                          value="5"/>
+                名称:<input class="textbox" type="text" id="goods-update-name" style="width: 100px;"
+                          value="测试"/>
+                品类1id:<input class="textbox" type="text" id="goods-update-categoryId1" style="width: 100px;"
+                             value="1"/>
+                品类1:<input class="textbox" type="text" id="goods-update-category1" style="width: 100px;"
+                           value="测试品类1"/> &ensp;
+                品类2id:<input class="textbox" type="text" id="goods-update-categoryId2" style="width: 100px;"
+                             value="2"/>
+                品类2:<input class="textbox" type="text" id="goods-update-category2" style="width: 100px;"
+                           value="测试品类1"/><br>
+                头图url:<input class="textbox" type="text" id="goods-update-bannerUrl" style="width: 100px;"
+                             value="image.jpg"/>
+                图片url:<input class="textbox" type="text" id="goods-update-imagesUrl" style="width: 100px;"
+                             value="image.jpg,image1.jpg"/> &ensp;
+                描述:<input class="textbox" type="text" id="goods-update-remarks" style="width: 100px;"
+                          value="<html>xxx</html>"/><br>
+                sku:<br>
+                sku1: &ensp;
+                id:<input class="textbox" type="text" id="goods-update-sku1-id" style="width: 100px;"
+                          value="7"/> &ensp;
+                标题:<input class="textbox" type="text" id="goods-update-sku1-title" style="width: 100px;"
+                          value="修改颜色"/><br>
+                子项1: &ensp;
+                id:<input class="textbox" type="text" id="goods-update-sku11-id" style="width: 100px;"
+                          value="9"/>&ensp;
+                标题:<input class="textbox" type="text" id="goods-update-sku11-title" style="width: 100px;"
+                          value="修改红色"/>
+                <input class="textbox" type="checkbox" id="goods-update-sku11-primary" checked style="width: 10px;"/>首选sku<br>
+
+                子项2: &ensp;
+                id:<input class="textbox" type="text" id="goods-update-sku12-id" style="width: 100px;"
+                          value="10"/>&ensp;
+                标题:<input class="textbox" type="text" id="goods-update-sku12-title" style="width: 100px;"
+                          value="蓝色"/>
+                <input class="textbox" type="checkbox" id="goods-update-sku12-primary" style="width: 10px;"/>首选sku<br>
+
+
+                sku2: &ensp;
+                id:<input class="textbox" type="text" id="goods-update-sku2-id" style="width: 100px;"
+                          value="8"/> &ensp;
+                标题:<input class="textbox" type="text" id="goods-update-sku2-title" style="width: 100px;"
+                          value="修改尺码"/><br>
+                子项1: &ensp;
+                id:<input class="textbox" type="text" id="goods-update-sku21-id" style="width: 100px;"
+                          value="11"/>&ensp;
+                标题:<input class="textbox" type="text" id="goods-update-sku21-title" style="width: 100px;"
+                          value="改35"/>
+                <input class="textbox" type="checkbox" id="goods-update-sku21-primary" style="width: 10px;"/>首选sku<br>
+
+                子项2: &ensp;
+                临时id:<input class="textbox" type="text" id="goods-update-sku22-tempId" style="width: 100px;"
+                            value="t_1"/>
+                parentId:<input class="textbox" type="text" id="goods-update-sku22-parentId" style="width: 100px;"
+                                value="8"/> &ensp;
+                标题:<input class="textbox" type="text" id="goods-update-sku22-title" style="width: 100px;"
+                          value="37"/>
+                <input class="textbox" type="checkbox" id="goods-update-sku22-primary" checked style="width: 10px;"/>首选sku<br>
+
+                unit:<br>
+                unit1: &ensp;
+                id:<input class="textbox" type="text" id="goods-update-unit1-id" style="width: 100px;"
+                          value="1"/><br>
+                标题:<input class="textbox" type="text" id="goods-update-unit1-title" style="width: 100px;"
+                          value="红色35修改"/>
+                库存:<input class="textbox" type="text" id="goods-update-unit1-stocks" style="width: 100px;"
+                          value="100"/>
+                价格:<input class="textbox" type="text" id="goods-update-unit1-price" style="width: 100px;"
+                          value="10"/>
+                运费:<input class="textbox" type="text" id="goods-update-unit1-shippingCost" style="width: 100px;"
+                          value="0"/>
+                销量:<input class="textbox" type="text" id="goods-update-unit1-salesVolume" style="width: 100px;"
+                          value="0"/>
+                图片:<input class="textbox" type="text" id="goods-update-unit1-imageUrl" style="width: 100px;"
+                          value="test.jpg"/>
+                <input class="textbox" type="checkbox" id="goods-update-unit1-primary" style="width: 10px;"/>首选unit<br>
+
+                unit2: &ensp;
+                skuIds:<input class="textbox" type="text" id="goods-update-unit2-specIds" style="width: 100px;"
+                              value="9,t_1"/><br>
+                标题:<input class="textbox" type="text" id="goods-update-unit2-title" style="width: 100px;"
+                          value="修改红色37"/>
+                库存:<input class="textbox" type="text" id="goods-update-unit2-stocks" style="width: 100px;"
+                          value="100"/>
+                价格:<input class="textbox" type="text" id="goods-update-unit2-price" style="width: 100px;"
+                          value="10"/>
+                运费:<input class="textbox" type="text" id="goods-update-unit2-shippingCost" style="width: 100px;"
+                          value="0"/>
+                销量:<input class="textbox" type="text" id="goods-update-unit2-salesVolume" style="width: 100px;"
+                          value="0"/>
+                图片:<input class="textbox" type="text" id="goods-update-unit2-imageUrl" style="width: 100px;"
+                          value="test.jpg"/>
+                <input class="textbox" type="checkbox" id="goods-update-unit2-primary" checked style="width: 10px;"/>首选unit<br>
+
+                unit3: &ensp;
+                id:<input class="textbox" type="text" id="goods-update-unit3-id" style="width: 100px;"
+                          value="3"/><br>
+                标题:<input class="textbox" type="text" id="goods-update-unit3-title" style="width: 100px;"
+                          value="蓝色35测试"/>
+                库存:<input class="textbox" type="text" id="goods-update-unit3-stocks" style="width: 100px;"
+                          value="50"/>
+                价格:<input class="textbox" type="text" id="goods-update-unit3-price" style="width: 100px;"
+                          value="10"/>
+                运费:<input class="textbox" type="text" id="goods-update-unit3-shippingCost" style="width: 100px;"
+                          value="0"/>
+                销量:<input class="textbox" type="text" id="goods-update-unit3-salesVolume" style="width: 100px;"
+                          value="0"/>
+                图片:<input class="textbox" type="text" id="goods-update-unit3-imageUrl" style="width: 100px;"
+                          value="test.jpg"/>
+                <input class="textbox" type="checkbox" id="goods-update-unit3-primary" style="width: 10px;"/>首选unit<br>
+
+                unit4: &ensp;
+                skuIds:<input class="textbox" type="text" id="goods-update-unit4-specIds" style="width: 100px;"
+                              value="10,t_1"/><br>
+                标题:<input class="textbox" type="text" id="goods-update-unit4-title" style="width: 100px;"
+                          value="蓝色37"/>
+                库存:<input class="textbox" type="text" id="goods-update-unit4-stocks" style="width: 100px;"
+                          value="100"/>
+                价格:<input class="textbox" type="text" id="goods-update-unit4-price" style="width: 100px;"
+                          value="10"/>
+                运费:<input class="textbox" type="text" id="goods-update-unit4-shippingCost" style="width: 100px;"
+                          value="0"/>
+                销量:<input class="textbox" type="text" id="goods-update-unit4-salesVolume" style="width: 100px;"
+                          value="0"/>
+                图片:<input class="textbox" type="text" id="goods-update-unit4-imageUrl" style="width: 100px;"
+                          value="test.jpg"/>
+                <input class="textbox" type="checkbox" id="goods-update-unit4-primary" style="width: 10px;"/>首选unit<br>
+
+                <input type="button" value="编辑" onclick="goodsModule.update()"/><br>
             </div>
             <div>
-                <strong>[上架/下架]</strong><br/>
+                <strong>[上架]</strong><br/>
                 id:<input class="textbox" type="text" id="goods-status-id" style="width: 100px;"
                           value=""/>
                 status:<select class="textbox" id="goods-status-status" style="width: 100px;">

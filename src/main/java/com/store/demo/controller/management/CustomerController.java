@@ -41,7 +41,6 @@ public class CustomerController {
         if(Objects.isNull(customer)){
             throw new ResourceNotFoundException("customer not found");
         }
-
         return customer;
     }
 }

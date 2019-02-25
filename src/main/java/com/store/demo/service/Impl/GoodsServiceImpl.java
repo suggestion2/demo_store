@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.store.demo.constants.GoodsConstants.FOR_SALE;
+import static com.store.demo.constants.GoodsConstants.STOCK;
+
 @Service
 public class GoodsServiceImpl implements GoodsService{
 
@@ -48,5 +51,10 @@ public class GoodsServiceImpl implements GoodsService{
     @Override
     public int deleteById(Integer id){
         return goodsMapper.deleteById(id);
+    }
+    @Override
+    public Goods resetStatus(Goods goods) {
+        goodsMapper.updateStatus(goods);
+        return goods;
     }
 }

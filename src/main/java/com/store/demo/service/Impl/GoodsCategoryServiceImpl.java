@@ -54,4 +54,9 @@ public class GoodsCategoryServiceImpl implements GoodsCategoryService{
     public int deleteById(Integer id){
         return goodsCategoryMapper.deleteById(id);
     }
+
+    @Override
+    public boolean checkInvalidCategory(List<Integer> list) {
+        return goodsCategoryMapper.selectInvalidCountByIdList(list) > 0;
+    }
 }

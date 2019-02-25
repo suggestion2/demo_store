@@ -6,6 +6,7 @@ import com.store.demo.request.SpecUnitEditForm;
 import com.store.demo.service.GoodsSpecUnitService;
 import com.store.demo.mapper.GoodsSpecUnitMapper;
 import com.store.demo.service.oss.OssService;
+import com.store.demo.service.stock.GoodsStocks;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,6 +40,15 @@ public class GoodsSpecUnitServiceImpl implements GoodsSpecUnitService{
         list.forEach(u->u.setImageUrl(getImage(u.getImageUrl())));
         return list;
     }
+    @Override
+    public GoodsStocks getStocks(Integer unitId) {
+        return  goodsSpecUnitMapper.selectStockById(unitId);
+    }
+
+    @Override
+    public int batchUpdate(GoodsSpecUnitUpdateParams params) {
+        return goodsSpecUnitMapper.batchUpdate(params);
+    }
 
     private String getImage(String imageUrl){
         return ossService.getPublicObject(GOODS + imageUrl);
@@ -65,8 +75,8 @@ public class GoodsSpecUnitServiceImpl implements GoodsSpecUnitService{
     }
 
     @Override
-    public int deleteById(Integer id){
-        return goodsSpecUnitMapper.deleteById(id);
+    public int deleteByGoodsId(Integer id){
+        return goodsSpecUnitMapper.deleteByGoodsId(id);
     }
 
     @Override

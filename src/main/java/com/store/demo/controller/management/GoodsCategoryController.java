@@ -46,16 +46,16 @@ public class GoodsCategoryController {
     }
 
     @RequestMapping(value = CREATE,method = RequestMethod.POST)
-    public SuccessView create(@Valid @RequestBody GoodsCategoryCreateForm form){
+    public ResponseView create(@Valid @RequestBody GoodsCategoryCreateForm form){
         GoodsCategory goodsCategory = new GoodsCategory();
         BeanUtils.copyProperties(form,goodsCategory);
         goodsCategory.setCreateBy(sessionContext.getUser().getId());
         goodsCategoryService.create(goodsCategory);
-        return new SuccessView();
+        return new ResponseView();
     }
 
     @RequestMapping(value = UPDATE,method = RequestMethod.PUT)
-    public SuccessView update(@Valid @RequestBody GoodsCategoryUpdateForm form){
+    public ResponseView update(@Valid @RequestBody GoodsCategoryUpdateForm form){
         GoodsCategory goodsCategory = goodsCategoryService.getById(form.getId());
         if(Objects.isNull(goodsCategory)){
             throw new ResourceNotFoundException("goodsCategory not exists");
@@ -63,7 +63,7 @@ public class GoodsCategoryController {
         BeanUtils.copyProperties(form,goodsCategory);
         goodsCategory.setUpdateBy(sessionContext.getUser().getId());
         goodsCategoryService.update(goodsCategory);
-        return new SuccessView();
+        return new ResponseView();
     }
 
     @RequestMapping(value = "/resetStatus",method = RequestMethod.PUT)

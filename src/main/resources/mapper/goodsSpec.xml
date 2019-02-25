@@ -35,6 +35,34 @@
             )
         </foreach>
     </insert>
+
+    <update id="batchUpdate" parameterType="com.store.demo.mapper.sku.GoodsSpecUpdateParams">
+        update `goods_spec` set `title` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN #{item.title}
+        </foreach>
+        ELSE `title`
+        END,
+        `primary` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN #{item.primary}
+        </foreach>
+        ELSE `primary`
+        END,
+        `valid` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN 1
+        </foreach>
+        ELSE 0
+        END,
+        `updateTime` = now(),
+        `updateBy` = #{updateBy}
+        where `goodsId` = #{goodsId} and valid = 1
+    </update>
+
     <select id="selectList" resultType="com.store.demo.domain.GoodsSpec" parameterType="java.util.Map">
         select * from `goods_spec` where `valid` = 1
         <if test="id!=null">
@@ -87,7 +115,7 @@
         where `id` = #{id}
     </update>
 
-    <delete id="deleteById" parameterType="java.lang.Integer">
-        update `goods_spec` set valid = 0 where `id` = #{id}
+    <delete id="deleteByGoodsId" parameterType="java.lang.Integer">
+        update `goods_spec` set valid = 0 where `goodsId` = #{id}
     </delete>
 </mapper>

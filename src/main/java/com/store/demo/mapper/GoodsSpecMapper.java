@@ -22,7 +22,9 @@ public interface GoodsSpecMapper {
 
     int update(GoodsSpec goodsSpec);
 
-    int deleteById(Integer id);
+    int deleteByGoodsId(Integer id);
 
     int batchInsert(List<SpecEditForm> specEditFormList);
+
+    int batchUpdate(GoodsSpecUpdateParams params);
 }

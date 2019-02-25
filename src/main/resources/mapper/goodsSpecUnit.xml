@@ -23,6 +23,10 @@
         </if>
     </select>
 
+    <select id="selectStockById" resultType="com.store.demo.domain.GoodsSpecUnit" parameterType="java.lang.Integer">
+        select id as unitId,goodsId as id,stocks from `goods_spec_unit` where `valid` = 1 and `id` = #{id}
+    </select>
+
     <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(*) from `goods_spec_unit` where `valid` = 1
         <if test="id!=null">
@@ -63,6 +67,68 @@
             )
         </foreach>
     </insert>
+
+    <update id="batchUpdate" parameterType="com.store.demo.mapper.sku.GoodsSpecUnitUpdateParams">
+        update `goods_spec_unit` set `title` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN #{item.title}
+        </foreach>
+        ELSE `title`
+        END,
+        `stocks` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN #{item.stocks}
+        </foreach>
+        ELSE `stocks`
+        END,
+        `price` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN #{item.price}
+        </foreach>
+        ELSE `price`
+        END,
+        `shippingCost` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN #{item.shippingCost}
+        </foreach>
+        ELSE `shippingCost`
+        END,
+        `salesVolume` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN #{item.salesVolume}
+        </foreach>
+        ELSE `salesVolume`
+        END,
+        `primary` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN #{item.primary}
+        </foreach>
+        ELSE `primary`
+        END,
+        `imageUrl` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN #{item.imageUrl}
+        </foreach>
+        ELSE `imageUrl`
+        END,
+        `valid` =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.id} THEN 1
+        </foreach>
+        ELSE 0
+        END,
+        `updateTime` = now(),
+        `updateBy` = #{updateBy}
+        where `goodsId` = #{goodsId} and valid = 1
+    </update>
 
     <insert id="insert" parameterType="com.store.demo.domain.GoodsSpecUnit" useGeneratedKeys="true" keyProperty="id">
         insert into `goods_spec_unit`
@@ -114,7 +180,7 @@
         where `id` = #{id}
     </update>
 
-    <delete id="deleteById" parameterType="java.lang.Integer">
-        update `goods_spec_unit` set valid = 0 where `id` = #{id}
+    <delete id="deleteByGoodsId" parameterType="java.lang.Integer">
+        update `goods_spec_unit` set valid = 0 where `goodsId` = #{id}
     </delete>
 </mapper>

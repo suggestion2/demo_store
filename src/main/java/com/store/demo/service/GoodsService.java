@@ -22,4 +22,7 @@ public interface GoodsService {
     int update(Goods goods);
 
     int deleteById(Integer id);
+
+    Goods resetStatus(Goods goods);
+
 }

@@ -23,4 +23,7 @@ public interface GoodsCategoryMapper {
     int updateStatus(GoodsCategory goodsCategory);
 
     int deleteById(Integer id);
+
+    int selectInvalidCountByIdList(List<Integer> list);
+
 }
