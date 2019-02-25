@@ -31,8 +31,6 @@ public class CartItemUpdateForm {
     private BigDecimal amount;
     @NotNull
     private Integer count;
-    @NotNull
-    private Integer lock;
 
     public Integer getId() {
     return id;
@@ -117,13 +115,6 @@ public class CartItemUpdateForm {
 
     public void setCount(Integer count) {
     this.count = count;
-    }
-    public Integer getLock() {
-    return lock;
-    }
-
-    public void setLock(Integer lock) {
-    this.lock = lock;
     }
 
 }

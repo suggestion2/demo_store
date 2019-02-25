@@ -34,18 +34,12 @@
         insert into `cart`
         (
         `amount`,
-        `count`,
-        `createBy`,
-        `updateBy`,
-        `status`,
+        `count`
         )
         values
         (
         #{amount},
-        #{count},
-        #{createBy},
-        #{createBy},
-        #{status},
+        #{count}
         )
     </insert>
 

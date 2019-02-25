@@ -21,4 +21,6 @@ public interface CartItemMapper {
     int update(CartItem cartItem);
 
     int deleteById(Integer id);
+
+    int discontinuedById(Integer id);
 }

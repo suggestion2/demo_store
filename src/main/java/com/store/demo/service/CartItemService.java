@@ -22,4 +22,11 @@ public interface CartItemService {
     int update(CartItem cartItem);
 
     int deleteById(Integer id);
+
+    CartItem getByGoodsId(Integer goodsId,Integer cartId);
+
+    CartItem getByUnitId(Integer unitId, Integer cartId);
+
+    int discontinuedById(Integer id);
+
 }

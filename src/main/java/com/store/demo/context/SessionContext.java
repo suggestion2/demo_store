@@ -79,15 +79,18 @@ public class SessionContext {
     }
 
     private Integer getCartId(){
+        //判断当前session有没有cartId
         if(Objects.nonNull(httpSession.getAttribute("cartId"))){
             return (int)httpSession.getAttribute("cartId");
         }
         Customer customer = this.getCustomer();
+        //判断当前customer有没有cartId
         if(Objects.nonNull(customer) && Objects.nonNull(customer.getCartId())){
             httpSession.setAttribute("cartId",customer.getCartId());
             return customer.getCartId();
         }
         Visitor visitor = this.getVisitor();
+        //判断当前visitor有没有cartId，游客有cartId，就把游客的cartId拿出来用
         if(Objects.nonNull(visitor.getCartId())){
             httpSession.setAttribute("cartId",visitor.getCartId());
             return visitor.getCartId();

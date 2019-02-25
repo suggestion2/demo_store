@@ -49,4 +49,24 @@ public class CartItemServiceImpl implements CartItemService{
     public int deleteById(Integer id){
         return cartItemMapper.deleteById(id);
     }
+
+    @Override
+    public int discontinuedById(Integer id) {
+        return cartItemMapper.discontinuedById(id);
+    }
+    @Override
+    public CartItem getByGoodsId(Integer goodsId, Integer cartId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("cartId",cartId);
+        map.put("goodsId",goodsId);
+        return cartItemMapper.select(map);
+    }
+
+    @Override
+    public CartItem getByUnitId(Integer unitId, Integer cartId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("cartId",cartId);
+        map.put("unitId",unitId);
+        return cartItemMapper.select(map);
+    }
 }

@@ -17,7 +17,6 @@ public class CartItem {
     private BigDecimal shippingCost;
     private BigDecimal amount;
     private Integer count;
-    private Integer lock;
     private Date createTime;
     private Date updateTime;
     private Integer createBy;
@@ -108,13 +107,6 @@ public class CartItem {
 
     public void setCount(Integer count) {
         this.count = count;
-    }
-    public Integer getLock() {
-        return lock;
-    }
-
-    public void setLock(Integer lock) {
-        this.lock = lock;
     }
     public Date getCreateTime() {
         return createTime;

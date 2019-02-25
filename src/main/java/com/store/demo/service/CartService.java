@@ -1,6 +1,7 @@
 package com.store.demo.service;
 
 import com.store.demo.domain.Cart;
+import com.store.demo.domain.CartItem;
 import com.store.demo.domain.Customer;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,9 @@ public interface CartService {
 
     int selectCount(Map<String, Object> map);
 
-    int create(Cart cart);
+    void create(Cart cart,CartItem cartItem);
 
-    int update(Cart cart);
+    Cart update(Cart cart, CartItem cartItem);
 
     int deleteById(Integer id);
 

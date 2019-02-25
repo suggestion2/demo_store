@@ -2,15 +2,20 @@ package com.store.demo.service.Impl;
 
 import com.store.demo.context.SessionContext;
 import com.store.demo.domain.Cart;
+import com.store.demo.domain.CartItem;
 import com.store.demo.domain.Customer;
 import com.store.demo.domain.Visitor;
+import com.store.demo.service.CartItemService;
 import com.store.demo.service.CartService;
 import com.store.demo.mapper.CartMapper;
 import com.store.demo.service.CustomerService;
 import com.store.demo.service.VisitorService;
 import com.sug.core.platform.exception.LoginRequiredException;
+import com.sug.core.platform.web.rest.exception.InvalidRequestException;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +37,9 @@ public class CartServiceImpl implements CartService{
     @Autowired
     private VisitorService visitorService;
 
+    @Autowired
+    private CartItemService cartItemService;
+
     @Override
     public Cart getById(Integer id){
         return cartMapper.selectById(id);
@@ -52,13 +60,40 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public int create(Cart cart){
-        return cartMapper.insert(cart);
+    @Transactional
+    public Cart update(Cart cart, CartItem cartItem){
+
+//        try {
+            cartMapper.update(cart);
+            if(Objects.isNull(cartItem.getId())){
+                cartItem.setCartId(cart.getId());
+                cartItemService.create(cartItem);
+            }else if(cartItem.getCount() > 0){
+                cartItemService.update(cartItem);
+            }else if(cartItem.getCount().equals(0)){
+                cartItemService.deleteById(cartItem.getId());
+            }else {
+                cartItemService.discontinuedById(cartItem.getId());
+            }
+            return cart;
+//        }
     }
 
+
+
     @Override
-    public int update(Cart cart){
-        return cartMapper.update(cart);
+    @Transactional
+    public void create(Cart cart,CartItem cartItem){
+        int result = cartMapper.insert(cart);
+        if (result == 0) {
+            throw new InvalidRequestException("[购物车]服务器繁忙,请稍后再试");
+        }
+        cartItem.setCartId(cart.getId());
+        result = cartItemService.create(cartItem);
+        if (result == 0) {
+            throw new InvalidRequestException("[购物车商品]服务器繁忙,请稍后再试");
+        }
+        setCartId(sessionContext.getCustomer(),cart.getId());
     }
 
     @Override
