@@ -22,7 +22,31 @@
             limit #{startIndex},#{pageSize}
         </if>
     </select>
-
+    
+    <resultMap id="CategoryView" type="com.store.demo.response.GoodsCategoryView">
+        <id property="id" column="category_id"/>
+        <result property="name" column="category_name"/>
+        <result property="status" column="category_status"/>
+        <collection property="list" javaType="ArrayList" ofType="com.store.demo.response.GoodsCategoryView"
+                    resultMap="CategoryView" columnPrefix="sub_"/>
+    </resultMap>
+    
+    <select id="selectViewList" resultMap="CategoryView" parameterType="java.util.Map">
+        select
+        c1.id as category_id,
+        c1.name as `category_name`,
+        c1.status as `category_status`,
+        c2.id as sub_category_id,
+        c2.name as `sub_category_name`,
+        c2.status as `sub_category_status`
+        from `goods_category` c1
+        left join `goods_category` c2 on c1.id = c2.parentId and c2.level = 2 and c2.valid = 1
+        where c1.`valid` = 1 and c1.level = 1
+        <if test="status!=null">
+            and c1.`status` = #{status} and c2.`status` = #{status}
+        </if>
+    </select>
+    
     <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(*) from `goods_category` where `valid` = 1
         <if test="id!=null">

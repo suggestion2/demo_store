@@ -1,6 +1,7 @@
 package com.store.demo.service;
 
 import com.store.demo.domain.GoodsCategory;
+import com.store.demo.response.GoodsCategoryView;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,6 +15,8 @@ public interface GoodsCategoryService {
     GoodsCategory select(Map<String, Object> map);
 
     List<GoodsCategory> selectList(Map<String, Object> map);
+
+    List<GoodsCategoryView> selectViewList(Map<String, Object> map);
 
     int selectCount(Map<String, Object> map);
 

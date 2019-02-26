@@ -8,8 +8,8 @@
 
     <select id="select" resultType="com.store.demo.domain.Visitor" parameterType="java.util.Map">
         select * from `visitor` where `valid` = 1
-        <if test="id!=null">
-            and `id` = #{id}
+        <if test="uuid!=null">
+            and `uuid` = #{uuid}
         </if>
     </select>
 
@@ -33,21 +33,11 @@
     <insert id="insert" parameterType="com.store.demo.domain.Visitor" useGeneratedKeys="true" keyProperty="id">
         insert into `visitor`
         (
-        `uuid`,
-        `customerId`,
-        `cartId`,
-        `createBy`,
-        `updateBy`,
-        `status`,
+        `uuid`
         )
         values
         (
-        #{uuid},
-        #{customerId},
-        #{cartId},
-        #{createBy},
-        #{createBy},
-        #{status},
+        #{uuid}
         )
     </insert>
 

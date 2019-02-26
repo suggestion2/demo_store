@@ -1,6 +1,7 @@
 package com.store.demo.interceptor;
 
 import com.store.demo.context.SessionContext;
+import com.sug.core.platform.exception.ForbiddenException;
 import com.sug.core.platform.exception.LoginRequiredException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +36,12 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
            throw new LoginRequiredException("user loginRequired");
         }
 
-        /*if ((((HandlerMethod) handler).getMethod().isAnnotationPresent(CustomerLoginRequired.class)
+        if ((((HandlerMethod) handler).getMethod().isAnnotationPresent(CustomerLoginRequired.class)
                 || ((HandlerMethod) handler).getBeanType().isAnnotationPresent(CustomerLoginRequired.class))
-                && Objects.isNull(sessionContext.getCustomerId())
+                && Objects.isNull(sessionContext.getCustomer())
                 ) {
             throw new LoginRequiredException("customer loginRequired");
-        }*/
+        }
 
         return true;
     }

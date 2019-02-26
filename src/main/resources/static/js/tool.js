@@ -142,19 +142,26 @@ var commonModule = {
 
 };
 var customerModule = {
+    captcha: function () {
+        var settings = {
+            type: "POST",
+            url: "/api/captcha",
+            dataType: "json",
+            data: JSON.stringify({
+                "phone": $("#customer-captcha-phone").val()
+            })
+        };
+        showResult(settings);
+    },
     create: function () {
         var settings = {
             type: "POST",
-            url: "/api/customer/create",
+            url: "/api/register",
             dataType: "json",
             data: JSON.stringify({
-                "realName": $("#customer-create-realName").val(),
                 "phone": $("#customer-create-phone").val(),
-                "loginPassword": $("#customer-create-loginPassword").val(),
-                "paymentPassword": $("#customer-create-paymentPassword").val(),
-                "customerBank": $("#customer-create-customerBank").val(),
-                "customerBankAccount": $("#customer-create-customerBankAccount").val(),
-                "parentId": $("#customer-create-parentId").val()
+                "captcha": $("#customer-create-captcha").val(),
+                "password": $("#customer-create-loginPassword").val()
             })
         };
         showResult(settings);
@@ -162,11 +169,11 @@ var customerModule = {
     login: function () {
         var settings = {
             type: "POST",
-            url: "/api/customer/login",
+            url: "/api/login",
             dataType: "json",
             data: JSON.stringify({
                 "phone": $("#customer-a-login-phone").val(),
-                "loginPassword": $("#customer-a-login-loginPassword").val()
+                "password": $("#customer-a-login-loginPassword").val()
             })
         };
         showResult(settings);
@@ -174,7 +181,7 @@ var customerModule = {
     resetLogPwd: function () {
         var settings = {
             type: "PUT",
-            url: "/api/customer/loginPassword",
+            url: "/api/customer/resetPassword",
             dataType: "json",
             data: JSON.stringify({
                 "originPassword": $("#customer-resetLogPwd-a-originPwd").val(),
@@ -186,27 +193,7 @@ var customerModule = {
     current: function () {
         var settings = {
             type: "GET",
-            url: "/api/customer/current",
-            dataType: "json"
-        };
-        showResult(settings);
-    },
-    resetPayPwd: function () {
-        var settings = {
-            type: "PUT",
-            url: "/api/customer/paymentPassword",
-            dataType: "json",
-            data: JSON.stringify({
-                "originPassword": $("#customer-resetPayPwd-a-originPwd").val(),
-                "newPassword": $("#customer-resetPayPwd-a-newPwd").val()
-            })
-        };
-        showResult(settings);
-    },
-    logout: function () {
-        var settings = {
-            type: "GET",
-            url: "/api/customer/logout",
+            url: "/api/current",
             dataType: "json"
         };
         showResult(settings);
@@ -217,26 +204,19 @@ var customerModule = {
             url: "/api/customer/update",
             dataType: "json",
             data: JSON.stringify({
-                "realName": $("#customer-a-update-realName").val(),
-                "customerBank": $("#customer-a-update-customerBank").val(),
-                "customerBankAccount": $("#customer-a-update-customerBankAccount").val(),
-                "address": $("#customer-a-update-address").val()
+                "name": $("#customer-update-a-name").val()
             })
         };
         showResult(settings);
     },
-    addAddress: function () {
+    logout: function () {
         var settings = {
-            type: "PUT",
-            url: "/api/customer/addAddress",
-            dataType: "json",
-            data: JSON.stringify({
-                "address": $("#customer-a-addAddress-address").val()
-            })
+            type: "GET",
+            url: "/api/logout",
+            dataType: "json"
         };
         showResult(settings);
-    },
-
+    }
 };
 
 
@@ -276,7 +256,7 @@ var goodsCategoryModule= {
     listApi: function () {
         var settings = {
             type: "GET",
-            url: "/api/goodsCategory/list",
+            url: "/api/goods/category",
             dataType: "json"
         };
         showResult(settings);
@@ -354,6 +334,8 @@ var goodsModule= {
             data: JSON.stringify({
                 "content": $("#goods-api-list-content").val(),
                 "categoryId1": $("#goods-api-list-categoryId1").val(),
+                "categoryId2": $("#goods-api-list-categoryId2").val(),
+                "categoryId3": $("#goods-api-list-categoryId3").val(),
                 "pageIndex": $("#goods-api-list-pageIndex").val(),
                 "pageSize": $("#goods-api-list-pageSize").val()
             })

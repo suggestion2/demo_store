@@ -1,6 +1,7 @@
 package com.store.demo.config;
 
 import com.store.demo.interceptor.SessionInterceptor;
+import com.store.demo.interceptor.VisitorInterceptor;
 import com.sug.core.platform.web.filter.PlatformFilter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -50,10 +51,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry){
 
+        registry.addInterceptor(visitorInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/resources/**","/test/**","/404","/500");
+
         registry.addInterceptor(sessionInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/resources/**","/test/**","/testTool","/404","/500");
-
     }
 
     @Bean
@@ -61,4 +65,8 @@ public class WebConfig implements WebMvcConfigurer {
         return new SessionInterceptor();
     }
 
+    @Bean
+    public VisitorInterceptor visitorInterceptor(){
+        return new VisitorInterceptor();
+    }
 }

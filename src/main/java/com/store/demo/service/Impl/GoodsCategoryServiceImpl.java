@@ -1,6 +1,7 @@
 package com.store.demo.service.Impl;
 
 import com.store.demo.domain.GoodsCategory;
+import com.store.demo.response.GoodsCategoryView;
 import com.store.demo.service.GoodsCategoryService;
 import com.store.demo.mapper.GoodsCategoryMapper;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,11 @@ public class GoodsCategoryServiceImpl implements GoodsCategoryService{
     @Override
     public List<GoodsCategory> selectList(Map<String, Object> map){
         return goodsCategoryMapper.selectList(map);
+    }
+
+    @Override
+    public List<GoodsCategoryView> selectViewList(Map<String, Object> map) {
+        return goodsCategoryMapper.selectViewList(map);
     }
 
     @Override

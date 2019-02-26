@@ -11,13 +11,15 @@ import java.util.Map;
 public interface VisitorService {
     Visitor getById(Integer id);
 
+    Visitor getByUuid(String uuid);
+
     Visitor select(Map<String, Object> map);
 
     List<Visitor> selectList(Map<String, Object> map);
 
     int selectCount(Map<String, Object> map);
 
-    int create(Visitor visitor);
+    Visitor create();
 
     int update(Visitor visitor);
 
