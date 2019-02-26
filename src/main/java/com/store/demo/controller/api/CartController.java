@@ -3,9 +3,8 @@ package com.store.demo.controller.api;
 import com.store.demo.domain.CartItem;
 import com.store.demo.domain.Goods;
 import com.store.demo.domain.GoodsSpecUnit;
-import com.store.demo.request.CartItemCreateForm;
-import com.store.demo.response.CartDetailView;
-import com.store.demo.response.CartView;
+import com.store.demo.request.*;
+import com.store.demo.response.*;
 import com.store.demo.service.CartItemService;
 import com.store.demo.service.GoodsService;
 import com.store.demo.service.GoodsSpecUnitService;
@@ -15,10 +14,6 @@ import com.sug.core.platform.web.rest.exception.InvalidRequestException;
 import com.sug.core.rest.view.SuccessView;
 import com.store.demo.domain.Cart;
 import com.store.demo.service.CartService;
-import com.store.demo.request.CartCreateForm;
-import com.store.demo.request.CartUpdateForm;
-import com.store.demo.request.CartListForm;
-import com.store.demo.response.CartListView;
 import com.sug.core.util.BigDecimalUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +30,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.store.demo.constants.CartConstants.ADD;
+import static com.store.demo.constants.CartConstants.EDIT;
 import static com.store.demo.constants.CartConstants.MAX_GOODS_COUNT;
+import static com.store.demo.constants.CartItemConstants.DISCONTINUED_COUNT;
+import static com.store.demo.constants.CartItemConstants.DISCONTINUED_STATUS;
+import static com.store.demo.constants.CartItemConstants.VALID_STATUS;
 import static com.store.demo.constants.CommonConstants.*;
 
 @RestController("apiCartController")
@@ -65,6 +64,72 @@ public class CartController {
     public Cart detail(@PathVariable Integer id){
         return cartService.getById(id);
     }
+
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public CartView info() {
+        Cart cart = cartService.getCurrentCart();
+        return Objects.isNull(cart) ? new CartView() : new CartView(cart);
+    }
+
+
+//    @RequestMapping(value = EDIT, method = RequestMethod.PUT)
+//    public CartEditView editItem(@Valid @RequestBody CartItemUpdateForm form) {
+//        int maxCount = 0;
+//        if (MAX_GOODS_COUNT < form.getCount()) {
+//            form.setCount(MAX_GOODS_COUNT);
+//            maxCount = 1;
+//        }
+//
+//        Cart cart = cartService.getCurrentCart();
+//        if (Objects.isNull(cart)) {
+//            throw new ResourceNotFoundException("没有购物车");
+//        }
+//        //得到单个商品的购物车详情
+//        CartItem cartItem = cartItemService.getById(form.getId());
+//        if (Objects.isNull(cartItem) || !cartItem.getCartId().equals(cart.getId())) {
+//            throw new ResourceNotFoundException("商品不存在或已下架,请刷新购物车");
+//        }
+//
+//        if (cartItem.getCount().equals(form.getCount())) {
+//            return new CartEditView(new CartView(cart), new CartItemView(cartItem));
+//        }
+//
+//        Goods goods = goodsService.getShortById(cartItem.getGoodsId());
+//        //判断商品有没有规格
+//        boolean sku = cartItem.getUnitId() > 0;
+//        GoodsSpecUnit unit = sku ? goodsSpecUnitService.getById(cartItem.getUnitId()) : new GoodsSpecUnit();
+//        //如果商品不存在了
+//        if (Objects.isNull(goods) || Objects.isNull(unit)) {
+//            cart.setAmount(BigDecimalUtils.subtract(cart.getAmount(), cartItem.getAmount()));
+//            cart.setCount(cart.getCount() - cartItem.getCount());
+//            cartItem.setCount(DISCONTINUED_COUNT);
+//            cartService.update(cart, cartItem);
+//            throw new ResourceNotFoundException("商品不存在或已下架,请刷新购物车");
+//        }
+//
+//        int outOfStock = 0;
+//        GoodsStocks goodsStocks = goodsService.getStocks(cartItem.getGoodsId(), cartItem.getUnitId());
+//        if (goodsStocks.getStocks() < form.getCount()) {
+//            form.setCount(goodsStocks.getStocks());
+//            outOfStock = 1;
+//        }
+//
+//        if (!cartItem.getCount().equals(form.getCount())) {
+//            int addCount = form.getCount() - cartItem.getCount();
+//            cartItem.setCount(form.getCount());
+//
+//            BigDecimal addAmount = cartItem.getAmount();
+//            cartItem.setAmount(BigDecimalUtils.multiply(getPrice(cartItem), cartItem.getCount()));
+//            addAmount = BigDecimalUtils.subtract(cartItem.getAmount(), addAmount);
+//
+//            cart.setAmount(BigDecimalUtils.add(cart.getAmount(), addAmount));
+//            cart.setCount(cart.getCount() + addCount);
+//
+//            cartService.update(cart, cartItem);
+//        }
+//        //修改完商品数量后重新展示一下购物车
+//        return new CartEditView(new CartView(cart), new CartItemView(cartItem), maxCount, outOfStock);
+//    }
 
     @RequestMapping(value = ADD, method = RequestMethod.POST)
     public CartView addItem(@Valid @RequestBody CartItemCreateForm form) {
@@ -137,22 +202,49 @@ public class CartController {
         return new CartView(cart);
     }
 
-//    @RequestMapping(value = CREATE,method = RequestMethod.POST)
-//    public SuccessView create(@Valid @RequestBody CartCreateForm form){
-//        Cart cart = new Cart();
-//        BeanUtils.copyProperties(form,cart);
-//        cartService.create(cart);
-//        return new SuccessView();
-//    }
-//
-//    @RequestMapping(value = UPDATE,method = RequestMethod.PUT)
-//    public SuccessView update(@Valid @RequestBody CartUpdateForm form){
-//        Cart cart = cartService.getById(form.getId());
-//        if(Objects.isNull(cart)){
-//            throw new ResourceNotFoundException("cart not exists");
-//        }
-//        BeanUtils.copyProperties(form,cart);
-//        cartService.update(cart);
-//        return new SuccessView();
-//    }
+    @RequestMapping(value = CURRENT, method = RequestMethod.GET)
+    public CartDetailView current() {
+        //去数据库或者缓存里面取购物车
+        Cart cart = cartService.getCurrentCart();
+        if (Objects.isNull(cart)) {
+            return new CartDetailView();
+        }
+        //把取到的购物车的总数量和总价格拿出来
+        BigDecimal originAmount = cart.getAmount();
+        Integer originCount = cart.getCount();
+        cart.setAmount(BigDecimal.ZERO);
+        cart.setCount(0);
+        //得到当前购物车详情
+        List<CartItemView> validList = cartItemService.getShortListByCartId(cart.getId(), VALID_STATUS);
+        if (Objects.nonNull(validList) && validList.size() > 0) {
+            List<GoodsStocks> stocksList = new ArrayList<>();
+            //计算整个购物车的总数和总价
+            validList.forEach(v -> {
+                cart.setAmount(BigDecimalUtils.add(cart.getAmount(), new BigDecimal(v.getAmount()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+                cart.setCount(cart.getCount() + v.getCount());
+                //得到购物车里面的商品信息，拿商品信息，接着getStocks去查库存
+                GoodsStocks goodsStocks = new GoodsStocks();
+                goodsStocks.setId(v.getGoodsId());
+                goodsStocks.setUnitId(v.getUnitId());
+                stocksList.add(goodsStocks);
+            });
+            //得到库存
+            Map<String, Integer> stocksMap = goodsService.getStocks(stocksList);
+            //保存数据库拿出来的库存
+            //判断商品库存是否足够的购物车详情里面提交商品的数量
+            validList.forEach(v -> {
+                v.setStocks(stocksMap.get(v.getGoodsId() + ":" + v.getUnitId()));
+                v.setOutOfStock(v.getCount() > v.getStocks() ? 1 : 0);
+            });
+        }
+        int change = 0;
+        //如果重新计算后的购物车的总价总数和数据库的不一样那就进行覆盖
+        if (!originAmount.equals(cart.getAmount()) || !originCount.equals(cart.getCount())) {
+            cartService.update(cart);
+            change = 1;
+        }
+        //这个是为了如果客户加入购物车的商品很长时间没有购买，商品被下架了，那么返回到页面展示商品失效了这种状态的页面
+        List<CartItemView> discontinuedList= cartItemService.getShortListByCartId(cart.getId(), DISCONTINUED_STATUS);
+        return new CartDetailView(change, new CartView(cart), new CartItemListView(validList), new CartItemListView(discontinuedList));
+    }
 }

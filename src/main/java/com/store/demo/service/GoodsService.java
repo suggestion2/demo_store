@@ -1,6 +1,7 @@
 package com.store.demo.service;
 
 import com.store.demo.domain.Goods;
+import com.store.demo.service.stock.GoodsStocks;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -24,5 +25,9 @@ public interface GoodsService {
     int deleteById(Integer id);
 
     Goods resetStatus(Goods goods);
+
+    Map<String,Integer> getStocks(List<GoodsStocks> checkList);
+
+
 
 }

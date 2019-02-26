@@ -31,5 +31,8 @@ public interface GoodsSpecUnitMapper {
 
     GoodsStocks selectStockById(Integer id);
 
+    List<GoodsStocks> selectStockList(List<Integer> list);
+
+
 
 }

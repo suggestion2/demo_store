@@ -1,6 +1,7 @@
 package com.store.demo.mapper;
 
 import com.store.demo.domain.Goods;
+import com.store.demo.service.stock.GoodsStocks;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,4 +24,6 @@ public interface GoodsMapper {
     int updateStatus(Goods goods);
 
     int deleteById(Integer id);
+
+
 }

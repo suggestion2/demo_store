@@ -47,8 +47,6 @@
         update `cart` set
         `amount` = #{amount},
         `count` = #{count},
-        `updateBy` = #{updateBy},
-        `status` = #{status},
         `updateTime` = now()
         where `id` = #{id}
     </update>

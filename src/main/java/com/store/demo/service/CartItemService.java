@@ -1,6 +1,7 @@
 package com.store.demo.service;
 
 import com.store.demo.domain.CartItem;
+import com.store.demo.response.CartItemView;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -28,5 +29,7 @@ public interface CartItemService {
     CartItem getByUnitId(Integer unitId, Integer cartId);
 
     int discontinuedById(Integer id);
+
+    List<CartItemView> getShortListByCartId(Integer cartId, Integer validType);
 
 }

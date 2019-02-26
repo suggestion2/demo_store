@@ -26,4 +26,7 @@ public interface CartService {
     int deleteById(Integer id);
 
     Cart getCurrentCart();
+
+    Cart update(Cart cart);
+
 }

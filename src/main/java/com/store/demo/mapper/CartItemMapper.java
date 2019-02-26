@@ -1,6 +1,7 @@
 package com.store.demo.mapper;
 
 import com.store.demo.domain.CartItem;
+import com.store.demo.response.CartItemView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,4 +24,7 @@ public interface CartItemMapper {
     int deleteById(Integer id);
 
     int discontinuedById(Integer id);
+
+    List<CartItemView> selectShortList(Map<String, Object> map);
+
 }

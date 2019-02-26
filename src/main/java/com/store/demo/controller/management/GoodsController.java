@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 import static com.store.demo.constants.CommonConstants.*;
 import static com.store.demo.constants.GoodsConstants.FOR_SALE;
 import static com.store.demo.constants.GoodsConstants.STOCK;
-import static com.store.demo.constants.ImageConstants.GOODS;
+import static com.store.demo.service.oss.ImageConstants.GOODS;
 
 @RestController("managementGoodsController")
 @RequestMapping(value = "/management/goods")

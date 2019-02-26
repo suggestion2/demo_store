@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.store.demo.constants.ImageConstants.GOODS;
+import static com.store.demo.service.oss.ImageConstants.GOODS;
 
 @Service
 public class GoodsSpecUnitServiceImpl implements GoodsSpecUnitService{

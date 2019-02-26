@@ -23,6 +23,13 @@
         </if>
     </select>
 
+    <select id="selectStockList" resultType="com.store.demo.service.stock.GoodsStocks" parameterType="java.util.List">
+        select id as unitId,goodsId as id,stocks from `goods_spec_unit` where `valid` = 1 and id IN
+        <foreach item="item" index="index" open="(" close=")" separator="," collection="list" >
+            #{item}
+        </foreach>
+    </select>
+
     <select id="selectStockById" resultType="com.store.demo.service.stock.GoodsStocks" parameterType="java.lang.Integer">
         select id as unitId,goodsId as id,stocks from `goods_spec_unit` where `valid` = 1 and `id` = #{id}
     </select>

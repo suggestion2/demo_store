@@ -93,4 +93,8 @@ public class OssService {
     public String getPublicObject(String key){
         return host + key;
     }
+
+    public String getBucket(ImageConstants type){
+        return host + type.getUrl();
+    }
 }

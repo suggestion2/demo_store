@@ -79,6 +79,12 @@ public class CartServiceImpl implements CartService{
 //        }
     }
 
+    @Override
+    public Cart update(Cart cart) {
+        cartMapper.update(cart);
+        return cart;
+    }
+
 
 
     @Override
