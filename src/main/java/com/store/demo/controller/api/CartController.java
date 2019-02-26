@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.store.demo.constants.CartConstants.ADD;
 import static com.store.demo.constants.CartConstants.MAX_GOODS_COUNT;
 import static com.store.demo.constants.CommonConstants.*;
 
@@ -65,7 +66,7 @@ public class CartController {
         return cartService.getById(id);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = ADD, method = RequestMethod.POST)
     public CartView addItem(@Valid @RequestBody CartItemCreateForm form) {
         Goods goods = goodsService.getById(form.getId());
         if (Objects.isNull(goods)) {

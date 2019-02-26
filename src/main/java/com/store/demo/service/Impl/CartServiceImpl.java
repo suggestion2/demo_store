@@ -88,6 +88,7 @@ public class CartServiceImpl implements CartService{
         if (result == 0) {
             throw new InvalidRequestException("[购物车]服务器繁忙,请稍后再试");
         }
+        //拿出数据库插入的生成的id
         cartItem.setCartId(cart.getId());
         result = cartItemService.create(cartItem);
         if (result == 0) {
@@ -109,9 +110,9 @@ public class CartServiceImpl implements CartService{
     public void setCartId(Customer customer,Integer cartId){
         sessionContext.setCartId(cartId);
         boolean customerCartId = false;
-        if(Objects.nonNull(customer) && (Objects.isNull(customer.getCartId()) || !customer.getCartId().equals(cartId))){
+
+        if(Objects.nonNull(customer) && (Objects.isNull(customer.getCartId()))){
             customer.setCartId(cartId);
-            //TODO customer完成再修改
             customerService.update(customer);
             customerCartId = true;
         }
