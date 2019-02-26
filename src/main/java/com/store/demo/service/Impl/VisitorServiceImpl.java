@@ -3,6 +3,7 @@ package com.store.demo.service.Impl;
 import com.store.demo.domain.Visitor;
 import com.store.demo.service.VisitorService;
 import com.store.demo.mapper.VisitorMapper;
+import com.sug.core.util.JUGUUIDGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,6 +16,13 @@ public class VisitorServiceImpl implements VisitorService{
 
     @Autowired
     private VisitorMapper visitorMapper;
+
+    @Override
+    public Visitor getByUuid(String uuid) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("uuid",uuid);
+        return visitorMapper.select(map);
+    }
 
     @Override
     public Visitor getById(Integer id){
@@ -36,8 +44,11 @@ public class VisitorServiceImpl implements VisitorService{
     }
 
     @Override
-    public int create(Visitor visitor){
-        return visitorMapper.insert(visitor);
+    public Visitor create(){
+        Visitor visitor = new Visitor();
+        visitor.setUuid(JUGUUIDGenerator.generate());
+        visitorMapper.insert(visitor);
+        return visitor;
     }
 
     @Override

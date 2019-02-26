@@ -26,41 +26,17 @@ public class SessionContext {
     private CartService cartService;
 
     @Autowired
-    private SessionContext sessionContext;
-
-    @Autowired
     private CustomerService customerService;
 
     @Autowired
     private VisitorService visitorService;
 
-    public void preLogin(){
-        Visitor visitor = this.getVisitor();
-        if(Objects.nonNull(visitor.getCustomerId())){
-            visitor.setCustomerId(null);
-            visitorService.update(visitor);
-        }
-        String remoteAddress = this.getRemoteAddress();
-
-        this.invalidate();
-
-        this.setRemoteAddress(remoteAddress);
-        this.setVisitor(visitor);
-    }
     public void login(Customer customer){
-        this.setCustomerId(customer.getId());
-    }
-    /**
-     * session customer
-     * */
-    private void setCustomerId(Integer id){
-        httpSession.setAttribute("customerId",id);
+        this.setCustomer(customer);
         Visitor visitor = this.getVisitor();
-        if(Objects.isNull(visitor.getCustomerId()) || !visitor.getCustomerId().equals(id)){
-            visitor.setCustomerId(id);
-            visitorService.update(visitor);
-            this.setVisitor(visitor);
-        }
+        visitor.setCustomerId(customer.getId());
+        visitorService.update(visitor);
+        this.setVisitor(visitor);
     }
 
 
@@ -108,6 +84,7 @@ public class SessionContext {
     public void setVisitor(Visitor visitor){
         httpSession.setAttribute("visitor",visitor);
     }
+
     public Visitor getVisitor(){
         return httpSession.getAttribute("visitor") == null ? null : (Visitor)httpSession.getAttribute("visitor");
     }
@@ -120,10 +97,23 @@ public class SessionContext {
     }
 
     public Customer getCustomer(){
-        return Objects.isNull(httpSession.getAttribute("customerId")) ? null : (Customer) httpSession.getAttribute("customerId");
+        Customer customer;
+        if(Objects.isNull(httpSession.getAttribute("customer"))){
+            if(Objects.isNull(this.getVisitor().getCustomerId())){
+                return null;
+            }
+            customer = customerService.getById(this.getVisitor().getCustomerId());
+            this.setCustomer(customer);
+            return customer;
+        }else {
+            return (Customer)httpSession.getAttribute("customer");
+        }
     }
 
     public void logout(){
+        Visitor visitor = this.getVisitor();
+        visitor.setCustomerId(null);
+        visitorService.update(visitor);
         httpSession.invalidate();
     }
 

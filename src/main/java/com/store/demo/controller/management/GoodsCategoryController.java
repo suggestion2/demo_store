@@ -37,7 +37,7 @@ public class GoodsCategoryController {
 
     @RequestMapping(value = LIST,method = RequestMethod.GET)
     public GoodsCategoryListView list(){
-        return new GoodsCategoryListView(goodsCategoryService.selectList(null));
+        return new GoodsCategoryListView(goodsCategoryService.selectViewList(null));
     }
 
     @RequestMapping(value = DETAIL,method = RequestMethod.GET)

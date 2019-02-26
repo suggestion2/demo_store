@@ -38,23 +38,4 @@ public class OrderController {
     public Order detail(@PathVariable Integer id){
         return orderService.getById(id);
     }
-
-    @RequestMapping(value = CREATE,method = RequestMethod.POST)
-    public SuccessView create(@Valid @RequestBody OrderCreateForm form){
-        Order order = new Order();
-        BeanUtils.copyProperties(form,order);
-        orderService.create(order);
-        return new SuccessView();
-    }
-
-    @RequestMapping(value = UPDATE,method = RequestMethod.PUT)
-    public SuccessView update(@Valid @RequestBody OrderUpdateForm form){
-        Order order = orderService.getById(form.getId());
-        if(Objects.isNull(order)){
-            throw new ResourceNotFoundException("order not exists");
-        }
-        BeanUtils.copyProperties(form,order);
-        orderService.update(order);
-        return new SuccessView();
-    }
 }

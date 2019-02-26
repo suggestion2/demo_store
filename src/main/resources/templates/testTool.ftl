@@ -20,27 +20,25 @@
         <div style="float: left; width: 400px;">
             <h2>用户(customer)</h2>
             <div>
+                <strong>[发送验证码]</strong><br/>
+                手机号码:<input class="textbox" type="text" id="customer-captcha-phone" style="width: 100px;"
+                            value="13600000000"/><br/>
+                <input type="button" value="注册" onclick="customerModule.captcha()"/><br>
+            </div>
+            <div>
                 <strong>[注册]</strong><br/>
-                真实姓名:<input class="textbox" type="text" id="customer-create-realName" style="width: 100px;"
-                            value="王"/><br/>
                 手机号码:<input class="textbox" type="text" id="customer-create-phone" style="width: 100px;"
-                            value="15059592132"/><br/>
-                登录密码:<input class="textbox" type="text" id="customer-create-loginPassword" style="width: 100px;"
+                            value="13600000000"/><br/>
+                验证码:<input class="textbox" type="text" id="customer-create-captcha" style="width: 100px;"
+                          value=""/><br/>
+                密码:<input class="textbox" type="text" id="customer-create-loginPassword" style="width: 100px;"
                             value="123456"/><br/>
-                支付密码:<input class="textbox" type="text" id="customer-create-paymentPassword" style="width: 100px;"
-                            value="123456"/><br/>
-                银行名称:<input class="textbox" type="text" id="customer-create-customerBank" style="width: 100px;"
-                            value="建行"/><br/>
-                银行卡号:<input class="textbox" type="text" id="customer-create-customerBankAccount" style="width: 100px;"
-                            value="6222600260001072444"/><br/>
-                邀请id:<input class="textbox" type="text" id="customer-create-parentId" style="width: 100px;"
-                            value=""/><br/>
                 <input type="button" value="注册" onclick="customerModule.create()"/><br>
             </div>
             <div>
                 <strong>[登录]</strong><br/>
                 手机:<input class="textbox" type="text" id="customer-a-login-phone" style="width: 100px;"
-                          value="15059592132"/>
+                          value="13600000000"/>
                 密码:<input class="textbox" type="text" id="customer-a-login-loginPassword" style="width: 100px;"
                           value="123456"/>
                 <input type="button" value="登录" onclick="customerModule.login()"/><br>
@@ -58,28 +56,14 @@
                 <input type="button" value="当前用户" onclick="customerModule.current()"/><br>
             </div>
             <div>
-                <strong>[修改支付密码]</strong><br/>
-                旧密码:<input class="textbox" type="text" id="customer-resetPayPwd-a-originPwd" style="width: 100px;"
-                           value="123456"/>
-                新密码:<input class="textbox" type="text" id="customer-resetPayPwd-a-newPwd" style="width: 100px;"
-                           value="123456"/>
-                <input type="button" value="修改" onclick="customerModule.resetPayPwd()"/><br>
+                <strong>[修改信息]</strong><br/>
+                用户名:<input class="textbox" type="text" id="customer-update-a-name" style="width: 100px;"
+                           value="test"/><br>
+                <input type="button" value="修改" onclick="customerModule.update()"/><br>
             </div>
             <div>
                 <strong>[登出]</strong><br/>
                 <input type="button" value="登出" onclick="customerModule.logout()"/><br>
-            </div>
-            <div>
-                <strong>[修改]</strong><br/>
-                真实姓名:<input class="textbox" type="text" id="customer-a-update-realName" style="width: 100px;"
-                            value="真实姓名"/><br>
-                银行:<input class="textbox" type="text" id="customer-a-update-customerBank" style="width: 100px;"
-                          value="农行"/><br>
-                银行账号:<input class="textbox" type="text" id="customer-a-update-customerBankAccount" style="width: 100px;"
-                            value="6222600260001072442"/><br>
-                收货地址:<input class="textbox" type="text" id="customer-a-update-address" style="width: 100px;"
-                            value="收货地址"/><br>
-                <input type="button" value="修改" onclick="customerModule.update()"/><br>
             </div>
         </div>
         <div style="float: left; width: 400px;">
@@ -94,6 +78,10 @@
                 content:<input class="textbox" type="text" id="goods-api-list-content" style="width: 100px;"
                                value=""/>
                 categoryId1:<input class="textbox" type="text" id="goods-api-list-categoryId1" style="width: 100px;"
+                                   value=""/><br>
+                categoryId2:<input class="textbox" type="text" id="goods-api-list-categoryId2" style="width: 100px;"
+                                   value=""/>
+                categoryId3:<input class="textbox" type="text" id="goods-api-list-categoryId3" style="width: 100px;"
                                    value=""/><br>
                 pageIndex:<input class="textbox" type="text" id="goods-api-list-pageIndex" style="width: 100px;"
                                  value="0"/>

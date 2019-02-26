@@ -1,6 +1,7 @@
 package com.store.demo.mapper;
 
 import com.store.demo.domain.GoodsCategory;
+import com.store.demo.response.GoodsCategoryView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,8 @@ public interface GoodsCategoryMapper {
     GoodsCategory select(Map<String, Object> map);
 
     List<GoodsCategory> selectList(Map<String, Object> map);
+
+    List<GoodsCategoryView> selectViewList(Map<String, Object> map);
 
     int selectCount(Map<String, Object> map);
 

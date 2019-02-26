@@ -1,9 +1,11 @@
-package com.store.demo.controller.management;
+package com.store.demo.controller.api;
 
 import com.store.demo.constants.CaptchaConstants;
 import com.store.demo.context.SessionContext;
 import com.store.demo.domain.Customer;
+import com.store.demo.interceptor.CustomerLoginRequired;
 import com.store.demo.request.LoginForm;
+import com.store.demo.request.RegisterForm;
 import com.store.demo.request.sms.CaptchaSendForm;
 import com.store.demo.response.CustomerView;
 import com.store.demo.response.sms.CaptchaView;
@@ -11,6 +13,7 @@ import com.store.demo.service.CartService;
 import com.store.demo.service.CustomerService;
 import com.store.demo.service.GoodsService;
 import com.store.demo.service.sms.SmsService;
+import com.sug.core.platform.crypto.MD5;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
 import com.sug.core.rest.view.SuccessView;
@@ -29,8 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.store.demo.constants.CommonConstants.CAPTCHA;
-import static com.store.demo.constants.CommonConstants.LOGIN;
+import static com.store.demo.constants.CommonConstants.*;
 import static com.store.demo.constants.CustomerConstants.FROZEN;
 
 @RestController
@@ -79,18 +81,36 @@ public class CommonController {
 
     @RequestMapping(value = LOGIN, method = RequestMethod.POST)
     public CustomerView login(@Valid @RequestBody LoginForm form) {
-        if (!sessionContext.validCaptcha(form.getPhone(), form.getCaptcha(), CaptchaConstants.REGISTER_LOGIN)) {
-            throw new InvalidRequestException("验证码错误或超时");
-        }
         Customer customer = customerService.getByPhone(form.getPhone());
-        if (Objects.isNull(customer)) {
+        if (Objects.isNull(customer) || !customer.getPassword().equalsIgnoreCase(MD5.encrypt(form.getPassword() + MD5_SALT))) {
             throw new ResourceNotFoundException("用户不存在");
         }
         if (customer.getStatus().equals(FROZEN)) {
             throw new InvalidRequestException("该账户被冻结,请联系平台恢复");
         }
 
-        sessionContext.preLogin();
+        sessionContext.login(customer);
+
+        CustomerView view = new CustomerView();
+        BeanUtils.copyProperties(customer, view);
+
+        return view;
+    }
+
+    @RequestMapping(value = REGISTER, method = RequestMethod.POST)
+    public CustomerView registerByPhone(@Valid @RequestBody RegisterForm form) {
+        if (!sessionContext.validCaptcha(form.getPhone(), form.getCaptcha(), CaptchaConstants.REGISTER_LOGIN)) {
+            throw new InvalidRequestException("验证码错误或超时");
+        }
+        Customer customer = customerService.getByPhone(form.getPhone());
+        if (Objects.nonNull(customer)) {
+            throw new InvalidRequestException("手机号已注册");
+        }
+
+        customer = new Customer();
+        customer.setPhone(form.getPhone());
+        customer.setPassword(MD5.encrypt(form.getPassword() + MD5_SALT));
+        customerService.create(customer);
 
         sessionContext.login(customer);
 
@@ -102,7 +122,21 @@ public class CommonController {
         return view;
     }
 
+    @RequestMapping(value = LOGOUT, method = RequestMethod.GET)
+    public SuccessView logout() {
+        sessionContext.logout();
+        return new SuccessView();
+    }
 
+    @RequestMapping(value = CURRENT, method = RequestMethod.GET)
+    @CustomerLoginRequired
+    public CustomerView detail() {
+        Customer customer = sessionContext.getCustomer();
+
+        CustomerView view = new CustomerView();
+        BeanUtils.copyProperties(customer, view);
+        return view;
+    }
 
 
 }

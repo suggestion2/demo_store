@@ -6,18 +6,18 @@ import com.store.demo.domain.GoodsCategory;
 
 import java.util.List;
 
-public class GoodsCategoryListView extends PaginationView<GoodsCategory>{
+public class GoodsCategoryListView extends PaginationView<GoodsCategoryView>{
 
         @Autowired
         public GoodsCategoryListView() {
         }
 
-        public GoodsCategoryListView(List<GoodsCategory> list,int count) {
+        public GoodsCategoryListView(List<GoodsCategoryView> list,int count) {
             this.setList(list);
             this.setCount(count);
         }
 
-        public GoodsCategoryListView(List<GoodsCategory> list) {
+        public GoodsCategoryListView(List<GoodsCategoryView> list) {
             this.setList(list);
         }
 }

@@ -8,8 +8,8 @@
 
     <select id="select" resultType="com.store.demo.domain.Customer" parameterType="java.util.Map">
         select * from `customer` where `valid` = 1
-        <if test="id!=null">
-            and `id` = #{id}
+        <if test="phone!=null">
+            and `phone` = #{phone}
         </if>
     </select>
 
@@ -35,32 +35,21 @@
         (
         `name`,
         `phone`,
-        `password`,
-        `cartId`,
-        `createBy`,
-        `updateBy`,
-        `status`,
+        `password`
         )
         values
         (
-        #{name},
         #{phone},
-        #{password},
-        #{cartId},
-        #{createBy},
-        #{createBy},
-        #{status},
+        #{phone},
+        #{password}
         )
     </insert>
 
     <update id="update" parameterType="com.store.demo.domain.Customer">
         update `customer` set
         `name` = #{name},
-        `phone` = #{phone},
         `password` = #{password},
         `cartId` = #{cartId},
-        `updateBy` = #{updateBy},
-        `status` = #{status},
         `updateTime` = now()
         where `id` = #{id}
     </update>
