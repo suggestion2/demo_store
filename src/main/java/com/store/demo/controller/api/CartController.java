@@ -5,7 +5,6 @@ import com.store.demo.domain.Goods;
 import com.store.demo.domain.GoodsSpecUnit;
 import com.store.demo.request.CartItemCreateForm;
 import com.store.demo.response.CartDetailView;
-import com.store.demo.response.CartItemListView;
 import com.store.demo.response.CartView;
 import com.store.demo.service.CartItemService;
 import com.store.demo.service.GoodsService;
