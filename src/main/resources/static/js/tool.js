@@ -218,7 +218,67 @@ var customerModule = {
         showResult(settings);
     }
 };
-
+var customerAddressModule = {
+    list: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/customerAddress/list",
+            dataType: "json"
+        };
+        showResult(settings);
+    },
+    detail: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/customerAddress/" + $("#address-detail-id").val(),
+            dataType: "json"
+        };
+        showResult(settings);
+    },
+    create: function () {
+        var settings = {
+            type: "POST",
+            url: "/api/customerAddress/create",
+            dataType: "json",
+            data: JSON.stringify({
+                "contact": $("#address-create-contact").val(),
+                "contactPhone": $("#address-create-phone").val(),
+                "province": $("#address-create-province").val(),
+                "city": $("#address-create-city").val(),
+                "county": $("#address-create-county").val(),
+                "address": $("#address-create-address").val(),
+                "primary": $("#address-create-primary").val()
+            })
+        };
+        showResult(settings);
+    },
+    update: function () {
+        var settings = {
+            type: "PUT",
+            url: "/api/customerAddress/update",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": $("#address-update-id").val(),
+                "contact": $("#address-update-contact").val(),
+                "contactPhone": $("#address-update-phone").val(),
+                "province": $("#address-update-province").val(),
+                "city": $("#address-update-city").val(),
+                "county": $("#address-update-county").val(),
+                "address": $("#address-update-address").val(),
+                "primary": $("#address-update-primary").val()
+            })
+        };
+        showResult(settings);
+    },
+    delete: function () {
+        var settings = {
+            type: "DELETE",
+            url: "/api/customerAddress/delete/" + $("#address-delete-id").val(),
+            dataType: "json"
+        };
+        showResult(settings);
+    }
+};
 
 
 var systemParamsModule= {
