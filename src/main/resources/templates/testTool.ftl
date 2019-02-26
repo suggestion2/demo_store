@@ -113,6 +113,45 @@
                           value="1.jpg"/>
                 <input type="button" value="图片" onclick="goodsModule.imageApi()"/><br>
             </div>
+            <div>
+                <h2>购物车(cart)</h2>
+                <div>
+                    <strong>[总额及数量]</strong><br/>
+                    <input type="button" value="获取" onclick="cartModule.info()"/><br>
+                </div>
+                <div>
+                    <strong>[详情]</strong><br/>
+                    <input type="button" value="获取" onclick="cartModule.detail()"/><br>
+                </div>
+                <div>
+                    <strong>[添加]</strong><br/>
+                    商品id:<input class="textbox" type="text" id="cart-add-goodsId" style="width: 100px;"
+                                value="1"/><br>
+                    skuId:<input class="textbox" type="text" id="cart-add-unitId" style="width: 100px;"
+                                               value=""/><br>
+                    数量:<input class="textbox" type="text" id="cart-add-count" style="width: 100px;"
+                              value="1"/><br>
+                    <input type="button" value="添加" onclick="cartModule.add()"/><br>
+                </div>
+                <div>
+                    <strong>[编辑]</strong><br/>
+                    购物车itemId:<input class="textbox" type="text" id="cart-edit-itemId" style="width: 100px;"
+                                     value="1"/><br>
+                    数量:<input class="textbox" type="text" id="cart-edit-count" style="width: 100px;"
+                              value="2"/><br>
+                    <input type="button" value="编辑" onclick="cartModule.edit()"/><br>
+                </div>
+                <div>
+                    <strong>[删除商品]</strong><br/>
+                    购物车itemId:<input class="textbox" type="text" id="cart-delete-id" style="width: 100px;"
+                                     value=""/><br>
+                    <input type="button" value="删除" onclick="cartModule.deleteById()"/><br>
+                </div>
+                <div>
+                    <strong>[结算]</strong><br/>
+                    <input type="button" value="结算" onclick="cartModule.checkout()"/><br>
+                </div>
+            </div>
             <h2>订单(order)</h2>
             <div>
                 <strong>[列表]</strong><br/>

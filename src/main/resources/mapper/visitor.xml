@@ -53,12 +53,10 @@
 
     <update id="update" parameterType="com.store.demo.domain.Visitor">
         update `visitor` set
-        `uuid` = #{uuid},
         `customerId` = #{customerId},
         `cartId` = #{cartId},
-        `updateBy` = #{updateBy},
-        `status` = #{status},
-        `updateTime` = now()
+        `updateTime` = now(),
+        `updateBy` = 0
         where `id` = #{id}
     </update>
 

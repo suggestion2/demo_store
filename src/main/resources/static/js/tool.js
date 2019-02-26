@@ -614,9 +614,66 @@ var goodsModule= {
         };
         showResult(settings);
     },
-
 };
-
+var cartModule = {
+    info: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/cart/info",
+            dataType: "json"
+        };
+        showResult(settings);
+    },
+    detail: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/cart/current",
+            dataType: "json"
+        };
+        showResult(settings);
+    },
+    add: function () {
+        var settings = {
+            type: "POST",
+            url: "/api/cart/add",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": $("#cart-add-goodsId").val(),
+                "unitId": $("#cart-add-unitId").val(),
+                "count": $("#cart-add-count").val()
+            })
+        };
+        showResult(settings);
+    },
+    edit: function () {
+        var settings = {
+            type: "PUT",
+            url: "/api/cart/edit",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": $("#cart-edit-itemId").val(),
+                "count": $("#cart-edit-count").val()
+            })
+        };
+        showResult(settings);
+    },
+    deleteById: function () {
+        var settings = {
+            type: "DELETE",
+            url: "/api/cart/delete/" + $("#cart-delete-id").val(),
+            dataType: "json"
+        };
+        showResult(settings);
+    },
+    checkout: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/cart/checkout",
+            dataType: "json"
+        };
+        showResult(settings);
+    }
+};
 var orderModule= {
     list: function () {
         var settings = {

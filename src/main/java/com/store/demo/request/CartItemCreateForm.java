@@ -8,7 +8,7 @@ public class CartItemCreateForm {
     private Integer id;
     @Min(value = 1,message = "至少添加1个商品")
     private Integer count;
-
+    @NotNull
     private Integer unitId;
 
     public Integer getId() {

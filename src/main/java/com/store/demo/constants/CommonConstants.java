@@ -25,7 +25,7 @@ public class CommonConstants {
     public static final String CAPTCHA_REGISTER = "/captcha/register";
     public static final String CAPTCHA_RESETPASSWORD = "/captcha/resetPassword";
     public static final String CHECK_PHONE = "/check/phone";
-
+    public static final String CAPTCHA = "/captcha";
     public static final String INDEX = "/index";
 
     //params

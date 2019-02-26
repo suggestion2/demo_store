@@ -8,6 +8,7 @@ import com.store.demo.domain.User;
 import com.store.demo.domain.Visitor;
 import com.store.demo.service.CartService;
 import com.store.demo.service.CustomerService;
+import com.store.demo.service.VisitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,73 @@ public class SessionContext {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private VisitorService visitorService;
+
+    public void preLogin(){
+        Visitor visitor = this.getVisitor();
+        if(Objects.nonNull(visitor.getCustomerId())){
+            visitor.setCustomerId(null);
+            visitorService.update(visitor);
+        }
+        String remoteAddress = this.getRemoteAddress();
+
+        this.invalidate();
+
+        this.setRemoteAddress(remoteAddress);
+        this.setVisitor(visitor);
+    }
+    public void login(Customer customer){
+        this.setCustomerId(customer.getId());
+    }
+    /**
+     * session customer
+     * */
+    private void setCustomerId(Integer id){
+        httpSession.setAttribute("customerId",id);
+        Visitor visitor = this.getVisitor();
+        if(Objects.isNull(visitor.getCustomerId()) || !visitor.getCustomerId().equals(id)){
+            visitor.setCustomerId(id);
+            visitorService.update(visitor);
+            this.setVisitor(visitor);
+        }
+    }
+
+
+    public void invalidate(){
+        httpSession.invalidate();
+    }
+
+    public String getRemoteAddress(){
+        return Objects.isNull(httpSession.getAttribute("ip")) ? null
+                : (String) httpSession.getAttribute("ip");
+    }
+    public void setRemoteAddress(String ip){
+        httpSession.setAttribute("ip",ip);
+    }
+
+    /**
+     * session captcha
+     * */
+    public void setCaptcha(String phone,String captcha,Integer type){
+        httpSession.setAttribute("captchaPhone",phone);
+        httpSession.setAttribute("captcha",captcha);
+        httpSession.setAttribute("captchaType",type);
+        httpSession.setAttribute("captchaTime",System.currentTimeMillis());
+    }
+    public boolean validCaptcha(String phone,String captcha,Integer type){
+        return Objects.equals(httpSession.getAttribute("captchaPhone"),phone)
+                && Objects.equals(httpSession.getAttribute("captcha"),captcha)
+                && Objects.equals(httpSession.getAttribute("captchaType"),type)
+                && (long)httpSession.getAttribute("captchaTime") + CAPTCHA_EXPIRED_TIME > System.currentTimeMillis();
+    }
+    public void removeCaptcha(){
+        httpSession.removeAttribute("captchaPhone");
+        httpSession.removeAttribute("captcha");
+        httpSession.removeAttribute("captchaTime");
+        httpSession.removeAttribute("captchaType");
+    }
+
     public void setUser(User user){
         httpSession.setAttribute("user",user);
     }
@@ -39,6 +107,9 @@ public class SessionContext {
      * */
     public void setVisitor(Visitor visitor){
         httpSession.setAttribute("visitor",visitor);
+    }
+    public Visitor getVisitor(){
+        return httpSession.getAttribute("visitor") == null ? null : (Visitor)httpSession.getAttribute("visitor");
     }
 
     public User getUser(){
@@ -98,9 +169,7 @@ public class SessionContext {
         return null;
     }
 
-    public Visitor getVisitor(){
-        return httpSession.getAttribute("visitor") == null ? null : (Visitor)httpSession.getAttribute("visitor");
-    }
+
 
 
 }

@@ -17,6 +17,12 @@ public class CustomerServiceImpl implements CustomerService{
     private CustomerMapper customerMapper;
 
     @Override
+    public Customer getByPhone(String phone) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        return customerMapper.select(map);
+    }
+    @Override
     public Customer getById(Integer id){
         return customerMapper.selectById(id);
     }
