@@ -134,7 +134,6 @@ public class CartController {
         } else {
             cartService.update(cart, cartItem);
         }
-
         return new CartView(cart);
     }
 

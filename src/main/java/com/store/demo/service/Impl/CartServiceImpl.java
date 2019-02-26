@@ -108,9 +108,9 @@ public class CartServiceImpl implements CartService{
     }
 
     public void setCartId(Customer customer,Integer cartId){
-        sessionContext.setCartId(cartId);
+        sessionContext.setCartId(customer,cartId);
         boolean customerCartId = false;
-
+        //  当前用户没有购物车就进行添加
         if(Objects.nonNull(customer) && (Objects.isNull(customer.getCartId()))){
             customer.setCartId(cartId);
             customerService.update(customer);

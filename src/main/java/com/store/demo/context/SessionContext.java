@@ -135,31 +135,37 @@ public class SessionContext {
     /**
      * session cart
      * */
-    public void setCartId(Integer id){
-        httpSession.setAttribute("cartId",id);
+    public void setCartId(Customer customer,Integer id){
+        if(Objects.isNull(customer)){
+            httpSession.setAttribute("visitorCartId",id);
+        }
+        if(Objects.nonNull(customer)){
+            httpSession.setAttribute("customerCartId",id);
+        }
     }
 
     private Integer getCartId(){
-        //判断当前session有没有cartId
-        if(Objects.nonNull(httpSession.getAttribute("cartId"))){
-            return (int)httpSession.getAttribute("cartId");
-        }
         Customer customer = this.getCustomer();
+        //判断当前session有没有cartId
+        if(Objects.nonNull(customer)&&Objects.nonNull(httpSession.getAttribute("customerCartId"))){
+            return (int)httpSession.getAttribute("customerCartId");
+        }
+        if(Objects.isNull(customer)&&Objects.nonNull(httpSession.getAttribute("visitorCartId"))){
+            return (int)httpSession.getAttribute("visitorCartId");
+        }
         //判断当前customer有没有cartId
         if(Objects.nonNull(customer) && Objects.nonNull(customer.getCartId())){
-            httpSession.setAttribute("cartId",customer.getCartId());
+            httpSession.setAttribute("customerCartId",customer.getCartId());
             return customer.getCartId();
         }
         Visitor visitor = this.getVisitor();
-        //判断当前visitor有没有cartId，游客有cartId，就把游客的cartId拿出来用
-        if(Objects.nonNull(visitor.getCartId())){
-            httpSession.setAttribute("cartId",visitor.getCartId());
+        //会员没登入的时候，判断当前visitor有没有cartId，游客有cartId，就把游客的cartId拿出来用，
+        if(Objects.isNull(customer)&&Objects.nonNull(visitor.getCartId())){
+            httpSession.setAttribute("visitorCartId",visitor.getCartId());
             return visitor.getCartId();
         }
         return null;
     }
-
-
 
 
 }
