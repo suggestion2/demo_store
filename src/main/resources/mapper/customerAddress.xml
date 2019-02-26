@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.store.demo.mapper.CustomerAddressMapper">
+
+    <select id="selectById" resultType="com.store.demo.domain.CustomerAddress" parameterType="java.lang.Integer">
+        select * from `customer_address` where id= #{id} and `valid` = 1
+    </select>
+
+    <select id="select" resultType="com.store.demo.domain.CustomerAddress" parameterType="java.util.Map">
+        select * from `customer_address` where `valid` = 1
+        <if test="id!=null">
+            and `id` = #{id}
+        </if>
+    </select>
+
+    <select id="selectList" resultType="com.store.demo.domain.CustomerAddress" parameterType="java.util.Map">
+        select * from `customer_address` where `valid` = 1
+        <if test="customerId!=null">
+            and `customerId` = #{customerId}
+        </if>
+        <if test="startIndex != null and pageSize != null">
+            limit #{startIndex},#{pageSize}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select count(*) from `customer_address` where `valid` = 1
+        <if test="id!=null">
+
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.store.demo.domain.CustomerAddress" useGeneratedKeys="true" keyProperty="id">
+        insert into `customer_address`
+        (
+        `customerId`,
+        `contact`,
+        `contactPhone`,
+        `province`,
+        `city`,
+        `county`,
+        `address`,
+        `primary`
+        )
+        values
+        (
+        #{customerId},
+        #{contact},
+        #{contactPhone},
+        #{province},
+        #{city},
+        #{county},
+        #{address},
+        #{primary}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.store.demo.domain.CustomerAddress">
+        update `customer_address` set
+        `contact` = #{contact},
+        `contactPhone` = #{contactPhone},
+        `province` = #{province},
+        `city` = #{city},
+        `county` = #{county},
+        `address` = #{address},
+        `primary` = #{primary},
+        `updateBy` = 0,
+        `updateTime` = now()
+        where `id` = #{id}
+    </update>
+    
+    <update id="cleanPrimary" parameterType="java.lang.Integer">
+        update `customer_address` set
+        `primary` = 0,
+        `updateTime` = now()
+        where `customerId` = #{id} and `primary` = 1
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        update `customer_address` set valid = 0 where `id` = #{id}
+    </delete>
+</mapper>

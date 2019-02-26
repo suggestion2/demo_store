@@ -65,6 +65,66 @@
                 <strong>[登出]</strong><br/>
                 <input type="button" value="登出" onclick="customerModule.logout()"/><br>
             </div>
+
+            <h2>用户地址(customerAddress)</h2>
+            <div>
+                <strong>[列表]</strong><br/>
+                <input type="button" value="列表" onclick="customerAddressModule.list()"/><br>
+            </div>
+            <div>
+                <strong>[详情]</strong><br/>
+                id:<input class="textbox" type="text" id="address-detail-id" style="width: 100px;"
+                           value=""/><br>
+                <input type="button" value="详情" onclick="customerAddressModule.detail()"/><br>
+            </div>
+            <div>
+                <strong>[创建]</strong><br/>
+                联系人:<input class="textbox" type="text" id="address-create-contact" style="width: 100px;"
+                          value="test"/>
+                联系电话:<input class="textbox" type="text" id="address-create-phone" style="width: 100px;"
+                           value="13600000000"/><br>
+                省:<input class="textbox" type="text" id="address-create-province" style="width: 100px;"
+                            value="福建省"/>
+                市:<input class="textbox" type="text" id="address-create-city" style="width: 100px;"
+                         value="厦门市"/><br>
+                区:<input class="textbox" type="text" id="address-create-county" style="width: 100px;"
+                         value="思明区"/>
+                地址:<input class="textbox" type="text" id="address-create-address" style="width: 100px;"
+                         value="中山公园"/><br>
+                主要地址:<select class="textbox" id="address-create-primary" style="width: 100px;">
+                <option value="0">否</option>
+                <option value="1" selected>是</option>
+            </select><br>
+                <input type="button" value="创建" onclick="customerAddressModule.create()"/><br>
+            </div>
+            <div>
+                <strong>[编辑]</strong><br/>
+                id:<input class="textbox" type="text" id="address-update-id" style="width: 100px;"
+                           value=""/><br>
+                联系人:<input class="textbox" type="text" id="address-update-contact" style="width: 100px;"
+                           value="test"/>
+                联系电话:<input class="textbox" type="text" id="address-update-phone" style="width: 100px;"
+                            value="13600000000"/><br>
+                省:<input class="textbox" type="text" id="address-update-province" style="width: 100px;"
+                         value="福建省"/>
+                市:<input class="textbox" type="text" id="address-update-city" style="width: 100px;"
+                         value="厦门市"/><br>
+                区:<input class="textbox" type="text" id="address-update-county" style="width: 100px;"
+                         value="思明区"/>
+                地址:<input class="textbox" type="text" id="address-update-address" style="width: 100px;"
+                          value="中山公园"/><br>
+                主要地址:<select class="textbox" id="address-update-primary" style="width: 100px;">
+                <option value="0">否</option>
+                <option value="1" selected>是</option>
+            </select><br>
+                <input type="button" value="编辑" onclick="customerAddressModule.update()"/><br>
+            </div>
+            <div>
+                <strong>[删除]</strong><br/>
+                id:<input class="textbox" type="text" id="address-delete-id" style="width: 100px;"
+                          value=""/><br>
+                <input type="button" value="删除" onclick="customerAddressModule.delete()"/><br>
+            </div>
         </div>
         <div style="float: left; width: 400px;">
             <h2>商品品类(goods_category)</h2>
