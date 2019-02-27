@@ -283,14 +283,15 @@ public class CartController {
         return new CartView(cart);
     }
 
-    @RequestMapping(value = "/checkout", method = RequestMethod.GET)
+    @RequestMapping(value = "/checkout", method = RequestMethod.POST)
     @CustomerLoginRequired
-    public OrderPrepareView checkout() {
+    public OrderPrepareView checkout(CartItemCheckOutForm form) {
         Cart cart = cartService.getCurrentCart();
         if (Objects.isNull(cart)) {
             throw new ResourceNotFoundException("没有购物车");
         }
-        List<CartItem> cartItemList = cartItemService.getListByCartId(cart.getId());
+
+        List<CartItem> cartItemList = cartItemService.getListByCartId(form.getList(),cart.getId());
         if (Objects.isNull(cartItemList) || cartItemList.size() == 0
                 || !cart.getCount().equals(cartItemList.stream().mapToInt(CartItem::getCount).sum())) {
             throw new InvalidRequestException("购物车部分商品下架,请返回购物车查看");

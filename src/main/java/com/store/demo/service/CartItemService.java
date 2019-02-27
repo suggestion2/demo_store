@@ -1,6 +1,7 @@
 package com.store.demo.service;
 
 import com.store.demo.domain.CartItem;
+import com.store.demo.request.sms.CartItemIdForm;
 import com.store.demo.response.CartItemView;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public interface CartItemService {
 
     List<CartItemView> getShortListByCartId(Integer cartId, Integer validType);
 
-    List<CartItem> getListByCartId(Integer cartId);
+    List<CartItem> getListByCartId(List<CartItemIdForm> list, Integer cartId);
 
 
 }

@@ -1,6 +1,7 @@
 package com.store.demo.service.Impl;
 
 import com.store.demo.domain.CartItem;
+import com.store.demo.request.sms.CartItemIdForm;
 import com.store.demo.response.CartItemView;
 import com.store.demo.service.CartItemService;
 import com.store.demo.mapper.CartItemMapper;
@@ -29,7 +30,8 @@ public class CartItemServiceImpl implements CartItemService{
     }
     @Override
     public CartItem select(Map<String, Object> map){
-        return cartItemMapper.select(map);
+//        return cartItemMapper.select(map);
+        return null;
     }
 
     @Override
@@ -69,8 +71,9 @@ public class CartItemServiceImpl implements CartItemService{
     }
 
     @Override
-    public List<CartItem> getListByCartId(Integer cartId) {
+    public List<CartItem> getListByCartId(List<CartItemIdForm> list, Integer cartId) {
         Map<String,Object> map = new HashMap<>();
+        map.put("list",list);
         map.put("cartId",cartId);
         return cartItemMapper.selectList(map);
     }

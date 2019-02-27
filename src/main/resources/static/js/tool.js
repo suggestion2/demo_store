@@ -709,9 +709,19 @@ var cartModule = {
     },
     checkout: function () {
         var settings = {
-            type: "GET",
+            type: "POST",
             url: "/api/cart/checkout",
-            dataType: "json"
+            dataType: "json",
+            data: JSON.stringify({
+                "list":[
+                     {
+                    "id": $("#cart-checkout-id1").val()
+                    },
+                    {
+                    "id": $("#cart-checkout-id2").val()
+                    }
+                ]
+            })
         };
         showResult(settings);
     }

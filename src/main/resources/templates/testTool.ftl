@@ -197,6 +197,10 @@
                 </div>
                 <div>
                     <strong>[结算]</strong><br/>
+                    购物车itemId:<input class="textbox" type="text" id="cart-checkout-id1" style="width: 100px;"
+                                     value=""/><br>
+                    购物车itemId:<input class="textbox" type="text" id="cart-checkout-id2" style="width: 100px;"
+                                     value=""/><br>
                     <input type="button" value="结算" onclick="cartModule.checkout()"/><br>
                 </div>
             </div>

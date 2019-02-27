@@ -24,11 +24,16 @@
         <if test="cartId!=null">
             and `cartId` = #{cartId}
         </if>
+        <if test="list!=null">
+            and
+            <foreach item="item" index="index" open="(" close=")" separator="or" collection="list" >
+                cartId=#{item.id}
+            </foreach>
+        </if>
         <if test="startIndex != null and pageSize != null">
             limit #{startIndex},#{pageSize}
         </if>
     </select>
-
     <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(*) from `cart_item` where `valid` = 1
         <if test="id!=null">
