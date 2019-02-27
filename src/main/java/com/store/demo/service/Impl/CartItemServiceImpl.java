@@ -68,6 +68,13 @@ public class CartItemServiceImpl implements CartItemService{
         return list;
     }
 
+    @Override
+    public List<CartItem> getListByCartId(Integer cartId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("cartId",cartId);
+        return cartItemMapper.selectList(map);
+    }
+
     private String getImage(String imageUrl){
         return ossService.getBucket(GOODS) + imageUrl;
     }

@@ -21,8 +21,8 @@
 
     <select id="selectList" resultType="com.store.demo.domain.CartItem" parameterType="java.util.Map">
         select * from `cart_item` where `valid` = 1
-        <if test="id!=null">
-
+        <if test="cartId!=null">
+            and `cartId` = #{cartId}
         </if>
         <if test="startIndex != null and pageSize != null">
             limit #{startIndex},#{pageSize}

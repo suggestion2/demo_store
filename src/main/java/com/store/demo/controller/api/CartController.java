@@ -1,18 +1,18 @@
 package com.store.demo.controller.api;
 
-import com.store.demo.domain.CartItem;
-import com.store.demo.domain.Goods;
-import com.store.demo.domain.GoodsSpecUnit;
+import com.store.demo.context.SessionContext;
+import com.store.demo.domain.*;
+import com.store.demo.interceptor.CustomerLoginRequired;
 import com.store.demo.request.*;
 import com.store.demo.response.*;
 import com.store.demo.service.CartItemService;
 import com.store.demo.service.GoodsService;
 import com.store.demo.service.GoodsSpecUnitService;
+import com.store.demo.service.oss.OssService;
 import com.store.demo.service.stock.GoodsStocks;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
 import com.sug.core.rest.view.SuccessView;
-import com.store.demo.domain.Cart;
 import com.store.demo.service.CartService;
 import com.sug.core.util.BigDecimalUtils;
 import org.slf4j.Logger;
@@ -36,6 +36,8 @@ import static com.store.demo.constants.CartItemConstants.DISCONTINUED_COUNT;
 import static com.store.demo.constants.CartItemConstants.DISCONTINUED_STATUS;
 import static com.store.demo.constants.CartItemConstants.VALID_STATUS;
 import static com.store.demo.constants.CommonConstants.*;
+import static com.store.demo.constants.OrderConstants.BY_CART;
+import static com.store.demo.service.oss.ImageConstants.GOODS;
 
 @RestController("apiCartController")
 @RequestMapping(value = "api/cart")
@@ -53,7 +55,13 @@ public class CartController {
     private GoodsService goodsService;
 
     @Autowired
+    private OssService ossService;
+
+    @Autowired
     private GoodsSpecUnitService goodsSpecUnitService;
+
+    @Autowired
+    private SessionContext sessionContext;
 
     @RequestMapping(value = LIST,method = RequestMethod.POST)
     public CartListView list(@Valid @RequestBody CartListForm form){
@@ -72,64 +80,69 @@ public class CartController {
     }
 
 
-//    @RequestMapping(value = EDIT, method = RequestMethod.PUT)
-//    public CartEditView editItem(@Valid @RequestBody CartItemUpdateForm form) {
-//        int maxCount = 0;
-//        if (MAX_GOODS_COUNT < form.getCount()) {
-//            form.setCount(MAX_GOODS_COUNT);
-//            maxCount = 1;
-//        }
-//
-//        Cart cart = cartService.getCurrentCart();
-//        if (Objects.isNull(cart)) {
-//            throw new ResourceNotFoundException("没有购物车");
-//        }
-//        //得到单个商品的购物车详情
-//        CartItem cartItem = cartItemService.getById(form.getId());
-//        if (Objects.isNull(cartItem) || !cartItem.getCartId().equals(cart.getId())) {
-//            throw new ResourceNotFoundException("商品不存在或已下架,请刷新购物车");
-//        }
-//
-//        if (cartItem.getCount().equals(form.getCount())) {
-//            return new CartEditView(new CartView(cart), new CartItemView(cartItem));
-//        }
-//
-//        Goods goods = goodsService.getShortById(cartItem.getGoodsId());
-//        //判断商品有没有规格
-//        boolean sku = cartItem.getUnitId() > 0;
-//        GoodsSpecUnit unit = sku ? goodsSpecUnitService.getById(cartItem.getUnitId()) : new GoodsSpecUnit();
-//        //如果商品不存在了
-//        if (Objects.isNull(goods) || Objects.isNull(unit)) {
-//            cart.setAmount(BigDecimalUtils.subtract(cart.getAmount(), cartItem.getAmount()));
-//            cart.setCount(cart.getCount() - cartItem.getCount());
-//            cartItem.setCount(DISCONTINUED_COUNT);
-//            cartService.update(cart, cartItem);
-//            throw new ResourceNotFoundException("商品不存在或已下架,请刷新购物车");
-//        }
-//
-//        int outOfStock = 0;
-//        GoodsStocks goodsStocks = goodsService.getStocks(cartItem.getGoodsId(), cartItem.getUnitId());
-//        if (goodsStocks.getStocks() < form.getCount()) {
-//            form.setCount(goodsStocks.getStocks());
-//            outOfStock = 1;
-//        }
-//
-//        if (!cartItem.getCount().equals(form.getCount())) {
-//            int addCount = form.getCount() - cartItem.getCount();
-//            cartItem.setCount(form.getCount());
-//
-//            BigDecimal addAmount = cartItem.getAmount();
-//            cartItem.setAmount(BigDecimalUtils.multiply(getPrice(cartItem), cartItem.getCount()));
-//            addAmount = BigDecimalUtils.subtract(cartItem.getAmount(), addAmount);
-//
-//            cart.setAmount(BigDecimalUtils.add(cart.getAmount(), addAmount));
-//            cart.setCount(cart.getCount() + addCount);
-//
-//            cartService.update(cart, cartItem);
-//        }
-//        //修改完商品数量后重新展示一下购物车
-//        return new CartEditView(new CartView(cart), new CartItemView(cartItem), maxCount, outOfStock);
-//    }
+    @RequestMapping(value = EDIT, method = RequestMethod.PUT)
+    public CartEditView editItem(@Valid @RequestBody CartItemUpdateForm form) {
+        int maxCount = 0;
+        //判断最大数量是否大于修改商品的数量
+        if (MAX_GOODS_COUNT < form.getCount()) {
+            form.setCount(MAX_GOODS_COUNT);
+            maxCount = 1;
+        }
+
+        Cart cart = cartService.getCurrentCart();
+        if (Objects.isNull(cart)) {
+            throw new ResourceNotFoundException("没有购物车");
+        }
+        //得到单个商品的购物车详情
+        CartItem cartItem = cartItemService.getById(form.getId());
+        if (Objects.isNull(cartItem) || !cartItem.getCartId().equals(cart.getId())) {
+            throw new ResourceNotFoundException("商品不存在或已下架,请刷新购物车");
+        }
+
+        if (cartItem.getCount().equals(form.getCount())) {
+            return new CartEditView(new CartView(cart), new CartItemView(cartItem));
+        }
+
+        Goods goods = goodsService.getById(cartItem.getGoodsId());
+
+        GoodsSpecUnit unit =goodsSpecUnitService.getById(cartItem.getUnitId());
+        //如果商品不存在了
+        if (Objects.isNull(goods) || Objects.isNull(unit)) {
+            cart.setAmount(BigDecimalUtils.subtract(cart.getAmount(), cartItem.getAmount()));
+            cart.setCount(cart.getCount() - cartItem.getCount());
+            cartItem.setCount(DISCONTINUED_COUNT);
+            cartService.update(cart, cartItem);
+            throw new ResourceNotFoundException("商品不存在或已下架,请刷新购物车");
+        }
+        //判断库存是否足够
+        int outOfStock = 0;
+        GoodsStocks goodsStocks = goodsSpecUnitService.getStocks(cartItem.getUnitId());
+        if (goodsStocks.getStocks() < form.getCount()) {
+            //不够把当前添加过来的数量设置为当前库存
+            form.setCount(goodsStocks.getStocks());
+            outOfStock = 1;
+        }
+        //当商品数量和数据库不一致时
+        if (!cartItem.getCount().equals(form.getCount())) {
+            //传过来的数量减去原总数
+            int addCount = form.getCount() - cartItem.getCount();
+            //把数量设置成传过来修改的数量
+            cartItem.setCount(form.getCount());
+
+            BigDecimal addAmount = cartItem.getAmount();
+            //重新计算一下总价
+            cartItem.setAmount(BigDecimalUtils.multiply(cartItem.getPrice(), cartItem.getCount()));
+            //计算后的总价减去原总价算出要增加/减少的
+            addAmount = BigDecimalUtils.subtract(cartItem.getAmount(), addAmount);
+            //进行总价总数的增加或者减少
+            cart.setAmount(BigDecimalUtils.add(cart.getAmount(), addAmount));
+            cart.setCount(cart.getCount() + addCount);
+
+            cartService.update(cart, cartItem);
+        }
+        //修改完商品数量后重新展示一下购物车
+        return new CartEditView(new CartView(cart), new CartItemView(cartItem), maxCount, outOfStock);
+    }
 
     @RequestMapping(value = ADD, method = RequestMethod.POST)
     public CartView addItem(@Valid @RequestBody CartItemCreateForm form) {
@@ -246,5 +259,80 @@ public class CartController {
         //这个是为了如果客户加入购物车的商品很长时间没有购买，商品被下架了，那么返回到页面展示商品失效了这种状态的页面
         List<CartItemView> discontinuedList= cartItemService.getShortListByCartId(cart.getId(), DISCONTINUED_STATUS);
         return new CartDetailView(change, new CartView(cart), new CartItemListView(validList), new CartItemListView(discontinuedList));
+    }
+
+    @RequestMapping(value = DELETE_BY_ID, method = RequestMethod.DELETE)
+    public CartView deleteItem(@PathVariable Integer id) {
+        Cart cart = cartService.getCurrentCart();
+        if (Objects.isNull(cart)) {
+            throw new ResourceNotFoundException("没有购物车");
+        }
+
+        CartItem deleteItem = cartItemService.getById(id);
+
+        if (Objects.isNull(deleteItem) || !deleteItem.getCartId().equals(cart.getId())) {
+            throw new ResourceNotFoundException("cartItem not found");
+        }
+        //修改购物车商品数量
+        cart.setCount(cart.getCount() - deleteItem.getCount());
+        cart.setAmount(BigDecimalUtils.subtract(cart.getAmount(), deleteItem.getAmount()));
+        deleteItem.setCount(0);
+
+        cartService.update(cart, deleteItem);
+
+        return new CartView(cart);
+    }
+
+    @RequestMapping(value = "/checkout", method = RequestMethod.GET)
+    @CustomerLoginRequired
+    public OrderPrepareView checkout() {
+        Cart cart = cartService.getCurrentCart();
+        if (Objects.isNull(cart)) {
+            throw new ResourceNotFoundException("没有购物车");
+        }
+        List<CartItem> cartItemList = cartItemService.getListByCartId(cart.getId());
+        if (Objects.isNull(cartItemList) || cartItemList.size() == 0
+                || !cart.getCount().equals(cartItemList.stream().mapToInt(CartItem::getCount).sum())) {
+            throw new InvalidRequestException("购物车部分商品下架,请返回购物车查看");
+        }
+
+        OrderPrepareView orderPrepareView = new OrderPrepareView();
+
+        List<OrderItem> list = new ArrayList<>();
+
+        List<GoodsStocks> stocksCheckList = new ArrayList<>();
+        //保存订单商品数量信息
+        cartItemList.forEach(c -> {
+            GoodsStocks goodsStocks = new GoodsStocks();
+            goodsStocks.setId(c.getGoodsId());
+            goodsStocks.setUnitId(c.getUnitId());
+            goodsStocks.setStocks(c.getCount());
+            stocksCheckList.add(goodsStocks);
+        });
+        //查找库存
+        Map<String, Integer> stocksMap = goodsService.getStocks(stocksCheckList);
+        List<CartItem> validList = new ArrayList<>();
+        cartItemList.forEach(c -> {
+            if (c.getCount() <= stocksMap.get(c.getGoodsId() + ":" + c.getUnitId())) {
+                OrderItem orderItem= new OrderItem();
+                BeanUtils.copyProperties(c, orderItem);
+                orderItem.setBannerUrl(ossService.getBucket(GOODS) + orderItem.getBannerUrl());
+                list.add(orderItem);
+                validList.add(c);
+            }
+        });
+        //计算运费
+        orderPrepareView.setShippingCostAmount(validList.stream().map(c -> BigDecimalUtils.multiply(c.getShippingCost(), c.getCount())).reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue());
+        //计算商品总价
+        orderPrepareView.setGoodsAmount(validList.stream().map(CartItem::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue());
+        //计算总价
+        orderPrepareView.setTotalAmount(new BigDecimal(orderPrepareView.getShippingCostAmount() + orderPrepareView.getGoodsAmount()).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
+        //计算总数
+        orderPrepareView.setCount(validList.stream().mapToInt(CartItem::getCount).sum());
+        orderPrepareView.setList(list);
+
+        sessionContext.setOrderType(BY_CART);
+
+        return orderPrepareView;
     }
 }

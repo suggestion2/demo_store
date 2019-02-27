@@ -38,7 +38,9 @@ public class SessionContext {
         visitorService.update(visitor);
         this.setVisitor(visitor);
     }
-
+    public void setOrderType(int type){
+        httpSession.setAttribute("orderType",type);
+    }
 
     public void invalidate(){
         httpSession.invalidate();

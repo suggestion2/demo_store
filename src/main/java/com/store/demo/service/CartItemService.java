@@ -32,4 +32,7 @@ public interface CartItemService {
 
     List<CartItemView> getShortListByCartId(Integer cartId, Integer validType);
 
+    List<CartItem> getListByCartId(Integer cartId);
+
+
 }

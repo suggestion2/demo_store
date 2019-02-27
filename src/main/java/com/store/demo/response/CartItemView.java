@@ -1,5 +1,6 @@
 package com.store.demo.response;
 
+import com.store.demo.domain.CartItem;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,6 +33,12 @@ public class CartItemView {
     public CartItemView() {
     }
 
+    public CartItemView(CartItem cartItem) {
+        BeanUtils.copyProperties(cartItem,this);
+        this.price = cartItem.getPrice().doubleValue();
+        this.amount = cartItem.getAmount().doubleValue();
+        this.shippingCost = cartItem.getShippingCost().doubleValue();
+    }
     public String getUnitName() {
         return unitName;
     }

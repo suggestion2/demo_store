@@ -124,6 +124,7 @@ public class CartServiceImpl implements CartService{
         }
         Visitor visitor = sessionContext.getVisitor();
         boolean changeCartId = false;
+        //清空缓存cartId
         if(customerCartId && Objects.nonNull(visitor.getCartId())){
             visitor.setCartId(null);
             changeCartId = true;
