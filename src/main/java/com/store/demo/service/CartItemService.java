@@ -35,5 +35,7 @@ public interface CartItemService {
 
     List<CartItem> getListByCartId(List<CartItemIdForm> list, Integer cartId);
 
+    int completeByIdList(List<Integer> list);
+
 
 }

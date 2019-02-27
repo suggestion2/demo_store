@@ -726,95 +726,82 @@ var cartModule = {
         showResult(settings);
     }
 };
-var orderModule= {
+var orderApiModule = {
     list: function () {
-        var settings = {
-            type: "POST",
-            url: "/management/order/list",
-            dataType: "json",
-            data: JSON.stringify({
-                "content": $("#order-list-content").val(),
-                "status": $("#order-list-status").val(),
-                "pageIndex": $("#order-list-pageIndex").val(),
-                "pageSize": $("#order-list-pageSize").val()
-            })
-        };
-        showResult(settings);
-    },
-    listApi: function () {
         var settings = {
             type: "POST",
             url: "/api/order/list",
             dataType: "json",
             data: JSON.stringify({
-                "content": $("#order-api-list-content").val(),
-                "status": $("#order-api-list-status").val(),
-                "pageIndex": $("#order-api-list-pageIndex").val(),
-                "pageSize": $("#order-api-list-pageSize").val()
+                "content": $("#order-list-content").val(),
+                "status": $("#order-list-status").val(),
+                "pageIndex": $("#order-list-startIndex").val(),
+                "pageSize": $("#order-list-pageSize").val()
             })
+        };
+        showResult(settings);
+    },
+    buy: function () {
+        var settings = {
+            type: "POST",
+            url: "/api/order/immediate",
+            dataType: "json",
+            data: JSON.stringify({
+                "goodsId": $("#order-buy-goodsId").val(),
+                "unitId": $("#order-buy-unitId").val(),
+                "count": $("#order-buy-count").val()
+            })
+        };
+        showResult(settings);
+    },
+    buyView: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/order/immediate/view",
+            dataType: "json"
         };
         showResult(settings);
     },
     detail: function () {
         var settings = {
             type: "GET",
-            url: "/management/order/" + $("#order-detail-id").val(),
+            url: "/api/order/" + $("#order-detail-number").val(),
             dataType: "json"
         };
         showResult(settings);
     },
-    detailApi: function () {
-        var settings = {
-            type: "GET",
-            url: "/api/order/" + $("#order-api-detail-id").val(),
-            dataType: "json"
-        };
-        showResult(settings);
-    },
-    createApi: function () {
-        var jsonObject = {
-            "amount": $("#order-api-create-amount").val(),
-            "recharge": $("#order-api-create-recharge").val(),
-            "remark": $("#order-api-create-remark").val(),
-            "list":[]
-        };
-        if($("#order-api-create-hasItem").val() == '1'){
-            jsonObject.list.push({
-                "goodsId": $("#order-api-create-goodsId").val(),
-                "goodsName": $("#order-api-create-goodsName").val(),
-                "price": $("#order-api-create-price").val(),
-                "count": $("#order-api-create-count").val()
-            })
-        }
+    add: function () {
         var settings = {
             type: "POST",
             url: "/api/order/create",
             dataType: "json",
-            data: JSON.stringify(jsonObject)
-        };
-        showResult(settings);
-    },
-    updateStatus: function () {
-        var settings = {
-            type: "PUT",
-            url: "/management/order/resetStatus",
-            dataType: "json",
             data: JSON.stringify({
-                "id": $("#order-status-id").val(),
-                "status": $("#order-status-status").val(),
-                "cancelReason": $("#order-status-cancelReason").val(),
-                "remarks": $("#order-status-remarks").val()
+                "customerAddressId": $("#order-add-customerAddressId").val(),
+                "paymentForm": $("#order-add-paymentForm").val(),
+                "remarks": $("#order-add-remarks").val()
             })
         };
         showResult(settings);
     },
-    paid: function () {
+    cancel: function () {
         var settings = {
             type: "PUT",
-            url: "/api/order/paid",
+            url: "/api/order/cancel",
             dataType: "json",
             data: JSON.stringify({
-                "id": $("#order-api-paid-id").val()
+                "number": $("#order-cancel-number").val(),
+                "reason": $("#order-cancel-reason").val()
+            })
+        };
+        showResult(settings);
+    },
+    confirm: function () {
+        var settings = {
+            type: "PUT",
+            url: "/api/order/confirm",
+            dataType: "json",
+            data: JSON.stringify({
+                "number": $("#order-confirm-number").val()
             })
         };
         showResult(settings);

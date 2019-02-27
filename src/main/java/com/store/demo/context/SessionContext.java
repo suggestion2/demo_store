@@ -2,10 +2,7 @@ package com.store.demo.context;
 
 
 
-import com.store.demo.domain.Cart;
-import com.store.demo.domain.Customer;
-import com.store.demo.domain.User;
-import com.store.demo.domain.Visitor;
+import com.store.demo.domain.*;
 import com.store.demo.service.CartService;
 import com.store.demo.service.CustomerService;
 import com.store.demo.service.VisitorService;
@@ -42,6 +39,22 @@ public class SessionContext {
         httpSession.setAttribute("orderType",type);
     }
 
+    public Integer getOrderType(){
+        return (Integer)httpSession.getAttribute("orderType");
+    }
+    /**
+     * 设置当前订单商品
+     */
+    public void setCurrentOrderItem(OrderItem orderItem){
+        httpSession.setAttribute("orderItem",orderItem);
+    }
+    /**
+     *
+     * @return得到当前订单
+     */
+    public OrderItem getCurrentOrderItem(){
+        return (OrderItem) httpSession.getAttribute("orderItem");
+    }
     public void invalidate(){
         httpSession.invalidate();
     }

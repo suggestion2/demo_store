@@ -207,65 +207,67 @@
             <h2>订单(order)</h2>
             <div>
                 <strong>[列表]</strong><br/>
-                content:<input class="textbox" type="text" id="order-api-list-content" style="width: 100px;"
-                               value=""/>
-                status:<select class="textbox" id="order-api-list-status" style="width: 100px;">
-                <option value="">all</option>
-                <option value="-1">取消</option>
-                <option value="0">创建</option>
-                <option value="1">已支付</option>
-                <option value="2">已确认</option>
-            </select><br>
-                pageIndex:<input class="textbox" type="text" id="order-api-list-pageIndex" style="width: 100px;"
-                                 value="0"/>
-                pageSize:<input class="textbox" type="text" id="order-api-list-pageSize" style="width: 100px;"
-                                value="10"/><br>
-                <input type="button" value="列表" onclick="orderModule.listApi()"/><br>
+                订单号:<input class="textbox" type="text" id="order-list-content" style="width: 100px;"
+                           value="1"/>
+                订单状态:<select class="textbox" id="order-list-status" style="width: 100px;">
+                <option value="">全部</option>
+                <option value="-1">已取消</option>
+                <option value="0">待支付</option>
+                <option value="1">待发货</option>
+                <option value="2">待收货</option>
+                <option value="3">已完成</option>
+            </select><br/>
+                startIndex:<input class="textbox" type="text" id="order-list-startIndex" style="width: 100px;"
+                                  value="0"/>
+                pageSize:<input class="textbox" type="text" id="order-list-pageSize" style="width: 100px;"
+                                value="10"/><br/>
+                <input type="button" value="获取" onclick="orderApiModule.list()"/><br>
             </div>
             <div>
                 <strong>[详情]</strong><br/>
-                id:<input class="textbox" type="text" id="order-api-detail-id" style="width: 100px;"
+                编号:<input class="textbox" type="text" id="order-detail-number" style="width: 100px;"
                           value=""/>
-                <input type="button" value="详情" onclick="orderModule.detailApi()"/><br>
+                <input type="button" value="获取" onclick="orderApiModule.detail()"/><br>
             </div>
             <div>
-                <strong>[创建]</strong><br/>
-                amount:<input class="textbox" type="text" id="order-api-create-amount" style="width: 100px;"
-                               value=""/>
-                recharge:<select class="textbox" id="order-api-create-recharge" style="width: 100px;">
-                <option value="0">vipCard</option>
-                <option value="1">normal</option>
-                <option value="2">recharge</option>
-            </select><br>
-                remark(unnecessary):<input class="textbox" type="text" id="order-api-create-remark" style="width: 100px;"
-                                 value=""/><br>
-
-                has item?:<select class="textbox" id="order-api-create-hasItem" style="width: 100px;">
-                <option value="1">yes</option>
-                <option value="2">no</option>
-            </select><br>
-
-                orderItem:<br>
-                goodsId:<input class="textbox" type="text" id="order-api-create-goodsId" style="width: 100px;"
-                              value=""/>
-                goodsName:<input class="textbox" type="text" id="order-api-create-goodsName" style="width: 100px;"
+                <strong>[立即购买]</strong><br/>
+                商品id:<input class="textbox" type="text" id="order-buy-goodsId" style="width: 100px;"
+                            value="1"/><br>
+                skuId:<input class="textbox" type="text" id="order-buy-unitId" style="width: 100px;"
                                            value=""/><br>
-                price:<input class="textbox" type="text" id="order-api-create-price" style="width: 100px;"
-                               value=""/>
-                count:<input class="textbox" type="text" id="order-api-create-count" style="width: 100px;"
-                                 value=""/><br>
-                <input type="button" value="列表" onclick="orderModule.createApi()"/><br>
+                数量:<input class="textbox" type="text" id="order-buy-count" style="width: 100px;"
+                          value="1"/><br>
+                <input type="button" value="立即购买" onclick="orderApiModule.buy()"/><br>
             </div>
             <div>
-                <strong>[确认支付]</strong><br/>
-                id:<input class="textbox" type="text" id="order-api-paid-id" style="width: 100px;"
-                          value=""/>
-                <input type="button" value="详情" onclick="orderModule.paid()"/><br>
+                <strong>[查看当前立即购买订单]</strong><br/>
+                <input type="button" value="立即购买" onclick="orderApiModule.buyView()"/><br>
             </div>
-            <h2>系统参数(system_params)</h2>
             <div>
-                <strong>[列表]</strong><br/>
-                <input type="button" value="列表" onclick="systemApiParamsModule.list()"/><br>
+                <strong>[订单创建]</strong><br/>
+                收货地址id:<input class="textbox" type="text" id="order-add-customerAddressId" style="width: 100px;"
+                              value="1"/>
+                支付方式:<select class="textbox" id="order-add-paymentForm" style="width: 100px;">
+                <option value="1">微信支付</option>
+                <option value="2">支付宝支付</option>
+            </select><br/>
+                备注(选填):<input class="textbox" type="text" id="order-add-remarks" style="width: 100px;"
+                              value="1"/><br>
+                <input type="button" value="添加" onclick="orderApiModule.add()"/><br>
+            </div>
+            <div>
+                <strong>[取消]</strong><br/>
+                订单编号:<input class="textbox" type="text" id="order-cancel-number" style="width: 100px;"
+                            value=""/>
+                原因(选填):<input class="textbox" type="text" id="order-cancel-reason" style="width: 100px;"
+                              value=""/><br>
+                <input type="button" value="删除" onclick="orderApiModule.cancel()"/><br>
+            </div>
+            <div>
+                <strong>[确认收货]</strong><br/>
+                订单编号:<input class="textbox" type="text" id="order-confirm-number" style="width: 100px;"
+                            value=""/>
+                <input type="button" value="删除" onclick="orderApiModule.confirm()"/><br>
             </div>
         </div>
     </div>

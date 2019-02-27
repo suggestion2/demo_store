@@ -27,7 +27,7 @@
         <if test="list!=null">
             and
             <foreach item="item" index="index" open="(" close=")" separator="or" collection="list" >
-                cartId=#{item.id}
+                id=#{item.id}
             </foreach>
         </if>
         <if test="startIndex != null and pageSize != null">
@@ -86,6 +86,13 @@
             limit #{startIndex},#{pageSize}
         </if>
     </select>
+
+    <delete id="completeByIdList" parameterType="java.lang.Integer">
+        update `cart_item` set valid = 2 where `id` IN
+        <foreach item="item" index="index" open="(" close=")" collection="list" separator=",">
+            #{item}
+        </foreach>
+    </delete>
 
     <update id="update" parameterType="com.store.demo.domain.CartItem">
         update `cart_item` set

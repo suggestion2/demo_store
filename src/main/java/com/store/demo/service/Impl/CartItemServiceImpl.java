@@ -78,6 +78,10 @@ public class CartItemServiceImpl implements CartItemService{
         return cartItemMapper.selectList(map);
     }
 
+    @Override
+    public int completeByIdList(List<Integer> list) {
+        return cartItemMapper.completeByIdList(list);
+    }
     private String getImage(String imageUrl){
         return ossService.getBucket(GOODS) + imageUrl;
     }

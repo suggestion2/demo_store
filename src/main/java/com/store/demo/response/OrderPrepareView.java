@@ -12,7 +12,7 @@ public class OrderPrepareView {
     private Double totalAmount;
     private Integer count;
 
-    private List<OrderItem> list;
+    private List<OrderItemView> list;
 
     public Double getGoodsAmount() {
         return goodsAmount;
@@ -46,13 +46,11 @@ public class OrderPrepareView {
         this.count = count;
     }
 
-    public List<OrderItem> getList() {
+    public List<OrderItemView> getList() {
         return list;
     }
 
-    public void setList(List<OrderItem> list) {
+    public void setList(List<OrderItemView> list) {
         this.list = list;
     }
-
-
 }

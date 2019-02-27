@@ -27,4 +27,7 @@ public interface CartItemMapper {
 
     List<CartItemView> selectShortList(Map<String, Object> map);
 
+    int completeByIdList(List<Integer> list);
+
+
 }

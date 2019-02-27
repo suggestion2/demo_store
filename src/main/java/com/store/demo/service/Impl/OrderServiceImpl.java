@@ -1,10 +1,13 @@
 package com.store.demo.service.Impl;
 
 import com.store.demo.domain.Order;
+import com.store.demo.domain.OrderItem;
+import com.store.demo.mapper.OrderItemMapper;
 import com.store.demo.service.OrderService;
 import com.store.demo.mapper.OrderMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +18,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private OrderItemMapper orderItemMapper;
 
     @Override
     public Order getById(Integer id){
@@ -36,8 +42,11 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public int create(Order order){
-        return orderMapper.insert(order);
+    @Transactional
+    public int create(Order order, List<OrderItem> list){
+        orderMapper.insert(order);
+        list.forEach(i->i.setOrderId(order.getId()));
+        return orderItemMapper.batchInsert(list);
     }
 
     @Override

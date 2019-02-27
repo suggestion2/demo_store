@@ -285,21 +285,20 @@ public class CartController {
 
     @RequestMapping(value = "/checkout", method = RequestMethod.POST)
     @CustomerLoginRequired
-    public OrderPrepareView checkout(CartItemCheckOutForm form) {
+    public OrderPrepareView checkout(@Valid @RequestBody CartItemCheckOutForm form) {
         Cart cart = cartService.getCurrentCart();
         if (Objects.isNull(cart)) {
             throw new ResourceNotFoundException("没有购物车");
         }
 
         List<CartItem> cartItemList = cartItemService.getListByCartId(form.getList(),cart.getId());
-        if (Objects.isNull(cartItemList) || cartItemList.size() == 0
-                || !cart.getCount().equals(cartItemList.stream().mapToInt(CartItem::getCount).sum())) {
+        if (Objects.isNull(cartItemList) || cartItemList.size() == 0) {
             throw new InvalidRequestException("购物车部分商品下架,请返回购物车查看");
         }
 
         OrderPrepareView orderPrepareView = new OrderPrepareView();
 
-        List<OrderItem> list = new ArrayList<>();
+        List<OrderItemView> list = new ArrayList<>();
 
         List<GoodsStocks> stocksCheckList = new ArrayList<>();
         //保存订单商品数量信息
@@ -315,10 +314,13 @@ public class CartController {
         List<CartItem> validList = new ArrayList<>();
         cartItemList.forEach(c -> {
             if (c.getCount() <= stocksMap.get(c.getGoodsId() + ":" + c.getUnitId())) {
-                OrderItem orderItem= new OrderItem();
-                BeanUtils.copyProperties(c, orderItem);
-                orderItem.setBannerUrl(ossService.getBucket(GOODS) + orderItem.getBannerUrl());
-                list.add(orderItem);
+                OrderItemView orderItemView= new OrderItemView();
+                BeanUtils.copyProperties(c, orderItemView);
+                orderItemView.setBannerUrl(ossService.getBucket(GOODS) + orderItemView.getBannerUrl());
+                orderItemView.setPrice(c.getPrice().doubleValue());
+                orderItemView.setShippingCost(c.getShippingCost().doubleValue());
+                orderItemView.setAmount(c.getAmount().doubleValue());
+                list.add(orderItemView);
                 validList.add(c);
             }
         });

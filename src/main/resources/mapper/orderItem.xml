@@ -89,6 +89,41 @@
         where `id` = #{id}
     </update>
 
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `order_item`
+        (
+        `orderId`,
+        `cartItemId`,
+        `goodsId`,
+        `unitId`,
+        `unitName`,
+        `goodsName`,
+        `goodsNumber`,
+        `bannerUrl`,
+        `price`,
+        `shippingCost`,
+        `amount`,
+        `count`
+        )
+        values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (
+            #{item.orderId},
+            #{item.cartItemId},
+            #{item.goodsId},
+            #{item.unitId},
+            #{item.unitName},
+            #{item.goodsName},
+            #{item.goodsNumber},
+            #{item.bannerUrl},
+            #{item.price},
+            #{item.shippingCost},
+            #{item.amount},
+            #{item.count}
+            )
+        </foreach>
+    </insert>
+
     <delete id="deleteById" parameterType="java.lang.Integer">
         update `order_item` set valid = 0 where `id` = #{id}
     </delete>

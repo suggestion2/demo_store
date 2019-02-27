@@ -1,6 +1,7 @@
 package com.store.demo.service;
 
 import com.store.demo.domain.Order;
+import com.store.demo.domain.OrderItem;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public interface OrderService {
 
     int selectCount(Map<String, Object> map);
 
-    int create(Order order);
+    int create(Order order, List<OrderItem> list);
 
     int update(Order order);
 

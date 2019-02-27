@@ -24,4 +24,7 @@ public interface CustomerService {
     int deleteById(Integer id);
 
     Customer getByPhone(String phone);
+
+    Customer getCurrentCustomer();
+
 }
