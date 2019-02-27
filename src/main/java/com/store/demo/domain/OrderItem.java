@@ -11,6 +11,7 @@ public class OrderItem {
     private Integer goodsId;
     private Integer unitId;
     private String goodsName;
+    private String goodsNumber;
     private String bannerUrl;
     private BigDecimal price;
     private BigDecimal shippingCost;
@@ -25,6 +26,14 @@ public class OrderItem {
     private String unitName;
     private Integer comment;
 
+    public String getGoodsNumber() {
+        return goodsNumber;
+    }
+
+    public void setGoodsNumber(String goodsNumber) {
+        this.goodsNumber = goodsNumber;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -32,6 +41,7 @@ public class OrderItem {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public Integer getOrderId() {
         return orderId;
     }
@@ -39,6 +49,7 @@ public class OrderItem {
     public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
+
     public Integer getCartItemId() {
         return cartItemId;
     }
@@ -46,6 +57,7 @@ public class OrderItem {
     public void setCartItemId(Integer cartItemId) {
         this.cartItemId = cartItemId;
     }
+
     public Integer getGoodsId() {
         return goodsId;
     }
@@ -53,6 +65,7 @@ public class OrderItem {
     public void setGoodsId(Integer goodsId) {
         this.goodsId = goodsId;
     }
+
     public Integer getUnitId() {
         return unitId;
     }
@@ -60,6 +73,7 @@ public class OrderItem {
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
     }
+
     public String getGoodsName() {
         return goodsName;
     }
@@ -67,6 +81,7 @@ public class OrderItem {
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
     }
+
     public String getBannerUrl() {
         return bannerUrl;
     }
@@ -74,6 +89,7 @@ public class OrderItem {
     public void setBannerUrl(String bannerUrl) {
         this.bannerUrl = bannerUrl;
     }
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -81,6 +97,7 @@ public class OrderItem {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
     public BigDecimal getShippingCost() {
         return shippingCost;
     }
@@ -88,6 +105,7 @@ public class OrderItem {
     public void setShippingCost(BigDecimal shippingCost) {
         this.shippingCost = shippingCost;
     }
+
     public BigDecimal getAmount() {
         return amount;
     }
@@ -95,6 +113,7 @@ public class OrderItem {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
+
     public Integer getCount() {
         return count;
     }
@@ -102,6 +121,7 @@ public class OrderItem {
     public void setCount(Integer count) {
         this.count = count;
     }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -109,6 +129,7 @@ public class OrderItem {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -116,6 +137,7 @@ public class OrderItem {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
     public Integer getCreateBy() {
         return createBy;
     }
@@ -123,6 +145,7 @@ public class OrderItem {
     public void setCreateBy(Integer createBy) {
         this.createBy = createBy;
     }
+
     public Integer getUpdateBy() {
         return updateBy;
     }
@@ -130,6 +153,7 @@ public class OrderItem {
     public void setUpdateBy(Integer updateBy) {
         this.updateBy = updateBy;
     }
+
     public Integer getStatus() {
         return status;
     }
@@ -137,6 +161,7 @@ public class OrderItem {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
     public Integer getValid() {
         return valid;
     }
@@ -144,6 +169,7 @@ public class OrderItem {
     public void setValid(Integer valid) {
         this.valid = valid;
     }
+
     public String getUnitName() {
         return unitName;
     }
@@ -151,6 +177,7 @@ public class OrderItem {
     public void setUnitName(String unitName) {
         this.unitName = unitName;
     }
+
     public Integer getComment() {
         return comment;
     }
@@ -158,5 +185,4 @@ public class OrderItem {
     public void setComment(Integer comment) {
         this.comment = comment;
     }
-
 }

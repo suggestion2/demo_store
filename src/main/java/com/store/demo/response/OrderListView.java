@@ -6,18 +6,18 @@ import com.store.demo.domain.Order;
 
 import java.util.List;
 
-public class OrderListView extends PaginationView<Order>{
+public class OrderListView extends PaginationView<OrderShortView>{
 
-        @Autowired
+//        @Autowired
         public OrderListView() {
         }
 
-        public OrderListView(List<Order> list,int count) {
+        public OrderListView(List<OrderShortView> list,int count) {
             this.setList(list);
             this.setCount(count);
         }
 
-        public OrderListView(List<Order> list) {
+        public OrderListView(List<OrderShortView> list) {
             this.setList(list);
         }
 }

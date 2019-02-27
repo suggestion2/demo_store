@@ -778,7 +778,15 @@ var orderApiModule = {
             data: JSON.stringify({
                 "customerAddressId": $("#order-add-customerAddressId").val(),
                 "paymentForm": $("#order-add-paymentForm").val(),
-                "remarks": $("#order-add-remarks").val()
+                "remarks": $("#order-add-remarks").val(),
+                    "list":[
+                        {
+                            "id": $("#cart-orderApiModule-id1").val()
+                        },
+                        {
+                            "id": $("#cart-orderApiModule-id2").val()
+                        }
+                    ]
             })
         };
         showResult(settings);

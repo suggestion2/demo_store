@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -82,6 +83,13 @@ public class OrderController {
 
     @Value("${spring.profiles.active}")
     private String env;
+
+    @RequestMapping(value = LIST, method = RequestMethod.POST)
+    public OrderListView list(@Valid @RequestBody OrderListForm form) {
+        Map<String, Object> map = form.getQueryMap();
+        map.put("customerId", customerService.getCurrentCustomer().getId());
+        return new OrderListView(orderService.selectViewList(map), orderService.selectCount(map));
+    }
 
     //立即购买
     @RequestMapping(value = "/immediate", method = RequestMethod.POST)
@@ -153,6 +161,7 @@ public class OrderController {
         return orderPrepareView;
     }
 
+    @Transactional
     @RequestMapping(value = CREATE, method = RequestMethod.POST)
     public OrderCreateView create(@Valid @RequestBody OrderCreateForm form) {
         Customer customer = customerService.getCurrentCustomer();
@@ -210,6 +219,7 @@ public class OrderController {
         }
         Order order = new Order();
         order.setNumber("O" + SequenceNumUtils.generateNum());
+        order.setGoodsName(orderItemList.get(0).getGoodsName());
         order.setCustomerId(customer.getId());
         order.setCustomerName(customer.getName());
         order.setCustomerPhone(customer.getPhone());
@@ -240,9 +250,9 @@ public class OrderController {
             cart.setCount(cart.getCount() - validCartItemList.stream().mapToInt(CartItem::getCount).sum());
             cartService.update(cart);
         } else {
-//            sessionContext.removeCurrentOrderItem();
+            sessionContext.removeCurrentOrderItem();
         }
-//        sessionContext.removeOrderType();
+        sessionContext.removeOrderType();
         return new OrderCreateView(order.getNumber(), payment.getNumber());
     }
 

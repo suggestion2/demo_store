@@ -39,9 +39,7 @@
         `customerId`,
         `customerPhone`,
         `type`,
-        `createBy`,
-        `updateBy`,
-        `status`,
+        `createBy`
         )
         values
         (
@@ -51,9 +49,7 @@
         #{customerId},
         #{customerPhone},
         #{type},
-        #{createBy},
-        #{createBy},
-        #{status},
+        #{createBy}
         )
     </insert>
 

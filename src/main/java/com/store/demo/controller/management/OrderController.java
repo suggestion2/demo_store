@@ -29,10 +29,10 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = LIST,method = RequestMethod.POST)
-    public OrderListView list(@Valid @RequestBody OrderListForm form){
-        return new OrderListView(orderService.selectList(form.getQueryMap()));
-    }
+//    @RequestMapping(value = LIST,method = RequestMethod.POST)
+//    public OrderListView list(@Valid @RequestBody OrderListForm form){
+//        return new OrderListView(orderService.selectList(form.getQueryMap()));
+//    }
 
     @RequestMapping(value = DETAIL,method = RequestMethod.GET)
     public Order detail(@PathVariable Integer id){

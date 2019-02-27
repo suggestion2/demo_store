@@ -1,6 +1,8 @@
 package com.store.demo.mapper;
 
 import com.store.demo.domain.Order;
+import com.store.demo.response.OrderItemView;
+import com.store.demo.response.OrderShortView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,8 @@ public interface OrderMapper {
     List<Order> selectList(Map<String, Object> map);
 
     int selectCount(Map<String, Object> map);
+
+    List<OrderShortView> selectViewList(Map<String, Object> map);
 
     int insert(Order order);
 

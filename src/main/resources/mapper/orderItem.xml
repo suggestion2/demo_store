@@ -76,6 +76,7 @@
         `goodsId` = #{goodsId},
         `unitId` = #{unitId},
         `goodsName` = #{goodsName},
+        `goodsNumber` = #{goodsNumber},
         `bannerUrl` = #{bannerUrl},
         `price` = #{price},
         `shippingCost` = #{shippingCost},

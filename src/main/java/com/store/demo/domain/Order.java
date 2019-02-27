@@ -19,7 +19,6 @@ public class Order {
     private String cancelReason;
     private BigDecimal goodsAmount;
     private BigDecimal totalAmount;
-    private BigDecimal amount;
     private Integer count;
     private BigDecimal shippingCostAmount;
     private Integer comment;
@@ -127,13 +126,6 @@ public class Order {
 
     public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
-    }
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
     }
     public Integer getCount() {
         return count;

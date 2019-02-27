@@ -2,6 +2,8 @@ package com.store.demo.service;
 
 import com.store.demo.domain.Order;
 import com.store.demo.domain.OrderItem;
+import com.store.demo.response.OrderItemView;
+import com.store.demo.response.OrderShortView;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,4 +25,6 @@ public interface OrderService {
     int update(Order order);
 
     int deleteById(Integer id);
+
+    List<OrderShortView> selectViewList(Map<String, Object> map);
 }

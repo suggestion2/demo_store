@@ -42,6 +42,10 @@ public class SessionContext {
     public Integer getOrderType(){
         return (Integer)httpSession.getAttribute("orderType");
     }
+
+    public void removeOrderType(){
+        httpSession.removeAttribute("orderType");
+    }
     /**
      * 设置当前订单商品
      */
@@ -54,6 +58,13 @@ public class SessionContext {
      */
     public OrderItem getCurrentOrderItem(){
         return (OrderItem) httpSession.getAttribute("orderItem");
+    }
+    /**
+     *
+     * 清空当前订单
+     */
+    public void removeCurrentOrderItem(){
+        httpSession.removeAttribute("orderItem");
     }
     public void invalidate(){
         httpSession.invalidate();

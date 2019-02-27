@@ -25,9 +25,58 @@
 
     <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(*) from `order` where `valid` = 1
-        <if test="id!=null">
-
+        <if test="customerId!=null">
+            and `customerId` = #{customerId}
         </if>
+    </select>
+
+    <resultMap id="OrderView" type="com.store.demo.response.OrderShortView">
+        <id column="order_id"/>
+        <result property="number" column="order_number"/>
+        <result property="customerAddress" column="order_customerAddress"/>
+        <result property="totalAmount" column="order_totalAmount"/>
+        <result property="shippingCostAmount" column="order_shippingCostAmount"/>
+        <result property="count" column="order_count"/>
+        <result property="status" column="order_status"/>
+        <result property="createTime" column="order_createTime"/>
+        <collection property="list" javaType="ArrayList" ofType="com.store.demo.response.OrderItemShortView">
+            <id column="item_id"/>
+            <result property="goodsId" column="item_goodsId"/>
+            <result property="goodsName" column="item_goodsName"/>
+            <result property="bannerUrl" column="item_bannerUrl"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectViewList" resultMap="OrderView" parameterType="java.util.Map">
+        select
+        o.`id` as order_id,
+        o.`number` as order_number,
+        o.`customerAddress` as order_customerAddress,
+        o.`shippingCostAmount` as order_shippingCostAmount,
+        o.`totalAmount` as order_totalAmount,
+        o.`count` as order_count,
+        o.`createTime` as order_createTime,
+        o.`status` as order_status,
+        i.id as item_id,
+        i.goodsId as item_goodsId,
+        i.goodsName as item_goodsName,
+        CONCAT(#{bucket},i.bannerUrl) as item_bannerUrl
+        from (select * from `order` where `valid` = 1
+        <if test="content!=null">
+            and `number` like concat ('%',#{content},'%')
+        </if>
+        <if test="customerId!=null">
+            and `customerId` = #{customerId}
+        </if>
+        <if test="status!=null">
+            and `status` = #{status}
+        </if>
+        order by updateTime DESC
+        <if test="startIndex != null and pageSize != null">
+            limit #{startIndex},#{pageSize}
+        </if>
+        ) o
+        left join `order_item` i on o.id = i.orderId
     </select>
 
     <insert id="insert" parameterType="com.store.demo.domain.Order" useGeneratedKeys="true" keyProperty="id">
@@ -40,19 +89,11 @@
         `customerPhone`,
         `customerAddress`,
         `customerAddressId`,
-        `dispatchCompany`,
-        `dispatchNumber`,
         `remarks`,
-        `cancelReason`,
         `goodsAmount`,
         `totalAmount`,
-        `amount`,
         `count`,
-        `shippingCostAmount`,
-        `comment`,
-        `createBy`,
-        `updateBy`,
-        `status`,
+        `shippingCostAmount`
         )
         values
         (
@@ -63,19 +104,11 @@
         #{customerPhone},
         #{customerAddress},
         #{customerAddressId},
-        #{dispatchCompany},
-        #{dispatchNumber},
         #{remarks},
-        #{cancelReason},
         #{goodsAmount},
         #{totalAmount},
-        #{amount},
         #{count},
-        #{shippingCostAmount},
-        #{comment},
-        #{createBy},
-        #{createBy},
-        #{status},
+        #{shippingCostAmount}
         )
     </insert>
 
@@ -94,7 +127,6 @@
         `cancelReason` = #{cancelReason},
         `goodsAmount` = #{goodsAmount},
         `totalAmount` = #{totalAmount},
-        `amount` = #{amount},
         `count` = #{count},
         `shippingCostAmount` = #{shippingCostAmount},
         `comment` = #{comment},
