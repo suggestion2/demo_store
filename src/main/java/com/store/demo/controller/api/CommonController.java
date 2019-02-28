@@ -16,7 +16,7 @@ import com.store.demo.service.sms.SmsService;
 import com.sug.core.platform.crypto.MD5;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
-import com.sug.core.rest.view.SuccessView;
+import com.sug.core.rest.view.ResponseView;
 import com.sug.core.util.RandomStringGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,9 +123,9 @@ public class CommonController {
     }
 
     @RequestMapping(value = LOGOUT, method = RequestMethod.GET)
-    public SuccessView logout() {
+    public ResponseView logout() {
         sessionContext.logout();
-        return new SuccessView();
+        return new ResponseView();
     }
 
     @RequestMapping(value = CURRENT, method = RequestMethod.GET)

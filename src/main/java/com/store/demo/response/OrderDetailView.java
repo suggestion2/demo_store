@@ -9,50 +9,43 @@ import com.store.demo.domain.Payment;
 import java.util.List;
 
 public class OrderDetailView {
-    private Order order;
+    private OrderView orderView;
 
-    private List<OrderItem> list;
+    private String paymentNumber;
 
-    private Payment payment;
+    private List<OrderItemView> list;
 
-    private AfterSale afterSale;
-
-    public OrderDetailView(Order order, List<OrderItem> list, Payment payment, AfterSale afterSale) {
-        this.order = order;
+    public OrderDetailView(OrderView orderView, List<OrderItemView> list,String paymentNumber) {
+        this.orderView = orderView;
         this.list = list;
-        this.payment = payment;
-        this.afterSale = afterSale;
+        this.paymentNumber = paymentNumber;
     }
 
-    public Order getOrder() {
-        return order;
+    public OrderDetailView(OrderView orderView, List<OrderItemView> list) {
+        this(orderView, list,null);
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public OrderView getOrderView() {
+        return orderView;
     }
 
-    public List<OrderItem> getList() {
+    public void setOrderView(OrderView orderView) {
+        this.orderView = orderView;
+    }
+
+    public List<OrderItemView> getList() {
         return list;
     }
 
-    public void setList(List<OrderItem> list) {
+    public void setList(List<OrderItemView> list) {
         this.list = list;
     }
 
-    public Payment getPayment() {
-        return payment;
+    public String getPaymentNumber() {
+        return paymentNumber;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
-
-    public AfterSale getAfterSale() {
-        return afterSale;
-    }
-
-    public void setAfterSale(AfterSale afterSale) {
-        this.afterSale = afterSale;
+    public void setPaymentNumber(String paymentNumber) {
+        this.paymentNumber = paymentNumber;
     }
 }

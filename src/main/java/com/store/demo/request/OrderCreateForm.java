@@ -17,16 +17,6 @@ public class OrderCreateForm {
 
     private String remarks;
 
-    private List<CartItemIdForm> list;
-
-    public List<CartItemIdForm> getList() {
-        return list;
-    }
-
-    public void setList(List<CartItemIdForm> list) {
-        this.list = list;
-    }
-
     public Integer getCustomerAddressId() {
         return customerAddressId;
     }

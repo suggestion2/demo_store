@@ -253,10 +253,6 @@
             </select><br/>
                 备注(选填):<input class="textbox" type="text" id="order-add-remarks" style="width: 100px;"
                               value="1"/><br>
-                购物车itemId:<input class="textbox" type="text" id="cart-orderApiModule-id1" style="width: 100px;"
-                                 value=""/><br>
-                购物车itemId:<input class="textbox" type="text" id="cart-orderApiModule-id2" style="width: 100px;"
-                                 value=""/><br>
                 <input type="button" value="添加" onclick="orderApiModule.add()"/><br>
             </div>
             <div>

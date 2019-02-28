@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.store.demo.constants.PaymentConstants.ORDER;
+
 @Service
 public class PaymentServiceImpl implements PaymentService{
 
@@ -48,5 +50,13 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public int deleteById(Integer id){
         return paymentMapper.deleteById(id);
+    }
+
+    @Override
+    public Payment getByOrderId(Integer id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("orderId",id);
+        map.put("type",ORDER);
+        return paymentMapper.select(map);
     }
 }

@@ -1,5 +1,9 @@
 package com.store.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.sug.core.util.jsonFormat.SimpleDateTimeSerializer;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -17,7 +21,9 @@ public class OrderItem {
     private BigDecimal shippingCost;
     private BigDecimal amount;
     private Integer count;
+    @JsonSerialize(using = SimpleDateTimeSerializer.class)
     private Date createTime;
+    @JsonIgnore
     private Date updateTime;
     private Integer createBy;
     private Integer updateBy;

@@ -21,7 +21,7 @@ import com.store.demo.service.oss.OssService;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
 import com.sug.core.rest.view.ResponseView;
-import com.sug.core.rest.view.SuccessView;
+import com.sug.core.rest.view.ResponseView;
 import com.sug.core.util.JUGUUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

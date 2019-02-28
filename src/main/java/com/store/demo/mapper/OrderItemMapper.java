@@ -1,6 +1,7 @@
 package com.store.demo.mapper;
 
 import com.store.demo.domain.OrderItem;
+import com.store.demo.response.OrderItemView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,5 +24,11 @@ public interface OrderItemMapper {
     int deleteById(Integer id);
 
     int batchInsert(List<OrderItem> list);
+
+    List<OrderItemView> selectShortList(Map<String, Object> map);
+
+    int cancelByOrderId(Integer id);
+
+
 
 }

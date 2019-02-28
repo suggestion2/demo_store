@@ -8,8 +8,14 @@
 
     <select id="select" resultType="com.store.demo.domain.Payment" parameterType="java.util.Map">
         select * from `payment` where `valid` = 1
-        <if test="id!=null">
-            and `id` = #{id}
+        <if test="number!=null">
+            and `number` = #{number}
+        </if>
+        <if test="type!=null">
+            and `type` = #{type}
+        </if>
+        <if test="orderId!=null">
+            and `orderId` = #{orderId}
         </if>
     </select>
 

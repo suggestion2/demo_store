@@ -9,6 +9,7 @@ import com.store.demo.service.OrderService;
 import com.store.demo.mapper.OrderMapper;
 import com.store.demo.service.oss.ImageConstants;
 import com.store.demo.service.oss.OssService;
+import com.sug.core.platform.web.rest.exception.InvalidRequestException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,20 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<Order> selectList(Map<String, Object> map){
         return orderMapper.selectList(map);
+    }
+
+    @Override
+    public Order getByNumber(String number) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("number",number);
+        return orderMapper.select(map);
+    }
+
+    @Override
+    @Transactional
+    public int cancel(Order order) {
+        orderItemMapper.cancelByOrderId(order.getId());
+        return orderMapper.cancel(order);
     }
 
     @Override

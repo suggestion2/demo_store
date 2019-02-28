@@ -27,4 +27,10 @@ public interface OrderService {
     int deleteById(Integer id);
 
     List<OrderShortView> selectViewList(Map<String, Object> map);
+
+    Order getByNumber(String number);
+
+    int cancel(Order order);
+
+
 }

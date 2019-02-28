@@ -3,18 +3,14 @@ package com.store.demo.controller.api;
 import com.store.demo.context.SessionContext;
 import com.store.demo.domain.*;
 import com.store.demo.interceptor.CustomerLoginRequired;
-import com.store.demo.request.OrderBuyForm;
-import com.store.demo.request.OrderCreateForm;
-import com.store.demo.request.OrderListForm;
-import com.store.demo.response.OrderCreateView;
-import com.store.demo.response.OrderItemView;
-import com.store.demo.response.OrderListView;
-import com.store.demo.response.OrderPrepareView;
+import com.store.demo.request.*;
+import com.store.demo.response.*;
 import com.store.demo.service.*;
 import com.store.demo.service.oss.OssService;
 import com.store.demo.service.stock.GoodsStocks;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
+import com.sug.core.rest.view.ResponseView;
 import com.sug.core.rest.view.ResponseView;
 import com.sug.core.rest.view.SuccessView;
 import com.sug.core.util.BigDecimalUtils;
@@ -25,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -91,6 +88,43 @@ public class OrderController {
         return new OrderListView(orderService.selectViewList(map), orderService.selectCount(map));
     }
 
+    //详情
+    @RequestMapping(value = NUMBER, method = RequestMethod.GET)
+    public OrderDetailView detail(@PathVariable String number) {
+        Order order = orderService.getByNumber(number);
+        if (Objects.isNull(order) || !customerService.getCurrentCustomer().getId().equals(order.getCustomerId())) {
+            throw new ResourceNotFoundException("找不到订单");
+        }
+        OrderView orderView = new OrderView();
+        BeanUtils.copyProperties(order, orderView);
+        //
+        Payment payment = paymentService.getByOrderId(order.getId());
+
+        return new OrderDetailView(orderView, orderItemService.getViewListByOrderId(order.getId()), payment.getNumber());
+    }
+
+    @RequestMapping(value = CANCEL, method = RequestMethod.PUT)
+    public ResponseView cancel(@Valid @RequestBody OrderCancelForm form) {
+        Order order = orderService.getByNumber(form.getNumber());
+        if (Objects.isNull(order) || !customerService.getCurrentCustomer().getId().equals(order.getCustomerId())) {
+            throw new ResourceNotFoundException("找不到订单");
+        }
+        order.setCancelType(CUSTOMER_CANCEL);
+        order.setCancelReason(StringUtils.hasText(form.getReason()) ? form.getReason() : "用户自行取消");
+        orderService.cancel(order);
+        return new ResponseView();
+    }
+
+    @RequestMapping(value = "/confirm", method = RequestMethod.PUT)
+    public ResponseView confirm(@Valid @RequestBody OrderConfirmForm form) {
+        Order order = orderService.getByNumber(form.getNumber());
+        if (Objects.isNull(order) || !customerService.getCurrentCustomer().getId().equals(order.getCustomerId())) {
+            throw new ResourceNotFoundException("找不到订单");
+        }
+        order.setStatus(CONFIRMED);
+        orderService.update(order);
+        return new ResponseView();
+    }
     //立即购买
     @RequestMapping(value = "/immediate", method = RequestMethod.POST)
     public ResponseView immediate(@Valid @RequestBody OrderBuyForm form) {
@@ -122,38 +156,39 @@ public class OrderController {
         orderItem.setCartItemId(IMMEDIATE_CARTITEM_ID);
         //判断该商品是否有尺码规格，有尺码规格按不同的尺码规格设置不同的价格还有商品名字等
         orderItem.setGoodsName(goods.getName() + "-" + unit.getTitle());
+        orderItem.setGoodsNumber(goods.getNumber());
         orderItem.setUnitName(unit.getTitle());
         orderItem.setPrice(unit.getPrice());
         orderItem.setShippingCost(unit.getShippingCost());
         orderItem.setUnitId(unit.getId());
         orderItem.setBannerUrl(unit.getImageUrl());
         orderItem.setAmount(BigDecimalUtils.multiply(orderItem.getPrice(), orderItem.getCount()));
-        sessionContext.setCurrentOrderItem(orderItem);
+        List<OrderItem> list = new ArrayList<>();
+        list.add(orderItem);
+        sessionContext.setCurrentOrderItem(list);
         return new ResponseView();
     }
 
     @RequestMapping(value = "/immediate/view", method = RequestMethod.GET)
     public OrderPrepareView immediateView() {
-        OrderItem orderItem = sessionContext.getCurrentOrderItem();
-        if(Objects.isNull(orderItem)){
+        List<OrderItem> orderItemList = sessionContext.getCurrentOrderItem();
+        if(Objects.isNull(orderItemList) || Objects.equals(orderItemList.size(),0)){
             throw new ResourceNotFoundException("orderItem not found");
         }
         OrderPrepareView orderPrepareView = new OrderPrepareView();
 
-        OrderItemView orderItemView = new OrderItemView();
-        BeanUtils.copyProperties(orderItem, orderItemView);
-        orderItemView.setPrice(orderItem.getPrice().doubleValue());
-        orderItemView.setShippingCost(orderItem.getShippingCost().doubleValue());
-        orderItemView.setAmount(orderItem.getAmount().doubleValue());
-        orderItemView.setBannerUrl(ossService.getBucket(GOODS) + orderItemView.getBannerUrl());
+        OrderItem orderItem = new OrderItem();
+        BeanUtils.copyProperties(orderItemList.get(0), orderItem);
 
-        List<OrderItemView> orderItemViewList = new ArrayList<>();
-        orderItemViewList.add(orderItemView);
+        orderItem.setBannerUrl(ossService.getBucket(GOODS) + orderItem.getBannerUrl());
 
-        orderPrepareView.setShippingCostAmount(orderItem.getShippingCost().doubleValue());
-        orderPrepareView.setGoodsAmount(orderItem.getAmount().doubleValue());
+        List<OrderItem> orderItemViewList = new ArrayList<>();
+        orderItemViewList.add(orderItem);
+
+        orderPrepareView.setShippingCostAmount(orderItemList.get(0).getShippingCost().doubleValue());
+        orderPrepareView.setGoodsAmount(orderItemList.get(0).getAmount().doubleValue());
         orderPrepareView.setTotalAmount(new BigDecimal(orderPrepareView.getShippingCostAmount() + orderPrepareView.getGoodsAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-        orderPrepareView.setCount(orderItem.getCount());
+        orderPrepareView.setCount(orderItemList.get(0).getCount());
 
         orderPrepareView.setList(orderItemViewList);
 
@@ -169,17 +204,17 @@ public class OrderController {
         if (Objects.isNull(type)) {
             throw new InvalidRequestException("order overdue");
         }
-        //获得当前订单，不是购物车的订单
-        OrderItem orderCurrentItem = sessionContext.getCurrentOrderItem();
+        //获得当前订单
+        List<OrderItem> orderCurrentItem = sessionContext.getCurrentOrderItem();
         List<OrderItem> orderItemList = new ArrayList<>();
-        List<CartItem> validCartItemList = new ArrayList<>();
+        List<OrderItem> validCartItemList = new ArrayList<>();
         Cart cart = cartService.getCurrentCart();
         //判断是购物车的商品购买还是当前直接购买
         if (type.equals(IMMEDIATE)) {
-            if (Objects.isNull(orderCurrentItem)) {
+            if (Objects.isNull(orderCurrentItem) || orderCurrentItem.size() == 0) {
                 throw new RuntimeException("orderCurrentItem not found");
             }
-            orderItemList.add(orderCurrentItem);
+            orderItemList.add(orderCurrentItem.get(0));
         } else {
             if (!form.getPaymentForm().equals(WECHAT_PAY) && !form.getPaymentForm().equals(ALIPAY)) {
                 throw new InvalidRequestException("invalid payment form");
@@ -187,12 +222,13 @@ public class OrderController {
             if (Objects.isNull(cart)) {
                 throw new ResourceNotFoundException("没有购物车");
             }
-            List<CartItem> cartItemList = cartItemService.getListByCartId(form.getList(),cart.getId());
-            if (Objects.isNull(cartItemList) || cartItemList.size() == 0) {
+
+//            List<CartItem> cartItemList = cartItemService.getListByCartId(form.getList(),cart.getId());
+            if (Objects.isNull(orderCurrentItem) || orderCurrentItem.size() == 0) {
                 throw new InvalidRequestException("购物车部分商品下架,请返回购物车查看");
             }
             List<GoodsStocks> stocksCheckList = new ArrayList<>();
-            cartItemList.forEach(c -> {
+            orderCurrentItem.forEach(c -> {
                 GoodsStocks goodsStocks = new GoodsStocks();
                 goodsStocks.setId(c.getGoodsId());
                 goodsStocks.setUnitId(c.getUnitId());
@@ -202,7 +238,7 @@ public class OrderController {
 
             Map<String, Integer> stocksMap = goodsService.getStocks(stocksCheckList);
             //判断库存是否大于订单量
-            cartItemList.forEach(c -> {
+            orderCurrentItem.forEach(c -> {
                 if (c.getCount() <= stocksMap.get(c.getGoodsId() + ":" + c.getUnitId())) {
                     OrderItem orderItem = new OrderItem();
                     BeanUtils.copyProperties(c, orderItem);
@@ -238,6 +274,7 @@ public class OrderController {
         payment.setCustomerPhone(customer.getPhone());
         payment.setOrderId(order.getId());
         payment.setType(ORDER);
+        //是测试订单，支付总价设置为0.01
         payment.setAmount("prod".equalsIgnoreCase(env) ? order.getTotalAmount() : BigDecimal.valueOf(0.01d));
         payment.setCreateBy(CREATE_BY_SERVER);
 
@@ -245,13 +282,12 @@ public class OrderController {
         //判断是购物车的商品购买还是当前直接购买
         if (type.equals(BY_CART)) {
             //把购买过的cartItem在数据库valid设置成购买过
-            cartItemService.completeByIdList(validCartItemList.stream().map(CartItem::getId).collect(Collectors.toList()));
-            cart.setAmount(BigDecimalUtils.subtract(cart.getAmount(), validCartItemList.stream().map(CartItem::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add)));
-            cart.setCount(cart.getCount() - validCartItemList.stream().mapToInt(CartItem::getCount).sum());
+            cartItemService.completeByIdList(validCartItemList.stream().map(OrderItem::getId).collect(Collectors.toList()));
+            cart.setAmount(BigDecimalUtils.subtract(cart.getAmount(), validCartItemList.stream().map(OrderItem::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add)));
+            cart.setCount(cart.getCount() - validCartItemList.stream().mapToInt(OrderItem::getCount).sum());
             cartService.update(cart);
-        } else {
-            sessionContext.removeCurrentOrderItem();
         }
+        sessionContext.removeCurrentOrderItem();
         sessionContext.removeOrderType();
         return new OrderCreateView(order.getNumber(), payment.getNumber());
     }

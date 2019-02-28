@@ -1,7 +1,7 @@
 package com.store.demo.controller.management;
 
 import com.sug.core.platform.exception.ResourceNotFoundException;
-import com.sug.core.rest.view.SuccessView;
+import com.sug.core.rest.view.ResponseView;
 import com.store.demo.domain.Order;
 import com.store.demo.service.OrderService;
 import com.store.demo.request.OrderCreateForm;

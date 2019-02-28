@@ -8,8 +8,8 @@
 
     <select id="select" resultType="com.store.demo.domain.Order" parameterType="java.util.Map">
         select * from `order` where `valid` = 1
-        <if test="id!=null">
-            and `id` = #{id}
+        <if test="number!=null">
+            and `number` = #{number}
         </if>
     </select>
 
@@ -25,8 +25,14 @@
 
     <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(*) from `order` where `valid` = 1
+        <if test="content!=null">
+            and `number` like concat ('%',#{content},'%')
+        </if>
         <if test="customerId!=null">
             and `customerId` = #{customerId}
+        </if>
+        <if test="status!=null">
+            and `status` = #{status}
         </if>
     </select>
 
@@ -114,23 +120,6 @@
 
     <update id="update" parameterType="com.store.demo.domain.Order">
         update `order` set
-        `number` = #{number},
-        `customerId` = #{customerId},
-        `customerName` = #{customerName},
-        `goodsName` = #{goodsName},
-        `customerPhone` = #{customerPhone},
-        `customerAddress` = #{customerAddress},
-        `customerAddressId` = #{customerAddressId},
-        `dispatchCompany` = #{dispatchCompany},
-        `dispatchNumber` = #{dispatchNumber},
-        `remarks` = #{remarks},
-        `cancelReason` = #{cancelReason},
-        `goodsAmount` = #{goodsAmount},
-        `totalAmount` = #{totalAmount},
-        `count` = #{count},
-        `shippingCostAmount` = #{shippingCostAmount},
-        `comment` = #{comment},
-        `updateBy` = #{updateBy},
         `status` = #{status},
         `updateTime` = now()
         where `id` = #{id}
@@ -139,4 +128,14 @@
     <delete id="deleteById" parameterType="java.lang.Integer">
         update `order` set valid = 0 where `id` = #{id}
     </delete>
+
+    <update id="cancel" parameterType="com.store.demo.domain.Order">
+        update `order` set
+        `cancelType` = 1,
+        `cancelTime` = now(),
+        `cancelReason` = #{cancelReason},
+        `updateTime` = now(),
+        `status` = -1
+        where `id` = #{id}
+    </update>
 </mapper>

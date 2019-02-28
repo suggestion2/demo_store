@@ -15,7 +15,7 @@ import com.store.demo.service.oss.OssService;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
 import com.sug.core.rest.view.ResponseView;
-import com.sug.core.rest.view.SuccessView;
+import com.sug.core.rest.view.ResponseView;
 import com.store.demo.service.GoodsService;
 import com.store.demo.response.GoodsListView;
 import com.sug.core.util.JUGUUIDGenerator;
@@ -309,7 +309,7 @@ public class GoodsController {
 
     //上架
     @RequestMapping(value = "/resetStatus", method = RequestMethod.PUT)
-    public SuccessView resetStatus(@Valid @RequestBody GoodsStatusForm form) {
+    public ResponseView resetStatus(@Valid @RequestBody GoodsStatusForm form) {
         Goods goods = goodsService.getById(form.getId());
         if (Objects.isNull(goods)) {
             throw new ResourceNotFoundException("goods not exists");
@@ -328,7 +328,7 @@ public class GoodsController {
         goods.setStatus(form.getStatus());
         goods.setUpdateBy(sessionContext.getUser().getId());
         goodsService.resetStatus(goods);
-        return new SuccessView();
+        return new ResponseView();
     }
 
 

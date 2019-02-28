@@ -12,7 +12,7 @@ import com.sug.core.platform.crypto.MD5;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
 import com.sug.core.rest.view.ResponseView;
-import com.sug.core.rest.view.SuccessView;
+import com.sug.core.rest.view.ResponseView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

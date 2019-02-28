@@ -12,7 +12,7 @@ import com.store.demo.service.oss.OssService;
 import com.store.demo.service.stock.GoodsStocks;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
-import com.sug.core.rest.view.SuccessView;
+import com.sug.core.rest.view.ResponseView;
 import com.store.demo.service.CartService;
 import com.sug.core.util.BigDecimalUtils;
 import org.slf4j.Logger;
@@ -298,7 +298,7 @@ public class CartController {
 
         OrderPrepareView orderPrepareView = new OrderPrepareView();
 
-        List<OrderItemView> list = new ArrayList<>();
+        List<OrderItem> orderlist = new ArrayList<>();
 
         List<GoodsStocks> stocksCheckList = new ArrayList<>();
         //保存订单商品数量信息
@@ -314,13 +314,10 @@ public class CartController {
         List<CartItem> validList = new ArrayList<>();
         cartItemList.forEach(c -> {
             if (c.getCount() <= stocksMap.get(c.getGoodsId() + ":" + c.getUnitId())) {
-                OrderItemView orderItemView= new OrderItemView();
-                BeanUtils.copyProperties(c, orderItemView);
-                orderItemView.setBannerUrl(ossService.getBucket(GOODS) + orderItemView.getBannerUrl());
-                orderItemView.setPrice(c.getPrice().doubleValue());
-                orderItemView.setShippingCost(c.getShippingCost().doubleValue());
-                orderItemView.setAmount(c.getAmount().doubleValue());
-                list.add(orderItemView);
+                OrderItem orderItem= new OrderItem();
+                BeanUtils.copyProperties(c, orderItem);
+                orderItem.setBannerUrl(ossService.getBucket(GOODS) + orderItem.getBannerUrl());
+                orderlist.add(orderItem);
                 validList.add(c);
             }
         });
@@ -332,9 +329,10 @@ public class CartController {
         orderPrepareView.setTotalAmount(new BigDecimal(orderPrepareView.getShippingCostAmount() + orderPrepareView.getGoodsAmount()).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
         //计算总数
         orderPrepareView.setCount(validList.stream().mapToInt(CartItem::getCount).sum());
-        orderPrepareView.setList(list);
+        orderPrepareView.setList(orderlist);
 
         sessionContext.setOrderType(BY_CART);
+        sessionContext.setCurrentOrderItem(orderlist);
 
         return orderPrepareView;
     }

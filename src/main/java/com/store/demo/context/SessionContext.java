@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -49,15 +50,15 @@ public class SessionContext {
     /**
      * 设置当前订单商品
      */
-    public void setCurrentOrderItem(OrderItem orderItem){
-        httpSession.setAttribute("orderItem",orderItem);
+    public void setCurrentOrderItem(List<OrderItem> list){
+        httpSession.setAttribute("orderItem",list);
     }
     /**
      *
      * @return得到当前订单
      */
-    public OrderItem getCurrentOrderItem(){
-        return (OrderItem) httpSession.getAttribute("orderItem");
+    public List<OrderItem> getCurrentOrderItem(){
+        return (List<OrderItem>) httpSession.getAttribute("orderItem");
     }
     /**
      *

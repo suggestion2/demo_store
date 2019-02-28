@@ -22,4 +22,7 @@ public interface PaymentService {
     int update(Payment payment);
 
     int deleteById(Integer id);
+
+    Payment getByOrderId(Integer id);
+
 }

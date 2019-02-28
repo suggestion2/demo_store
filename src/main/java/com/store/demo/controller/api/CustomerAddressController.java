@@ -5,7 +5,7 @@ import com.store.demo.interceptor.CustomerLoginRequired;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
 import com.sug.core.rest.view.ResponseView;
-import com.sug.core.rest.view.SuccessView;
+import com.sug.core.rest.view.ResponseView;
 import com.store.demo.domain.CustomerAddress;
 import com.store.demo.service.CustomerAddressService;
 import com.store.demo.request.CustomerAddressCreateForm;

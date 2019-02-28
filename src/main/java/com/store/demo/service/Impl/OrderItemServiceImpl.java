@@ -1,8 +1,11 @@
 package com.store.demo.service.Impl;
 
 import com.store.demo.domain.OrderItem;
+import com.store.demo.response.OrderItemView;
 import com.store.demo.service.OrderItemService;
 import com.store.demo.mapper.OrderItemMapper;
+import com.store.demo.service.oss.ImageConstants;
+import com.store.demo.service.oss.OssService;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,6 +18,9 @@ public class OrderItemServiceImpl implements OrderItemService{
 
     @Autowired
     private OrderItemMapper orderItemMapper;
+
+    @Autowired
+    private OssService ossService;
 
     @Override
     public OrderItem getById(Integer id){
@@ -48,5 +54,13 @@ public class OrderItemServiceImpl implements OrderItemService{
     @Override
     public int deleteById(Integer id){
         return orderItemMapper.deleteById(id);
+    }
+
+    @Override
+    public List<OrderItemView> getViewListByOrderId(Integer orderId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("orderId",orderId);
+        map.put("bucket",ossService.getBucket(ImageConstants.GOODS));
+        return orderItemMapper.selectShortList(map);
     }
 }

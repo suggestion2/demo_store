@@ -7,7 +7,7 @@ import com.store.demo.request.CustomerListForm;
 import com.store.demo.response.CustomerListView;
 import com.store.demo.service.CustomerService;
 import com.sug.core.platform.exception.ResourceNotFoundException;
-import com.sug.core.rest.view.SuccessView;
+import com.sug.core.rest.view.ResponseView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

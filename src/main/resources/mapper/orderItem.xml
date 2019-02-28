@@ -90,6 +90,31 @@
         where `id` = #{id}
     </update>
 
+    <update id="cancelByOrderId" parameterType="java.lang.Integer">
+        update `order_item` set status = -1 where `orderId` = #{id}
+    </update>
+
+    <select id="selectShortList" resultType="com.store.demo.response.OrderItemView" parameterType="java.util.Map">
+        select
+        `id`,
+        `goodsId`,
+        `goodsName`,
+        `goodsNumber`,
+        CONCAT(#{bucket},`bannerUrl`) as `bannerUrl`,
+        `price`,
+        `shippingCost`,
+        `amount`,
+        `count`,
+        `unitName`
+        from `order_item` where `valid` = 1
+        <if test="orderId!=null">
+            and `orderId` = #{orderId}
+        </if>
+        <if test="startIndex != null and pageSize != null">
+            limit #{startIndex},#{pageSize}
+        </if>
+    </select>
+
     <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
         insert into `order_item`
         (

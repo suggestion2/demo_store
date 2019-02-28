@@ -1,7 +1,7 @@
 package com.store.demo.controller.management;
 
 import com.sug.core.platform.exception.ResourceNotFoundException;
-import com.sug.core.rest.view.SuccessView;
+import com.sug.core.rest.view.ResponseView;
 import com.store.demo.domain.Payment;
 import com.store.demo.service.PaymentService;
 import com.store.demo.request.PaymentCreateForm;
@@ -40,21 +40,21 @@ public class PaymentController {
     }
 
     @RequestMapping(value = CREATE,method = RequestMethod.POST)
-    public SuccessView create(@Valid @RequestBody PaymentCreateForm form){
+    public ResponseView create(@Valid @RequestBody PaymentCreateForm form){
         Payment payment = new Payment();
         BeanUtils.copyProperties(form,payment);
         paymentService.create(payment);
-        return new SuccessView();
+        return new ResponseView();
     }
 
     @RequestMapping(value = UPDATE,method = RequestMethod.PUT)
-    public SuccessView update(@Valid @RequestBody PaymentUpdateForm form){
+    public ResponseView update(@Valid @RequestBody PaymentUpdateForm form){
         Payment payment = paymentService.getById(form.getId());
         if(Objects.isNull(payment)){
             throw new ResourceNotFoundException("payment not exists");
         }
         BeanUtils.copyProperties(form,payment);
         paymentService.update(payment);
-        return new SuccessView();
+        return new ResponseView();
     }
 }

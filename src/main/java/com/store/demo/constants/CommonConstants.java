@@ -31,5 +31,7 @@ public class CommonConstants {
     //params
     public static final String MD5_SALT = "store";
 
+    public static final String NUMBER = "/{number}";
+
     public static final int CREATE_BY_SERVER = 0;
 }

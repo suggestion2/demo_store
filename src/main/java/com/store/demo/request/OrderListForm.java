@@ -7,7 +7,6 @@ public class OrderListForm extends PaginationForm{
 
     private Integer status;
 
-    private Integer refundStatus;
 
     public String getContent() {
         return content;
@@ -25,11 +24,4 @@ public class OrderListForm extends PaginationForm{
         this.status = status;
     }
 
-    public Integer getRefundStatus() {
-        return refundStatus;
-    }
-
-    public void setRefundStatus(Integer refundStatus) {
-        this.refundStatus = refundStatus;
-    }
 }
