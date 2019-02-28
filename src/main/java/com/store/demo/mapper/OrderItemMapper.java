@@ -2,6 +2,7 @@ package com.store.demo.mapper;
 
 import com.store.demo.domain.OrderItem;
 import com.store.demo.response.OrderItemView;
+import com.store.demo.response.OrderView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface OrderItemMapper {
 
     OrderItem select(Map<String, Object> map);
 
-    List<OrderItem> selectList(Map<String, Object> map);
+    List<OrderItemView > selectList(Map<String, Object> map);
 
     int selectCount(Map<String, Object> map);
 

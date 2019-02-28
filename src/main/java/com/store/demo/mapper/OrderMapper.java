@@ -30,4 +30,6 @@ public interface OrderMapper {
 
     int cancel(Order order);
 
+    int userCancel(Order order);
+
 }

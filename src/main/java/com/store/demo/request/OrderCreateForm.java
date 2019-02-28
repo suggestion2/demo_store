@@ -12,8 +12,6 @@ public class OrderCreateForm {
 
     @NotNull
     private Integer customerAddressId;
-    @NotNull
-    private Integer paymentForm;
 
     private String remarks;
 
@@ -23,14 +21,6 @@ public class OrderCreateForm {
 
     public void setCustomerAddressId(Integer customerAddressId) {
         this.customerAddressId = customerAddressId;
-    }
-
-    public Integer getPaymentForm() {
-        return paymentForm;
-    }
-
-    public void setPaymentForm(Integer paymentForm) {
-        this.paymentForm = paymentForm;
     }
 
     public String getRemarks() {

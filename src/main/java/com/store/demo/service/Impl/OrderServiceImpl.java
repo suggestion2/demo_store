@@ -84,6 +84,11 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    public int userCancel(Order order){
+        return orderMapper.userCancel(order);
+    }
+
+    @Override
     public int comment(Order order) {
         return orderMapper.comment(order);
     }

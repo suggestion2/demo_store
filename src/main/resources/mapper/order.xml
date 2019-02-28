@@ -15,8 +15,11 @@
 
     <select id="selectList" resultType="com.store.demo.domain.Order" parameterType="java.util.Map">
         select * from `order` where `valid` = 1
-        <if test="id!=null">
-
+        <if test="content!=null">
+            and (`number` like concat ('%',#{content},'%') or `customerName` like concat ('%',#{content},'%') or `customerPhone` like concat ('%',#{content},'%'))
+        </if>
+        <if test="status!=null">
+            and `status` = #{status}
         </if>
         <if test="startIndex != null and pageSize != null">
             limit #{startIndex},#{pageSize}
@@ -143,6 +146,17 @@
         `cancelReason` = #{cancelReason},
         `updateTime` = now(),
         `status` = -1
+        where `id` = #{id}
+    </update>
+
+    <update id="userCancel" parameterType="com.store.demo.domain.Order">
+        update `order` set
+        `cancelType` = #{cancelType},
+        `cancelTime` = now(),
+        `cancelReason` = #{cancelReason},
+        `updateTime` = now(),
+        `status` = #{status},
+        `updateBy` = #{updateBy}
         where `id` = #{id}
     </update>
 </mapper>

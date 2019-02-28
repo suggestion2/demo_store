@@ -777,7 +777,6 @@ var orderApiModule = {
             dataType: "json",
             data: JSON.stringify({
                 "customerAddressId": $("#order-add-customerAddressId").val(),
-                "paymentForm": $("#order-add-paymentForm").val(),
                 "remarks": $("#order-add-remarks").val(),
             })
         };
@@ -807,7 +806,56 @@ var orderApiModule = {
         showResult(settings);
     }
 };
-
+var orderModule = {
+    list: function () {
+        var settings = {
+            type: "POST",
+            url: "/management/order/list",
+            dataType: "json",
+            data: JSON.stringify({
+                "content": $("#order-list-m-content").val(),
+                "status": $("#order-list-m-status").val(),
+                "pageIndex": $("#order-list-m-startIndex").val(),
+                "pageSize": $("#order-list-m-pageSize").val()
+            })
+        };
+        showResult(settings);
+    },
+    detail: function () {
+        var settings = {
+            type: "GET",
+            url: "/management/order/"+ $("#order-detail-m-id").val(),
+            dataType: "json",
+        };
+        showResult(settings);
+    },
+    dispatch: function () {
+        var settings = {
+            type: "PUT",
+            url: "/api/order/dispatch",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": $("#order-dispatch-id").val(),
+                "dispatchCompany":$("#order-dispatch-company").val(),
+                "dispatchCompanyEng":$("#order-dispatch-companyEng").val(),
+                "dispatchNumber":$("#order-dispatch-number").val()
+            })
+        };
+        showResult(settings);
+    },
+    cancel: function () {
+        var settings = {
+            type: "PUT",
+            url: "/api/order/cancel",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": $("#order-cancel-id").val(),
+                "reason":$("#order-cancel-reason").val()
+            })
+        };
+        showResult(settings);
+    }
+};
 var customerMaModule= {
     list: function () {
         var settings = {

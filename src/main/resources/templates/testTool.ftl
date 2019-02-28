@@ -247,10 +247,6 @@
                 <strong>[订单创建]</strong><br/>
                 收货地址id:<input class="textbox" type="text" id="order-add-customerAddressId" style="width: 100px;"
                               value="1"/>
-                支付方式:<select class="textbox" id="order-add-paymentForm" style="width: 100px;">
-                <option value="1">微信支付</option>
-                <option value="2">支付宝支付</option>
-            </select><br/>
                 备注(选填):<input class="textbox" type="text" id="order-add-remarks" style="width: 100px;"
                               value="1"/><br>
                 <input type="button" value="添加" onclick="orderApiModule.add()"/><br>
@@ -727,39 +723,47 @@
             <h2>订单(order)</h2>
             <div>
                 <strong>[列表]</strong><br/>
-                content:<input class="textbox" type="text" id="order-list-content" style="width: 100px;"
-                            value=""/>
-                status:<select class="textbox" id="order-list-status" style="width: 100px;">
-                <option value="">all</option>
-                <option value="-1">取消</option>
-                <option value="2">确认</option>
-                <option value="1">待处理</option>
+                订单编号:<input class="textbox" type="text" id="order-list-m-content" style="width: 100px;"
+                            value="测试"/>
+                按状态:<select class="textbox" id="order-list-m-status" style="width: 100px;">
+                <option value="">全部</option>
+                <option value="-1">已取消</option>
+                <option value="0">待支付</option>
+                <option value="1">待发货</option>
+                <option value="2">待收货</option>
+                <option value="3">已完成</option>
             </select><br>
-                pageIndex:<input class="textbox" type="text" id="order-list-pageIndex" style="width: 100px;"
+                startIndex:<input class="textbox" type="text" id="order-list-m-startIndex" style="width: 100px;"
                                   value="0"/>
-                pageSize:<input class="textbox" type="text" id="order-list-pageSize" style="width: 100px;"
+                pageSize:<input class="textbox" type="text" id="order-list-m-pageSize" style="width: 100px;"
                                 value="10"/><br>
-                <input type="button" value="列表" onclick="orderModule.list()"/><br>
+                <input type="button" value="获取" onclick="orderModule.list()"/><br>
             </div>
             <div>
                 <strong>[详情]</strong><br/>
-                id:<input class="textbox" type="text" id="order-detail-id" style="width: 100px;"
-                               value=""/>
+                id:<input class="textbox" type="text" id="order-detail-m-id" style="width: 100px;"
+                          value=""/><br>
                 <input type="button" value="详情" onclick="orderModule.detail()"/><br>
             </div>
             <div>
-                <strong>[修改状态]</strong><br/>
-                id:<input class="textbox" type="text" id="order-status-id" style="width: 100px;"
-                               value=""/>
-                status:<select class="textbox" id="order-status-status" style="width: 100px;">
-                <option value="-1">取消</option>
-                <option value="2">确认</option>
-            </select><br>
-                cancelReason(unnecessary):<input class="textbox" type="text" id="order-status-cancelReason" style="width: 100px;"
-                                 value=""/><br>
-                remarks(unnecessary):<input class="textbox" type="text" id="order-status-remarks" style="width: 100px;"
-                                value=""/><br>
-                <input type="button" value="修改" onclick="orderModule.updateStatus()"/><br>
+                <strong>[发货]</strong><br/>
+                id:<input class="textbox" type="text" id="order-dispatch-id" style="width: 100px;"
+                          value="1"/><br>
+                发货公司(选填):<input class="textbox" type="text" id="order-dispatch-company" style="width: 100px;"
+                                value="测试"/>
+                英文发货公司(选填):<input class="textbox" type="text" id="order-dispatch-companyEng" style="width: 100px;"
+                                  value="test"/>
+                发货单号(选填):<input class="textbox" type="text" id="order-dispatch-number" style="width: 100px;"
+                                value="test"/><br>
+                <input type="button" value="获取" onclick="orderModule.dispatch()"/><br>
+            </div>
+            <div>
+                <strong>[取消]</strong><br/>
+                id:<input class="textbox" type="text" id="order-cancel-m-id" style="width: 100px;"
+                          value="1"/><br>
+                取消原因:<input class="textbox" type="text" id="order-cancel-m-reason" style="width: 100px;"
+                            value="test"/>
+                <input type="button" value="获取" onclick="orderModule.cancel()"/><br>
             </div>
         </div>
     </div>

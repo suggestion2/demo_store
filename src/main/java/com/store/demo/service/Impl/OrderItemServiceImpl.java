@@ -2,6 +2,7 @@ package com.store.demo.service.Impl;
 
 import com.store.demo.domain.OrderItem;
 import com.store.demo.response.OrderItemView;
+import com.store.demo.response.OrderView;
 import com.store.demo.service.OrderItemService;
 import com.store.demo.mapper.OrderItemMapper;
 import com.store.demo.service.oss.ImageConstants;
@@ -13,6 +14,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.store.demo.service.oss.ImageConstants.GOODS;
 
 @Service
 public class OrderItemServiceImpl implements OrderItemService{
@@ -33,7 +36,7 @@ public class OrderItemServiceImpl implements OrderItemService{
     }
 
     @Override
-    public List<OrderItem> selectList(Map<String, Object> map){
+    public List<OrderItemView> selectList(Map<String, Object> map){
         return orderItemMapper.selectList(map);
     }
 
@@ -73,7 +76,20 @@ public class OrderItemServiceImpl implements OrderItemService{
     public List<OrderItemView> getViewListByOrderId(Integer orderId) {
         Map<String,Object> map = new HashMap<>();
         map.put("orderId",orderId);
-        map.put("bucket",ossService.getBucket(ImageConstants.GOODS));
+        map.put("bucket",ossService.getBucket(GOODS));
         return orderItemMapper.selectShortList(map);
+    }
+
+    @Override
+    public List<OrderItemView > getListByOrderId(Integer id) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("orderId",id);
+        List<OrderItemView > list = orderItemMapper.selectList(map);
+        list.forEach(i->i.setBannerUrl(getImage(i.getBannerUrl())));
+        return list;
+    }
+
+    private String getImage(String imageUrl){
+        return ossService.getPublicObject(GOODS + imageUrl);
     }
 }

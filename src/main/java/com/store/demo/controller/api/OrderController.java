@@ -34,6 +34,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.store.demo.constants.CommonConstants.*;
+import static com.store.demo.constants.CommonConstants.CANCEL;
 import static com.store.demo.constants.OrderConstants.*;
 import static com.store.demo.constants.PaymentConstants.ORDER;
 import static com.store.demo.service.oss.ImageConstants.GOODS;
@@ -216,9 +217,6 @@ public class OrderController {
             }
             orderItemList.add(orderCurrentItem.get(0));
         } else {
-            if (!form.getPaymentForm().equals(WECHAT_PAY) && !form.getPaymentForm().equals(ALIPAY)) {
-                throw new InvalidRequestException("invalid payment form");
-            }
             if (Objects.isNull(cart)) {
                 throw new ResourceNotFoundException("没有购物车");
             }

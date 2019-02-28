@@ -14,7 +14,7 @@ public interface OrderItemService {
 
     OrderItem select(Map<String, Object> map);
 
-    List<OrderItem> selectList(Map<String, Object> map);
+    List<OrderItemView> selectList(Map<String, Object> map);
 
     int selectUncommentCount(Integer orderId);
 
@@ -29,5 +29,8 @@ public interface OrderItemService {
     int deleteById(Integer id);
 
     List<OrderItemView> getViewListByOrderId(Integer orderId);
+
+    List<OrderItemView > getListByOrderId(Integer id);
+
 
 }
