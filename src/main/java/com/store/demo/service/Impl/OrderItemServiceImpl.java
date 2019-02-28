@@ -9,6 +9,7 @@ import com.store.demo.service.oss.OssService;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,14 @@ public class OrderItemServiceImpl implements OrderItemService{
     }
 
     @Override
+    public int selectUncommentCount(Integer orderId) {
+        Map<String,Object> query = new HashMap<>();
+        query.put("orderId",orderId);
+        query.put("comment",0);
+        return orderItemMapper.selectCount(query);
+    }
+
+    @Override
     public int selectCount(Map<String, Object> map){
         return orderItemMapper.selectCount(map);
     }
@@ -49,6 +58,10 @@ public class OrderItemServiceImpl implements OrderItemService{
     @Override
     public int update(OrderItem orderItem){
         return orderItemMapper.update(orderItem);
+    }
+
+    public int comment(OrderItem orderItem){
+        return orderItemMapper.comment(orderItem);
     }
 
     @Override

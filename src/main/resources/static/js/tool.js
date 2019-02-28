@@ -1062,3 +1062,45 @@ var systemApiParamsModule= {
         showResult(settings);
     },
 };
+
+var commentModule= {
+    list: function () {
+        var settings = {
+            type: "POST",
+            url: "/api/comment/list",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": $("#comment-list-id").val(),
+                "pageIndex": $("#comment-list-startIndex").val(),
+                "pageSize": $("#comment-list-pageSize").val()
+            })
+        };
+        showResult(settings);
+    },
+    mList: function () {
+        var settings = {
+            type: "POST",
+            url: "/management/comment/list",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": $("#comment-m-list-id").val(),
+                "pageIndex": $("#comment-m-list-startIndex").val(),
+                "pageSize": $("#comment-m-list-pageSize").val()
+            })
+        };
+        showResult(settings);
+    },
+    create: function () {
+        var settings = {
+            type: "POST",
+            url: "/api/comment/create",
+            dataType: "json",
+            data: JSON.stringify({
+                "orderItemId": $("#comment-create-orderItemId").val(),
+                "comment": $("#comment-create-comment").val(),
+                "stars": $("#comment-create-stars").val()
+            })
+        };
+        showResult(settings);
+    },
+};

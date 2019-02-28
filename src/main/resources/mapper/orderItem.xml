@@ -15,9 +15,6 @@
 
     <select id="selectList" resultType="com.store.demo.domain.OrderItem" parameterType="java.util.Map">
         select * from `order_item` where `valid` = 1
-        <if test="id!=null">
-
-        </if>
         <if test="startIndex != null and pageSize != null">
             limit #{startIndex},#{pageSize}
         </if>
@@ -25,8 +22,11 @@
 
     <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(*) from `order_item` where `valid` = 1
-        <if test="id!=null">
-
+        <if test="orderId!=null">
+            and `orderId` = #{orderId}
+        </if>
+        <if test="comment!=null">
+            and `comment` = #{comment}
         </if>
     </select>
 
@@ -89,7 +89,14 @@
         `updateTime` = now()
         where `id` = #{id}
     </update>
-
+    
+    <update id="comment" parameterType="com.store.demo.domain.OrderItem">
+        update `order_item` set
+        `comment` = 1,
+        `updateTime` = now()
+        where `id` = #{id}
+    </update>
+    
     <update id="cancelByOrderId" parameterType="java.lang.Integer">
         update `order_item` set status = -1 where `orderId` = #{id}
     </update>

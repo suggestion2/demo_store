@@ -124,6 +124,13 @@
         `updateTime` = now()
         where `id` = #{id}
     </update>
+    
+    <update id="comment" parameterType="com.store.demo.domain.Order">
+        update `order` set
+        `comment` = 1,
+        `updateTime` = now()
+        where `id` = #{id}
+    </update>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
         update `order` set valid = 0 where `id` = #{id}
