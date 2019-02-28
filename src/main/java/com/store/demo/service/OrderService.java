@@ -24,6 +24,8 @@ public interface OrderService {
 
     int update(Order order);
 
+    int updateDispatch(Order order);
+
     int userCancel(Order order);
 
     int comment(Order order);

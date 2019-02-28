@@ -14,5 +14,9 @@ public class OrderConstants {
     public static final int IMMEDIATE = 1;
     public static final int BY_CART = 2;
 
+    public static final int PAID = 1;
+
     public static final int IMMEDIATE_CARTITEM_ID = 0;
+    public static final int DISPATCH = 2;
+
 }

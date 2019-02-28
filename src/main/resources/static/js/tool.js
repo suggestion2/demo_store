@@ -832,12 +832,11 @@ var orderModule = {
     dispatch: function () {
         var settings = {
             type: "PUT",
-            url: "/api/order/dispatch",
+            url: "/management/order/dispatch",
             dataType: "json",
             data: JSON.stringify({
                 "id": $("#order-dispatch-id").val(),
                 "dispatchCompany":$("#order-dispatch-company").val(),
-                "dispatchCompanyEng":$("#order-dispatch-companyEng").val(),
                 "dispatchNumber":$("#order-dispatch-number").val()
             })
         };
@@ -846,11 +845,11 @@ var orderModule = {
     cancel: function () {
         var settings = {
             type: "PUT",
-            url: "/api/order/cancel",
+            url: "/management/order/cancel",
             dataType: "json",
             data: JSON.stringify({
-                "id": $("#order-cancel-id").val(),
-                "reason":$("#order-cancel-reason").val()
+                "id": $("#order-cancel-m-id").val(),
+                "reason":$("#order-cancel-m-reason").val()
             })
         };
         showResult(settings);

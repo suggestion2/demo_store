@@ -751,8 +751,6 @@
                           value="1"/><br>
                 发货公司(选填):<input class="textbox" type="text" id="order-dispatch-company" style="width: 100px;"
                                 value="测试"/>
-                英文发货公司(选填):<input class="textbox" type="text" id="order-dispatch-companyEng" style="width: 100px;"
-                                  value="test"/>
                 发货单号(选填):<input class="textbox" type="text" id="order-dispatch-number" style="width: 100px;"
                                 value="test"/><br>
                 <input type="button" value="获取" onclick="orderModule.dispatch()"/><br>

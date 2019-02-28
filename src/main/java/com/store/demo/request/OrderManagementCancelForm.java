@@ -1,9 +1,10 @@
 package com.store.demo.request;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class OrderManagementCancelForm {
-    @NotEmpty
+    @NotNull
     private Integer id;
 
     private String reason;

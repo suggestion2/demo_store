@@ -127,6 +127,16 @@
         `updateTime` = now()
         where `id` = #{id}
     </update>
+
+    <update id="updateDispatch" parameterType="com.store.demo.domain.Order">
+        update `order` set
+        `status` = #{status},
+        `dispatchCompany` = #{dispatchCompany},
+        `dispatchNumber` = #{dispatchNumber},
+        `updateBy` = #{updateBy},
+        `updateTime` = now()
+        where `id` = #{id}
+    </update>
     
     <update id="comment" parameterType="com.store.demo.domain.Order">
         update `order` set

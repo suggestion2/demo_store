@@ -9,6 +9,7 @@ import com.store.demo.domain.OrderItem;
 import com.store.demo.domain.Payment;
 import com.store.demo.interceptor.UserLoginRequired;
 import com.store.demo.request.OrderCancelForm;
+import com.store.demo.request.OrderDispatchForm;
 import com.store.demo.request.OrderListForm;
 import com.store.demo.request.OrderManagementCancelForm;
 import com.store.demo.response.*;
@@ -17,6 +18,7 @@ import com.store.demo.service.OrderService;
 import com.store.demo.service.PaymentService;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
+import com.sug.core.rest.view.ResponseView;
 import com.sug.core.rest.view.SuccessView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,48 +86,28 @@ public class OrderController {
         return new OrderDetailView(orderView,list,payment.getNumber());
     }
 //
-//    @RequestMapping(value = "/dispatch", method = RequestMethod.PUT)
-//    @Transactional
-//    public SuccessView update(@Valid @RequestBody OrderDispatchForm form) {
-//        Order order = orderService.getById(form.getId());
-//        if (Objects.isNull(order)) {
-//            throw new ResourceNotFoundException("order not exists");
-//        }
-//        if(!order.getStatus().equals(PAID)){
-//            throw new InvalidRequestException("invalid order status");
-//        }
-//        order.setStatus(DISPATCH);
-//
-//        order.setDispatchCompany(form.getDispatchCompany());
-//        order.setDispatchCompanyEng(form.getDispatchCompanyEng());
-//        order.setDispatchNumber(form.getDispatchNumber());
-//        order.setUpdateBy(sessionContext.getUser().getId());
-//        //查询数据库有没有对应的快递值，没有先直接返回不订阅物流信息
-//        DispatchCompany dispatchCompany = dispatchCompanyService.selectByName(form.getDispatchCompany());
-//        if(Objects.isNull(dispatchCompany)){
-//            return new SuccessView();
-//        }
-//        //设置参数去订阅快递物流信息
-//        Map<String,Object> param = new HashMap<>();
-//        param.put("company",dispatchCompany.getValue());
-//        param.put("number",form.getDispatchNumber());
-//        param.put("key",key);
-//        Map<String,String> parameters = new HashMap<>();
-//        parameters.put("callbackurl",notifyUrl);
-//        param.put("parameters",parameters);
-//        dispatchParamService.sendPostRequest(requestUrl,param);
-//        //添加到快递物流信息中
-//        DispatchParam dispatchParam = new DispatchParam();
-//        dispatchParam.setNu(form.getDispatchNumber());
-//        dispatchParam.setCom(dispatchCompany.getName());
-//        dispatchParam.setValue(dispatchCompany.getValue());
-//        dispatchParamService.insert(dispatchParam);
-//        orderService.update(order);
-//        return new SuccessView();
-//    }
+    @RequestMapping(value = "/dispatch", method = RequestMethod.PUT)
+    @Transactional
+    public ResponseView update(@Valid @RequestBody OrderDispatchForm form) {
+        Order order = orderService.getById(form.getId());
+        if (Objects.isNull(order)) {
+            throw new ResourceNotFoundException("order not exists");
+        }
+        if(!order.getStatus().equals(OrderConstants.PAID)){
+            throw new InvalidRequestException("invalid order status");
+        }
+        order.setStatus(OrderConstants.DISPATCH);
+
+        order.setDispatchCompany(form.getDispatchCompany());
+        order.setDispatchNumber(form.getDispatchNumber());
+        order.setUpdateBy(sessionContext.getUser().getId());
+
+        orderService.updateDispatch(order);
+        return new ResponseView();
+    }
 //
     @RequestMapping(value = CommonConstants.CANCEL, method = RequestMethod.PUT)
-    public SuccessView update(@Valid @RequestBody OrderManagementCancelForm form) {
+    public ResponseView update(@Valid @RequestBody OrderManagementCancelForm form) {
         Order order = orderService.getById(form.getId());
         if (Objects.isNull(order)) {
             throw new ResourceNotFoundException("order not exists");
@@ -135,6 +117,6 @@ public class OrderController {
         order.setCancelReason(form.getReason());
         order.setUpdateBy(sessionContext.getUser().getId());
         orderService.userCancel(order);
-        return new SuccessView();
+        return new ResponseView();
     }
 }
