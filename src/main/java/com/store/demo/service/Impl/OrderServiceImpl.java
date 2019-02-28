@@ -69,6 +69,11 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    public int comment(Order order) {
+        return orderMapper.comment(order);
+    }
+
+    @Override
     public int deleteById(Integer id){
         return orderMapper.deleteById(id);
     }

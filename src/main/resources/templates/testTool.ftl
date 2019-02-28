@@ -273,6 +273,27 @@
                             value=""/>
                 <input type="button" value="删除" onclick="orderApiModule.confirm()"/><br>
             </div>
+            <h2>商品评论(comment)</h2>
+            <div>
+                <strong>[列表]</strong><br/>
+                商品id:<input class="textbox" type="text" id="comment-list-id" style="width: 100px;"
+                            value=""/><br/>
+                startIndex:<input class="textbox" type="text" id="comment-list-startIndex" style="width: 100px;"
+                                  value="0"/>
+                pageSize:<input class="textbox" type="text" id="comment-list-pageSize" style="width: 100px;"
+                                value="10"/><br/>
+                <input type="button" value="列表" onclick="commentModule.list()"/><br>
+            </div>
+            <div>
+                <strong>[创建评论]</strong><br/>
+                orderItemId:<input class="textbox" type="text" id="comment-create-orderItemId" style="width: 100px;"
+                          value="5"/><br/>
+                评论:<input class="textbox" type="text" id="comment-create-comment" style="width: 100px;"
+                            value=""/>
+                星级:<input class="textbox" type="text" id="comment-create-stars" style="width: 100px;"
+                          value="5"/><br/>
+                <input type="button" value="详情" onclick="commentModule.create()"/><br>
+            </div>
         </div>
     </div>
     <div id="tabs-2" style="width: 2000px;display: block">
@@ -678,6 +699,17 @@
                 id:<input class="textbox" type="text" id="goods-delete-id" style="width: 100px;"
                           value=""/>
                 <input type="button" value="删除" onclick="goodsModule.deleteById()"/><br>
+            </div>
+            <h2>商品评论(comment)</h2>
+            <div>
+                <strong>[列表]</strong><br/>
+                商品id:<input class="textbox" type="text" id="comment-m-list-id" style="width: 100px;"
+                          value=""/><br/>
+                startIndex:<input class="textbox" type="text" id="comment-m-list-startIndex" style="width: 100px;"
+                                  value="0"/>
+                pageSize:<input class="textbox" type="text" id="comment-m-list-pageSize" style="width: 100px;"
+                                value="10"/><br/>
+                <input type="button" value="详情" onclick="commentModule.mList()"/><br>
             </div>
         </div>
         <div style="float: left; width: 400px;">

@@ -15,11 +15,15 @@ public interface OrderItemService {
 
     List<OrderItem> selectList(Map<String, Object> map);
 
+    int selectUncommentCount(Integer orderId);
+
     int selectCount(Map<String, Object> map);
 
     int create(OrderItem orderItem);
 
     int update(OrderItem orderItem);
+
+    int comment(OrderItem orderItem);
 
     int deleteById(Integer id);
 }

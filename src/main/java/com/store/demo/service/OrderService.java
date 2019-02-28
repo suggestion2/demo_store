@@ -24,6 +24,8 @@ public interface OrderService {
 
     int update(Order order);
 
+    int comment(Order order);
+
     int deleteById(Integer id);
 
     List<OrderShortView> selectViewList(Map<String, Object> map);
