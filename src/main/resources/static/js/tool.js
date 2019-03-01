@@ -424,6 +424,7 @@ var goodsModule= {
                 "bannerUrl": $("#goods-create-bannerUrl").val(),
                 "imagesUrl": $("#goods-create-imagesUrl").val(),
                 "remarks": $("#goods-create-remarks").val(),
+                "price": $("#goods-create-price").val(),
                 "specList":[
                     {
                         "form":{

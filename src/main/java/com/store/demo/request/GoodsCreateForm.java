@@ -3,6 +3,7 @@ package com.store.demo.request;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,9 +26,19 @@ public class GoodsCreateForm {
     @NotEmpty
     private String imagesUrl;
     private String remarks;
+    @Digits(integer = 8,fraction = 2,message = "错误的数字格式")
+    private BigDecimal price;
     private List<SpecEditListForm> specList;
 
     private List<SpecUnitEditForm> unitList;
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
     public List<SpecEditListForm> getSpecList() {
         return specList;

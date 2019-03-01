@@ -22,6 +22,7 @@ public class Goods {
     private String imagesUrl;
     private String remarks;
     private BigDecimal shippingCost;
+    private BigDecimal price;
     @JsonSerialize(using = SimpleDateTimeSerializer.class)
     private Date createTime;
     @JsonIgnore
@@ -30,6 +31,14 @@ public class Goods {
     private Integer updateBy;
     private Integer status;
     private Integer valid;
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
     public Integer getId() {
         return id;
