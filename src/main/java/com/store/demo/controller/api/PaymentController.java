@@ -50,7 +50,7 @@ public class PaymentController {
     public ResponseView update(@Valid @RequestBody PaymentUpdateForm form){
         Payment payment = paymentService.getById(form.getId());
         if(Objects.isNull(payment)){
-            throw new ResourceNotFoundException("payment not exists");
+            throw new ResourceNotFoundException("支付订单不存在");
         }
         BeanUtils.copyProperties(form,payment);
         paymentService.update(payment);

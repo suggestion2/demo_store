@@ -39,7 +39,7 @@ public class CustomerController {
     public Customer update(@PathVariable Integer id) {
         Customer customer = customerService.getById(id);
         if(Objects.isNull(customer)){
-            throw new ResourceNotFoundException("customer not found");
+            throw new ResourceNotFoundException("用户不存在");
         }
         return customer;
     }

@@ -49,7 +49,7 @@ public class CustomerAddressController {
     public CustomerAddress detail(@PathVariable Integer id){
         CustomerAddress address = customerAddressService.getById(id);
         if(Objects.isNull(address) || !address.getCustomerId().equals(sessionContext.getCustomer().getId())){
-            throw new ResourceNotFoundException("address not found");
+            throw new ResourceNotFoundException("地址不存在");
         }
         return address;
     }
@@ -70,7 +70,7 @@ public class CustomerAddressController {
     public ResponseView update(@Valid @RequestBody CustomerAddressUpdateForm form){
         CustomerAddress customerAddress = customerAddressService.getById(form.getId());
         if(Objects.isNull(customerAddress) || !customerAddress.getCustomerId().equals(sessionContext.getCustomer().getId())){
-            throw new ResourceNotFoundException("customerAddress not exists");
+            throw new ResourceNotFoundException("用户地址不存在");
         }
         BeanUtils.copyProperties(form,customerAddress);
         if(form.getPrimary().equals(1)){
@@ -84,10 +84,10 @@ public class CustomerAddressController {
     public ResponseView delete(@PathVariable Integer id){
         CustomerAddress customerAddress = customerAddressService.getById(id);
         if(Objects.isNull(customerAddress) || !customerAddress.getCustomerId().equals(sessionContext.getCustomer().getId())){
-            throw new ResourceNotFoundException("customerAddress not exists");
+            throw new ResourceNotFoundException("用户地址不存在");
         }
         if(customerAddress.getPrimary().equals(1)){
-            throw new InvalidRequestException("invalidPrimaryAddress","can not delete primary address");
+            throw new InvalidRequestException("删除失败","不能删除唯一首选地址");
         }
         customerAddressService.deleteById(id);
         return new ResponseView();

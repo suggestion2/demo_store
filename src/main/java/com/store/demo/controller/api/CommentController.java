@@ -59,14 +59,14 @@ public class CommentController {
 
         OrderItem orderItem = orderItemService.getById(form.getOrderItemId());
         if(Objects.isNull(orderItem)){
-            throw new ResourceNotFoundException("orderItem not found");
+            throw new ResourceNotFoundException("订单不存在");
         }
         if(orderItem.getComment().equals(1)){
-            throw new InvalidRequestException("Already comment","orderItem id comment");
+            throw new InvalidRequestException("订单已经评价过","订单已经评价过");
         }
         Order order = orderService.getById(orderItem.getOrderId());
         if(Objects.isNull(order) || !order.getCustomerId().equals(customer.getId())){
-            throw new ResourceNotFoundException("order not found");
+            throw new ResourceNotFoundException("订单不存在");
         }
         Comment comment = new Comment();
         BeanUtils.copyProperties(form,comment);

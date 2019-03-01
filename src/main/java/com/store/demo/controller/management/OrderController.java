@@ -77,7 +77,7 @@ public class OrderController {
     public OrderDetailView detail(@PathVariable Integer id) {
         Order order = orderService.getById(id);
         if(Objects.isNull(order)){
-            throw new ResourceNotFoundException("order not found");
+            throw new ResourceNotFoundException("订单不存在");
         }
         OrderView orderView = new OrderView();
         BeanUtils.copyProperties(order, orderView);
@@ -91,10 +91,10 @@ public class OrderController {
     public ResponseView update(@Valid @RequestBody OrderDispatchForm form) {
         Order order = orderService.getById(form.getId());
         if (Objects.isNull(order)) {
-            throw new ResourceNotFoundException("order not exists");
+            throw new ResourceNotFoundException("订单不存在");
         }
         if(!order.getStatus().equals(OrderConstants.PAID)){
-            throw new InvalidRequestException("invalid order status");
+            throw new InvalidRequestException("错误的订单状态，必须是已支付订单");
         }
         order.setStatus(OrderConstants.DISPATCH);
 
@@ -110,7 +110,7 @@ public class OrderController {
     public ResponseView update(@Valid @RequestBody OrderManagementCancelForm form) {
         Order order = orderService.getById(form.getId());
         if (Objects.isNull(order)) {
-            throw new ResourceNotFoundException("order not exists");
+            throw new ResourceNotFoundException("订单不存在");
         }
         order.setStatus(OrderConstants.CANCEL);
         order.setCancelType(STORE_CANCEL);

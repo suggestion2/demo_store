@@ -203,7 +203,7 @@ public class OrderController {
         Customer customer = customerService.getCurrentCustomer();
         Integer type = sessionContext.getOrderType();
         if (Objects.isNull(type)) {
-            throw new InvalidRequestException("order overdue");
+            throw new InvalidRequestException("订单超时");
         }
         //获得当前订单
         List<OrderItem> orderCurrentItem = sessionContext.getCurrentOrderItem();

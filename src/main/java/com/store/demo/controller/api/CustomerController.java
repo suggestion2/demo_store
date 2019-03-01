@@ -41,7 +41,7 @@ public class CustomerController {
     public ResponseView update(@RequestBody @Valid CustomerPasswordForm form) {
         Customer customer = customerService.getById(sessionContext.getCustomer().getId());
         if(!customer.getPassword().equalsIgnoreCase(MD5.encrypt(form.getOriginPassword() + MD5_SALT))){
-            throw new InvalidRequestException("invalidOriginPassword","invalid origin password");
+            throw new InvalidRequestException("修改失败","原密码错误");
         }
         customer.setPassword(MD5.encrypt(form.getNewPassword() + MD5_SALT));
         customerService.update(customer);
