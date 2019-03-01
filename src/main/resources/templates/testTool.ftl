@@ -265,6 +265,18 @@
                             value=""/>
                 <input type="button" value="删除" onclick="orderApiModule.confirm()"/><br>
             </div>
+            <h2>支付(payment)</h2>
+            <div>
+                <strong>[支付]</strong><br/>
+                payment编号:<input class="textbox" type="text" id="payment-pay-number" style="width: 100px;"
+                                 value=""/><br>
+                <input type="button" value="支付宝pc支付" onclick="paymentModule.aliPagePay()"/>
+                <strong>[查询支付结果]</strong><br/>
+                payment编号:<input class="textbox" type="text" id="payment-check-number" style="width: 100px;"
+                                 value=""/><br>
+                <input type="button" value="查询支付结果(1.待支付  2.已支付  0.已取消)" onclick="paymentModule.check()"/>
+                <input type="button" value="通过payment编号获取order编号" onclick="paymentModule.getOrder()"/><br>
+            </div>
             <h2>商品评论(comment)</h2>
             <div>
                 <strong>[列表]</strong><br/>
@@ -316,19 +328,6 @@
                 <input type="button" value="登出" onclick="commonModule.logout()"/><br>
             </div>
 
-            <h2>系统参数(system_params)</h2>
-            <div>
-                <strong>[列表]</strong><br/>
-                <input type="button" value="列表" onclick="systemParamsModule.list()"/><br>
-            </div>
-            <div>
-                <strong>[修改参数]</strong><br/>
-                id:<input class="textbox" type="text" id="systemParam-update-id" style="width: 100px;"
-                          value=""/>
-                value:<input class="textbox" type="text" id="systemParam-update-value" style="width: 100px;"
-                             value=""/><br>
-                <input type="button" value="修改" onclick="systemParamsModule.update()"/><br>
-            </div>
             <h2>商品品类(goods_category)</h2>
             <div>
                 <strong>[列表]</strong><br/>

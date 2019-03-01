@@ -117,4 +117,6 @@
     <delete id="deleteById" parameterType="java.lang.Integer">
         update `goods` set valid = 0 where `id` = #{id}
     </delete>
+
+
 </mapper>

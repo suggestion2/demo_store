@@ -30,6 +30,29 @@
         </foreach>
     </select>
 
+    <update id="updateStocks" parameterType="java.util.List">
+        update  `goods_spec_unit` u set
+        `stocks` = CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN id = #{item.unitId} THEN CASE
+            when `stocks` &gt; #{item.count} then `stocks` - #{item.count} else 0 end
+        </foreach>
+        ELSE `stocks`
+        END,
+        salesVolume =
+        CASE
+        <foreach item="item" index="index" collection="list" >
+            WHEN u.id = #{item.unitId} THEN salesVolume + #{item.count}
+        </foreach>
+        ELSE u.salesVolume
+        END,
+        `updateTime` = now()
+        where `id` in
+        <foreach item="item" index="index" collection="list" open="(" close=")" separator=",">
+            #{item.unitId}
+        </foreach>
+    </update>
+
     <select id="selectStockById" resultType="com.store.demo.service.stock.GoodsStocks" parameterType="java.lang.Integer">
         select id as unitId,goodsId as id,stocks from `goods_spec_unit` where `valid` = 1 and `id` = #{id}
     </select>

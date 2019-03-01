@@ -1,6 +1,7 @@
 package com.store.demo.service;
 
 import com.store.demo.domain.Goods;
+import com.store.demo.mapper.params.GoodsStockUpdateParams;
 import com.store.demo.service.stock.GoodsStocks;
 import org.springframework.stereotype.Service;
 

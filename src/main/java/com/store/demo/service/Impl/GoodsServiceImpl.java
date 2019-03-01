@@ -2,6 +2,7 @@ package com.store.demo.service.Impl;
 
 import com.store.demo.domain.Goods;
 import com.store.demo.mapper.GoodsSpecUnitMapper;
+import com.store.demo.mapper.params.GoodsStockUpdateParams;
 import com.store.demo.service.GoodsService;
 import com.store.demo.mapper.GoodsMapper;
 import com.store.demo.service.stock.GoodsStocks;
@@ -61,6 +62,7 @@ public class GoodsServiceImpl implements GoodsService{
         goodsMapper.updateStatus(goods);
         return goods;
     }
+
 
     @Override
     public Map<String,Integer> getStocks(List<GoodsStocks> checkList) {

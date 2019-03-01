@@ -281,28 +281,7 @@ var customerAddressModule = {
 };
 
 
-var systemParamsModule= {
-    list: function () {
-        var settings = {
-            type: "GET",
-            url: "/management/systemParams/list",
-            dataType: "json"
-        };
-        showResult(settings);
-    },
-    update: function () {
-        var settings = {
-            type: "PUT",
-            url: "/management/systemParams/update",
-            dataType: "json",
-            data: JSON.stringify({
-                "id": $("#systemParam-update-id").val(),
-                "value": $("#systemParam-update-value").val()
-            })
-        };
-        showResult(settings);
-    },
-};
+
 
 var goodsCategoryModule= {
     list: function () {
@@ -1097,8 +1076,16 @@ var customerMaModule= {
         showResult(settings);
     },
 };
-
-
+var paymentModule = {
+    aliPagePay: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/alipay/page/pay/" + $("#payment-pay-number").val(),
+            dataType: "json"
+        };
+        showResult(settings);
+    },
+};
 var systemApiParamsModule= {
     list: function () {
         var settings = {

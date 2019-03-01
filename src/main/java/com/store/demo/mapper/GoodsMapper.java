@@ -1,6 +1,7 @@
 package com.store.demo.mapper;
 
 import com.store.demo.domain.Goods;
+import com.store.demo.mapper.params.GoodsStockUpdateParams;
 import com.store.demo.service.stock.GoodsStocks;
 
 import java.util.HashMap;
