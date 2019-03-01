@@ -349,10 +349,6 @@
                           value="1"/>
                 name:<input class="textbox" type="text" id="goodsCategory-update-name" style="width: 100px;"
                             value=""/><br>
-                level:<input class="textbox" type="text" id="goodsCategory-update-level" style="width: 100px;"
-                             value="1"/>
-                parentId:<input class="textbox" type="text" id="goodsCategory-update-parentId" style="width: 100px;"
-                                value="0"/>
                 <input type="button" value="修改" onclick="goodsCategoryModule.update()"/><br>
             </div>
             <div>

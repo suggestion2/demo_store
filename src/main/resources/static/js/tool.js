@@ -320,9 +320,7 @@ var goodsCategoryModule= {
             dataType: "json",
             data: JSON.stringify({
                 "id": $("#goodsCategory-update-id").val(),
-                "name": $("#goodsCategory-update-name").val(),
-                "level": $("#goodsCategory-update-level").val(),
-                "parentId": $("#goodsCategory-update-parentId").val()
+                "name": $("#goodsCategory-update-name").val()
             })
         };
         showResult(settings);

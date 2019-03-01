@@ -15,9 +15,10 @@
 
     <select id="selectList" resultType="com.store.demo.domain.GoodsSpecUnit" parameterType="java.util.Map">
         select * from `goods_spec_unit` where `valid` = 1
-        <if test="id!=null">
-
+        <if test="goodsId!=null">
+            and `goodsId` = #{goodsId}
         </if>
+
         <if test="startIndex != null and pageSize != null">
             limit #{startIndex},#{pageSize}
         </if>
