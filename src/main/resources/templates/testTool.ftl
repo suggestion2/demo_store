@@ -558,6 +558,8 @@
                              value="image.jpg"/>
                 图片url:<input class="textbox" type="text" id="goods-update-imagesUrl" style="width: 100px;"
                              value="image.jpg,image1.jpg"/> &ensp;
+                单价:<input class="textbox" type="text" id="goods-update-price" style="width: 100px;"
+                          value="0.01"/>
                 描述:<input class="textbox" type="text" id="goods-update-remarks" style="width: 100px;"
                           value="<html>xxx</html>"/><br>
                 sku:<br>

@@ -528,6 +528,7 @@ var goodsModule= {
                 "bannerUrl": $("#goods-update-bannerUrl").val(),
                 "imagesUrl": $("#goods-update-imagesUrl").val(),
                 "remarks": $("#goods-update-remarks").val(),
+                "price": $("#goods-update-price").val(),
                 "specList":[
                     {
                         "form":{

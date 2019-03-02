@@ -105,6 +105,7 @@
         `category2` = #{category2},
         `category3` = #{category3},
         `name` = #{name},
+        `price` = #{price},
         `number` = #{number},
         `bannerUrl` = #{bannerUrl},
         `imagesUrl` = #{imagesUrl},
