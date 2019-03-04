@@ -8,6 +8,7 @@ import com.store.demo.mapper.sku.GoodsSpecUpdateParams;
 import com.store.demo.request.*;
 import com.store.demo.response.GoodsSpecAndUnitView;
 import com.store.demo.response.SpecView;
+import com.store.demo.response.oss.UploadParamsView;
 import com.store.demo.service.GoodsCategoryService;
 import com.store.demo.service.GoodsSpecService;
 import com.store.demo.service.GoodsSpecUnitService;
@@ -331,7 +332,10 @@ public class GoodsController {
         return new ResponseView();
     }
 
-
+    @RequestMapping(value = "/uploadParams",method = RequestMethod.GET)
+    public UploadParamsView uploadParams() throws Exception {
+        return ossService.getUploadParams();
+    }
 
     //拼接获取服务器图片的地址
     private String getImage(String imageUrl) {

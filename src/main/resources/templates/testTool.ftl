@@ -141,8 +141,6 @@
                                    value=""/><br>
                 categoryId2:<input class="textbox" type="text" id="goods-api-list-categoryId2" style="width: 100px;"
                                    value=""/>
-                categoryId3:<input class="textbox" type="text" id="goods-api-list-categoryId3" style="width: 100px;"
-                                   value=""/><br>
                 pageIndex:<input class="textbox" type="text" id="goods-api-list-pageIndex" style="width: 100px;"
                                  value="0"/>
                 pageSize:<input class="textbox" type="text" id="goods-api-list-pageSize" style="width: 100px;"
@@ -327,7 +325,10 @@
                 <strong>[登出]</strong><br/>
                 <input type="button" value="登出" onclick="commonModule.logout()"/><br>
             </div>
-
+            <div>
+                <strong>[图片上传参数]</strong><br/>
+                <input type="button" value="获取图片上传参数" onclick="commonModule.uploadParams()"/><br>
+            </div>
             <h2>商品品类(goods_category)</h2>
             <div>
                 <strong>[列表]</strong><br/>

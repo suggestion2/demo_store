@@ -9,8 +9,6 @@ public class GoodsListForm extends PaginationForm{
 
     private Integer categoryId2;
 
-    private Integer categoryId3;
-
     private Integer status;
 
     public String getContent() {
@@ -45,11 +43,4 @@ public class GoodsListForm extends PaginationForm{
         this.categoryId2 = categoryId2;
     }
 
-    public Integer getCategoryId3() {
-        return categoryId3;
-    }
-
-    public void setCategoryId3(Integer categoryId3) {
-        this.categoryId3 = categoryId3;
-    }
 }

@@ -138,6 +138,14 @@ var commonModule = {
             dataType: "json"
         };
         showResult(settings);
+    },
+    uploadParams: function () {
+        var settings = {
+            type: "GET",
+            url: "/management/goods/uploadParams",
+            dataType: "json"
+        };
+        showResult(settings);
     }
 
 };
@@ -372,7 +380,6 @@ var goodsModule= {
                 "content": $("#goods-api-list-content").val(),
                 "categoryId1": $("#goods-api-list-categoryId1").val(),
                 "categoryId2": $("#goods-api-list-categoryId2").val(),
-                "categoryId3": $("#goods-api-list-categoryId3").val(),
                 "pageIndex": $("#goods-api-list-pageIndex").val(),
                 "pageSize": $("#goods-api-list-pageSize").val()
             })
