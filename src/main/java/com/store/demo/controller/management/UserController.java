@@ -65,7 +65,7 @@ public class UserController {
     public ResponseView resetPassword(@Valid @RequestBody UserResetPasswordForm form) {
         User user = sessionContext.getUser();
         if(!user.getPassword().equalsIgnoreCase(MD5.encrypt(form.getOriginPassword() + MD5_SALT))){
-            throw new InvalidRequestException("原密码错误","原密码错误");
+            throw new InvalidRequestException("修改失败","原密码错误");
         }
         user.setPassword(MD5.encrypt(form.getNewPassword() + MD5_SALT));
         userService.update(user);
