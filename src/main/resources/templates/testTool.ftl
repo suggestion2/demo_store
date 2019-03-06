@@ -478,8 +478,6 @@
                           value="100"/>
                 价格:<input class="textbox" type="text" id="goods-create-unit1-price" style="width: 100px;"
                           value="10"/>
-                促销价:<input class="textbox" type="text" id="goods-create-unit1-promotionPrice" style="width: 100px;"
-                           value="1"/><br>
                 运费:<input class="textbox" type="text" id="goods-create-unit1-shippingCost" style="width: 100px;"
                           value="0"/>
                 销量:<input class="textbox" type="text" id="goods-create-unit1-salesVolume" style="width: 100px;"
@@ -497,8 +495,6 @@
                           value="100"/>
                 价格:<input class="textbox" type="text" id="goods-create-unit2-price" style="width: 100px;"
                           value="10"/>
-                促销价:<input class="textbox" type="text" id="goods-create-unit2-promotionPrice" style="width: 100px;"
-                           value="1"/><br>
                 运费:<input class="textbox" type="text" id="goods-create-unit2-shippingCost" style="width: 100px;"
                           value="0"/>
                 销量:<input class="textbox" type="text" id="goods-create-unit2-salesVolume" style="width: 100px;"
@@ -516,8 +512,6 @@
                           value="100"/>
                 价格:<input class="textbox" type="text" id="goods-create-unit3-price" style="width: 100px;"
                           value="10"/>
-                促销价:<input class="textbox" type="text" id="goods-create-unit3-promotionPrice" style="width: 100px;"
-                           value="1"/><br>
                 运费:<input class="textbox" type="text" id="goods-create-unit3-shippingCost" style="width: 100px;"
                           value="0"/>
                 销量:<input class="textbox" type="text" id="goods-create-unit3-salesVolume" style="width: 100px;"
@@ -535,8 +529,6 @@
                           value="100"/>
                 价格:<input class="textbox" type="text" id="goods-create-unit4-price" style="width: 100px;"
                           value="10"/>
-                促销价:<input class="textbox" type="text" id="goods-create-unit4-promotionPrice" style="width: 100px;"
-                           value="1"/><br>
                 运费:<input class="textbox" type="text" id="goods-create-unit4-shippingCost" style="width: 100px;"
                           value="0"/>
                 销量:<input class="textbox" type="text" id="goods-create-unit4-salesVolume" style="width: 100px;"
