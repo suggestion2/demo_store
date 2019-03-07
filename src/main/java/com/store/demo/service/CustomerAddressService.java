@@ -27,4 +27,6 @@ public interface CustomerAddressService {
 
     int deleteById(Integer id);
 
+    CustomerAddress getPrimaryByCustomerId(Integer id);
+
 }

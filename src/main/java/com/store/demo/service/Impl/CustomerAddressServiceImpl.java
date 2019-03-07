@@ -26,6 +26,13 @@ public class CustomerAddressServiceImpl implements CustomerAddressService{
     }
 
     @Override
+    public CustomerAddress getPrimaryByCustomerId(Integer id) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("customerId",id);
+        map.put("primary",1);
+        return customerAddressMapper.select(map);
+    }
+    @Override
     public List<CustomerAddress> selectList(Map<String, Object> map){
         return customerAddressMapper.selectList(map);
     }

@@ -235,6 +235,14 @@ var customerAddressModule = {
         };
         showResult(settings);
     },
+    getPrimary: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/customerAddress/primary",
+            dataType: "json"
+        };
+        showResult(settings);
+    },
     primary: function () {
         var settings = {
             type: "PUT",

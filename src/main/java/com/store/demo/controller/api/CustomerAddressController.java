@@ -2,6 +2,7 @@ package com.store.demo.controller.api;
 
 import com.store.demo.context.SessionContext;
 import com.store.demo.interceptor.CustomerLoginRequired;
+import com.store.demo.service.CustomerService;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.platform.web.rest.exception.InvalidRequestException;
 import com.sug.core.rest.view.ResponseView;
@@ -34,6 +35,9 @@ public class CustomerAddressController {
 
     @Autowired
     private CustomerAddressService customerAddressService;
+
+    @Autowired
+    private CustomerService customerService;
 
     @Autowired
     private SessionContext sessionContext;
@@ -78,6 +82,15 @@ public class CustomerAddressController {
         }
         customerAddressService.update(customerAddress);
         return new ResponseView();
+    }
+
+    @RequestMapping(value = "/primary", method = RequestMethod.GET)
+    public CustomerAddress primary() {
+        CustomerAddress customerAddress = customerAddressService.getPrimaryByCustomerId(customerService.getCurrentCustomer().getId());
+        if(Objects.isNull(customerAddress)){
+            throw new ResourceNotFoundException("address not found");
+        }
+        return customerAddress;
     }
 
     @RequestMapping(value = DELETE_BY_ID,method = RequestMethod.DELETE)
