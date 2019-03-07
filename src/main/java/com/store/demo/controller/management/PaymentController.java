@@ -1,5 +1,8 @@
 package com.store.demo.controller.management;
 
+import com.store.demo.domain.Customer;
+import com.store.demo.response.PaymentStatusView;
+import com.store.demo.service.CustomerService;
 import com.sug.core.platform.exception.ResourceNotFoundException;
 import com.sug.core.rest.view.ResponseView;
 import com.store.demo.domain.Payment;

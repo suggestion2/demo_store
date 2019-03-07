@@ -283,7 +283,6 @@
                 payment编号:<input class="textbox" type="text" id="payment-check-number" style="width: 100px;"
                                  value=""/><br>
                 <input type="button" value="查询支付结果(1.待支付  2.已支付  0.已取消)" onclick="paymentModule.check()"/>
-                <input type="button" value="通过payment编号获取order编号" onclick="paymentModule.getOrder()"/><br>
             </div>
             <h2>商品评论(comment)</h2>
             <div>

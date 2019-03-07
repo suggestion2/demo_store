@@ -1111,6 +1111,14 @@ var paymentModule = {
         };
         showResult(settings);
     },
+    check: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/alipay/status/"+ $("#payment-check-number").val(),
+            dataType: "json"
+        };
+        showResult(settings);
+    },
 };
 var systemApiParamsModule= {
     list: function () {
