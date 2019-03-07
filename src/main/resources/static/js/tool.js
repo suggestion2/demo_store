@@ -1111,7 +1111,7 @@ var commentModule= {
             url: "/api/comment/list",
             dataType: "json",
             data: JSON.stringify({
-                "id": $("#comment-list-id").val(),
+                "goodsId": $("#comment-list-id").val(),
                 "pageIndex": $("#comment-list-startIndex").val(),
                 "pageSize": $("#comment-list-pageSize").val()
             })
@@ -1124,7 +1124,7 @@ var commentModule= {
             url: "/management/comment/list",
             dataType: "json",
             data: JSON.stringify({
-                "id": $("#comment-m-list-id").val(),
+                "goodsId": $("#comment-m-list-id").val(),
                 "pageIndex": $("#comment-m-list-startIndex").val(),
                 "pageSize": $("#comment-m-list-pageSize").val()
             })
