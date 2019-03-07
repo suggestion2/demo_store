@@ -29,6 +29,10 @@ public class CustomerAddressServiceImpl implements CustomerAddressService{
     public List<CustomerAddress> selectList(Map<String, Object> map){
         return customerAddressMapper.selectList(map);
     }
+    @Override
+    public int setPrimary(CustomerAddress customerAddress) {
+        return customerAddressMapper.setPrimary(customerAddress);
+    }
 
     @Override
     public int selectCount(Map<String, Object> map){

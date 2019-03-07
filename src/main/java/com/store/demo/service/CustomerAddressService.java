@@ -15,6 +15,8 @@ public interface CustomerAddressService {
 
     List<CustomerAddress> selectList(Map<String, Object> map);
 
+    int setPrimary(CustomerAddress customerAddress);
+
     int selectCount(Map<String, Object> map);
 
     int create(CustomerAddress customerAddress);
@@ -24,4 +26,5 @@ public interface CustomerAddressService {
     int cleanPrimary(Integer id);
 
     int deleteById(Integer id);
+
 }

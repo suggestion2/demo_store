@@ -235,6 +235,17 @@ var customerAddressModule = {
         };
         showResult(settings);
     },
+    primary: function () {
+        var settings = {
+            type: "PUT",
+            url: "/api/customer/primary",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": $("#customerAddress-primary-id").val()
+            })
+        };
+        showResult(settings);
+    },
     detail: function () {
         var settings = {
             type: "GET",

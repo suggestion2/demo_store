@@ -22,5 +22,7 @@ public interface CustomerAddressMapper {
 
     int cleanPrimary(Integer id);
 
+    int setPrimary(CustomerAddress customerAddress);
+
     int deleteById(Integer id);
 }

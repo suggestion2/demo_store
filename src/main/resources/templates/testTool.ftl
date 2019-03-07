@@ -72,6 +72,12 @@
                 <input type="button" value="列表" onclick="customerAddressModule.list()"/><br>
             </div>
             <div>
+                <strong>[设为主要地址]</strong><br/>
+                id:<input class="textbox" type="text" id="customerAddress-primary-id" style="width: 100px;"
+                          value="1"/>
+                <input type="button" value="设置" onclick="customerAddressModule.primary()"/><br>
+            </div>
+            <div>
                 <strong>[详情]</strong><br/>
                 id:<input class="textbox" type="text" id="address-detail-id" style="width: 100px;"
                            value=""/><br>
