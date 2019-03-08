@@ -1,13 +1,28 @@
 package com.store.demo.response.oss;
 
-/**
- * Created by Administrator on 2016/3/27.
- */
+
 public class UploadParamsView {
     private String url;
     private String appId;
-    private String policy;
-    private String signature;
+    private String appKey;
+    private String bucket;
+    private String host;
+
+    public String getBucket() {
+        return bucket;
+    }
+
+    public void setBucket(String bucket) {
+        this.bucket = bucket;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
 
     public String getUrl() {
         return url;
@@ -25,19 +40,11 @@ public class UploadParamsView {
         this.appId = appId;
     }
 
-    public String getPolicy() {
-        return policy;
+    public String getAppKey() {
+        return appKey;
     }
 
-    public void setPolicy(String policy) {
-        this.policy = policy;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
+    public void setAppKey(String appKey) {
+        this.appKey = appKey;
     }
 }

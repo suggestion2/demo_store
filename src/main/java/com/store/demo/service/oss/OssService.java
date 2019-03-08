@@ -30,6 +30,11 @@ public class OssService {
     @Value("${aliyun.appKey}")
     private String appKey;
 
+    @Value("${aliyun.upload.endPoint}")
+    private String endPoint;
+
+    @Value("${aliyun.upload.bucket}")
+    private String bucket;
 
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -37,12 +42,11 @@ public class OssService {
     public UploadParamsView getUploadParams() throws Exception {
         UploadParamsView view = new UploadParamsView();
 
-        String policy = getPolicy();
-        view.setPolicy(policy);
         view.setUrl(host);
         view.setAppId(appId);
-        view.setSignature(EncodingUtils.encryptBASE64(HMAC.encryptHMAC(policy.getBytes(),appKey)));
-
+        view.setAppKey(appKey);
+        view.setBucket(bucket);
+        view.setHost(endPoint);
         return view;
     }
 
