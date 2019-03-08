@@ -279,6 +279,7 @@
                 payment编号:<input class="textbox" type="text" id="payment-pay-number" style="width: 100px;"
                                  value=""/><br>
                 <input type="button" value="支付宝pc支付" onclick="paymentModule.aliPagePay()"/>
+                <input type="button" value="支付宝手机网站支付" onclick="paymentModule.aliWapPay()"/>
                 <strong>[查询支付结果]</strong><br/>
                 payment编号:<input class="textbox" type="text" id="payment-check-number" style="width: 100px;"
                                  value=""/><br>

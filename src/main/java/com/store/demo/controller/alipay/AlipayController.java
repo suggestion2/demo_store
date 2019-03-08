@@ -5,6 +5,7 @@ import com.store.demo.response.alipay.AlipayNativePayView;
 import com.store.demo.service.*;
 import com.store.demo.service.alipay.AlipayPageOrderFormString;
 import com.store.demo.service.alipay.AlipayService;
+import com.store.demo.service.alipay.AlipayWapOrderFormString;
 import com.store.demo.service.pay.OrderPayment;
 import com.store.demo.service.pay.PayService;
 import org.slf4j.Logger;
@@ -41,7 +42,6 @@ public class AlipayController {
 
     @RequestMapping(value = "/notify", method = RequestMethod.POST)
     @Transactional
-    @CustomerLoginRequired
     public String notify(HttpServletRequest request){
         Map<String, String> params = new HashMap<>();
         Map requestParams = request.getParameterMap();
@@ -82,4 +82,13 @@ public class AlipayController {
         return new AlipayNativePayView(string.getFormString());
     }
 
+    @RequestMapping(value = "/wap/pay/{number}", method = RequestMethod.GET)
+    @CustomerLoginRequired
+    public AlipayNativePayView wapPay(@PathVariable String number) {
+        //检查库存是否满足
+        OrderPayment orderPayment = payService.payCheck(number);
+        //进行传参数生成form也就是url然后根据url重定向到支付宝用户登入界面和传参给支付宝
+        AlipayWapOrderFormString string = alipayService.getWapOrderFormString(orderPayment.getOrder(), orderPayment.getPayment());
+        return new AlipayNativePayView(string.getFormString());
+    }
 }

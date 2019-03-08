@@ -77,7 +77,30 @@ public class AlipayService {
 
         return new AlipayPageOrderFormString(form);
     }
+    public AlipayWapOrderFormString getWapOrderFormString(Order order,Payment payment){
+        AlipayTradeWapPayRequest  alipayRequest = new AlipayTradeWapPayRequest();
+        List<OrderItemView> list = orderItemService.getViewListByOrderId(order.getId());
 
+        alipayRequest.setReturnUrl(returnUrl);
+        alipayRequest.setNotifyUrl(notifyUrl);//在公共参数中设置回跳和通知地址
+        String bizContent = "{" +
+                "\"out_trade_no\":\"" + payment.getNumber() + "\"," +
+                "\"total_amount\":\"" + String.valueOf(payment.getAmount().doubleValue()) +  "\"," +
+                "\"subject\":\"" + list.get(0).getGoodsName()
+                + (order.getCount() > 1 ? "等" + order.getCount() + "件商品"  : "1件商品")+ "\"," +
+                "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"" +
+                "}";
+        alipayRequest.setBizContent(bizContent);//填充业务参数
+        String form="";
+        try {
+            form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
+        } catch (AlipayApiException e) {
+            logger.error("alipay wap fail : " + e.getErrMsg());
+            throw new RuntimeException(e);
+        }
+
+        return new AlipayWapOrderFormString(form);
+    }
     public boolean checkSign(Map<String,String> params){
         try {
             return AlipaySignature.rsaCheckV1(params, aliPublicKey, "UTF-8", "RSA2");

@@ -1111,6 +1111,14 @@ var paymentModule = {
         };
         showResult(settings);
     },
+    aliWapPay: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/alipay/wap/pay/" + $("#payment-pay-number").val(),
+            dataType: "json"
+        };
+        showResult(settings);
+    },
     check: function () {
         var settings = {
             type: "GET",
