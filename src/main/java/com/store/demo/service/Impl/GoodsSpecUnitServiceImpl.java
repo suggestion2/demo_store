@@ -58,7 +58,7 @@ public class GoodsSpecUnitServiceImpl implements GoodsSpecUnitService{
     }
 
     private String getImage(String imageUrl){
-        return ossService.getPublicObject(GOODS + imageUrl);
+        return ossService.getBucket(GOODS) + imageUrl;
     }
 
     @Override
