@@ -6,6 +6,7 @@ import com.sug.core.util.jsonFormat.SimpleDateTimeSerializer;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Goods {
 
@@ -31,6 +32,16 @@ public class Goods {
     private Integer updateBy;
     private Integer status;
     private Integer valid;
+
+    private List<String> imageList;
+
+    public List<String> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
+    }
 
     public BigDecimal getPrice() {
         return price;
