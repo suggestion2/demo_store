@@ -37,14 +37,14 @@ public class GoodsServiceImpl implements GoodsService{
         }
         List<String> imagesList = Arrays.asList(goods.getImagesUrl().split(","));
         List<String> generateList = new ArrayList<>();
-        imagesList.forEach(i->generateList.add(i));
+        imagesList.forEach(i->generateList.add(getImage(i)));
         goods.setImageList(generateList);
         goods.setBannerUrl(getImage(goods.getBannerUrl()));
         return goods;
     }
 
     private String getImage(String imageUrl){
-        return ossService.getBucket(GOODS) + imageUrl;
+        return ossService.getHost() +"/" + imageUrl;
     }
     @Override
     public Goods select(Map<String, Object> map){

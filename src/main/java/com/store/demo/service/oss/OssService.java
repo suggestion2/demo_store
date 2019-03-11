@@ -80,4 +80,8 @@ public class OssService {
     public String getBucket(ImageConstants type){
         return host + type.getUrl();
     }
+
+    public String getHost(){
+        return host ;
+    }
 }
