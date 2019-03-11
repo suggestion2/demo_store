@@ -37,7 +37,7 @@ public class GoodsServiceImpl implements GoodsService{
         }
         List<String> imagesList = Arrays.asList(goods.getImagesUrl().split(","));
         List<String> generateList = new ArrayList<>();
-        imagesList.forEach(i->generateList.add(getImage(i)));
+        imagesList.forEach(i->generateList.add(i));
         goods.setImageList(generateList);
         goods.setBannerUrl(getImage(goods.getBannerUrl()));
         return goods;
