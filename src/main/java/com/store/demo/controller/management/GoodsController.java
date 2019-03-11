@@ -66,7 +66,7 @@ public class GoodsController {
     @RequestMapping(value = LIST,method = RequestMethod.POST)
     public GoodsListView list(@Valid @RequestBody GoodsListForm form){
         List<Goods> list = goodsService.selectList(form.getQueryMap());
-        list.forEach(g -> g.setBannerUrl(getImage(g.getBannerUrl())));
+        list.forEach(g -> g.setBannerUrl(ossService.getBucket(GOODS) + g.getBannerUrl()));
         return new GoodsListView(list, goodsService.selectCount(form.getQueryMap()));
     }
 
