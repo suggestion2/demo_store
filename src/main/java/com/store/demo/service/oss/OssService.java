@@ -81,7 +81,4 @@ public class OssService {
         return host + type.getUrl();
     }
 
-    public String getHost(){
-        return host ;
-    }
 }

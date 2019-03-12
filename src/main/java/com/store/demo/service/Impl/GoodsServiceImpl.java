@@ -44,7 +44,7 @@ public class GoodsServiceImpl implements GoodsService{
     }
 
     private String getImage(String imageUrl){
-        return ossService.getHost() +"/" + imageUrl;
+        return ossService.getBucket(GOODS) + imageUrl;
     }
     @Override
     public Goods select(Map<String, Object> map){
