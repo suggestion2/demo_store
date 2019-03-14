@@ -64,7 +64,7 @@ public class CommonController {
     public CaptchaView registerCaptcha(@Valid @RequestBody CaptchaSendForm form) {
         String captcha = RandomStringGenerator.getRandomNumberStringByLength(6);
         try {
-            if (!StringUtils.hasText(whiteList) || whiteList.contains(form.getPhone())) {
+            if (!profiles.equalsIgnoreCase("dev")&&(!StringUtils.hasText(whiteList) || whiteList.contains(form.getPhone()))) {
                 smsService.sendCaptcha(form.getPhone(), captcha);
             }
             sessionContext.setCaptcha(form.getPhone(), captcha, CaptchaConstants.REGISTER_LOGIN);

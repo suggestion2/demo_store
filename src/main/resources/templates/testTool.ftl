@@ -23,7 +23,7 @@
                 <strong>[发送验证码]</strong><br/>
                 手机号码:<input class="textbox" type="text" id="customer-captcha-phone" style="width: 100px;"
                             value="13600000000"/><br/>
-                <input type="button" value="注册" onclick="customerModule.captcha()"/><br>
+                <input type="button" value="发送" onclick="customerModule.captcha()"/><br>
             </div>
             <div>
                 <strong>[注册]</strong><br/>
