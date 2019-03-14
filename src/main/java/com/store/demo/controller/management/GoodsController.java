@@ -8,6 +8,7 @@ import com.store.demo.mapper.sku.GoodsSpecUpdateParams;
 import com.store.demo.request.*;
 import com.store.demo.response.GoodsSpecAndUnitView;
 import com.store.demo.response.SpecView;
+import com.store.demo.response.oss.UploadParamsView;
 import com.store.demo.service.GoodsCategoryService;
 import com.store.demo.service.GoodsSpecService;
 import com.store.demo.service.GoodsSpecUnitService;
@@ -65,7 +66,7 @@ public class GoodsController {
     @RequestMapping(value = LIST,method = RequestMethod.POST)
     public GoodsListView list(@Valid @RequestBody GoodsListForm form){
         List<Goods> list = goodsService.selectList(form.getQueryMap());
-        list.forEach(g -> g.setBannerUrl(getImage(g.getBannerUrl())));
+        list.forEach(g -> g.setBannerUrl(ossService.getBucket(GOODS) + g.getBannerUrl()));
         return new GoodsListView(list, goodsService.selectCount(form.getQueryMap()));
     }
 
@@ -73,7 +74,7 @@ public class GoodsController {
     public ResponseView deleteById(@PathVariable Integer id){
         Goods goods = goodsService.getById(id);
         if(Objects.isNull(goods)){
-            throw new ResourceNotFoundException("goods not exists");
+            throw new ResourceNotFoundException("商品不存在");
         }
         if(!Objects.equals(goods.getStatus(),STOCK)){
             throw new ResourceNotFoundException("必须是下架的商品");
@@ -129,7 +130,7 @@ public class GoodsController {
 
         List<SpecUnitEditForm> unitList = form.getUnitList();
         if (Objects.isNull(unitList) || unitList.size() == 0) {
-            throw new ResourceNotFoundException("unit not found");
+            throw new ResourceNotFoundException("商品sku没有填写");
         }
         //把unitList的specId传过来的字符串如2,5变成字符数组,然后用这个当key去取数据库对应的spec所对应的id
         unitList.forEach(f -> {
@@ -138,7 +139,7 @@ public class GoodsController {
             //判断该字符数组有没有为空
             tempSpecIdList.forEach(s -> {
                 if (Objects.isNull(tempIdMap.get(s))) {
-                    throw new ResourceNotFoundException("specId not found in specUnit");
+                    throw new ResourceNotFoundException("商品规格不存在");
                 }
                 //用临时的id key去取刚刚插入数据库对应的spec所对应的id
                 specIds.append(tempIdMap.get(s));
@@ -271,7 +272,7 @@ public class GoodsController {
 
         List<SpecUnitEditForm> unitList = form.getUnitList();
         if (Objects.isNull(unitList) || unitList.size() == 0) {
-            throw new ResourceNotFoundException("unit not found");
+            throw new ResourceNotFoundException("sku 没有填写");
         }
         //记录前台传过来的SpecUnitEditForm对象的集合,用是否有id判断是新加的还是原来有的
         List<SpecUnitEditForm> unitUpdateList = unitList.stream().filter(f -> Objects.nonNull(f.getId())).collect(Collectors.toList());
@@ -291,7 +292,7 @@ public class GoodsController {
                 tempSpecIdList.forEach(s -> {
                     //用临时的id key去取刚刚插入数据库对应的spec所对应的id
                     if (Objects.isNull(tempIdMap.get(s))) {
-                        throw new ResourceNotFoundException("specId not found in specUnit");
+                        throw new ResourceNotFoundException("商品规格不存在");
                     }
                     specIds.append(tempIdMap.get(s));
                     specIds.append(",");
@@ -312,7 +313,7 @@ public class GoodsController {
     public ResponseView resetStatus(@Valid @RequestBody GoodsStatusForm form) {
         Goods goods = goodsService.getById(form.getId());
         if (Objects.isNull(goods)) {
-            throw new ResourceNotFoundException("goods not exists");
+            throw new ResourceNotFoundException("商品不存在");
         }
         if (!Objects.equals(form.getStatus(),STOCK)&&!Objects.equals(form.getStatus(),FOR_SALE)) {
             throw new InvalidRequestException("修改商品状态错误");
@@ -331,7 +332,10 @@ public class GoodsController {
         return new ResponseView();
     }
 
-
+    @RequestMapping(value = "/uploadParams",method = RequestMethod.GET)
+    public UploadParamsView uploadParams() throws Exception {
+        return ossService.getUploadParams();
+    }
 
     //拼接获取服务器图片的地址
     private String getImage(String imageUrl) {

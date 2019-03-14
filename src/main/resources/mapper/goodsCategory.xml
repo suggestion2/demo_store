@@ -78,10 +78,7 @@
     <update id="update" parameterType="com.store.demo.domain.GoodsCategory">
         update `goods_category` set
         `name` = #{name},
-        `level` = #{level},
-        `parentId` = #{parentId},
         `updateBy` = #{updateBy},
-        `status` = #{status},
         `updateTime` = now()
         where `id` = #{id}
     </update>

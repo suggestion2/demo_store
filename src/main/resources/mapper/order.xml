@@ -29,7 +29,7 @@
     <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(*) from `order` where `valid` = 1
         <if test="content!=null">
-            and `number` like concat ('%',#{content},'%')
+            and (`number` like concat ('%',#{content},'%') or `customerName` like concat ('%',#{content},'%') or `customerPhone` like concat ('%',#{content},'%'))
         </if>
         <if test="customerId!=null">
             and `customerId` = #{customerId}

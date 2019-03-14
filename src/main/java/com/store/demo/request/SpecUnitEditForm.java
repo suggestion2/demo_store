@@ -12,9 +12,9 @@ public class SpecUnitEditForm {
     private String specIds;
     private String title;
     private Integer stocks;
-    @Digits(integer = 8,fraction = 2,message = "invalid digits")
+    @Digits(integer = 8,fraction = 2,message = "错误的数字格式")
     private BigDecimal price;
-    @Digits(integer = 5,fraction = 2,message = "invalid digits")
+    @Digits(integer = 5,fraction = 2,message = "错误的数字格式")
     private BigDecimal shippingCost;
     private Integer salesVolume;
     private Integer primary;

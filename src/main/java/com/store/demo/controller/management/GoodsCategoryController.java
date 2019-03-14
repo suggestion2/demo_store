@@ -58,7 +58,7 @@ public class GoodsCategoryController {
     public ResponseView update(@Valid @RequestBody GoodsCategoryUpdateForm form){
         GoodsCategory goodsCategory = goodsCategoryService.getById(form.getId());
         if(Objects.isNull(goodsCategory)){
-            throw new ResourceNotFoundException("goodsCategory not exists");
+            throw new ResourceNotFoundException("商品品类不存在");
         }
         BeanUtils.copyProperties(form,goodsCategory);
         goodsCategory.setUpdateBy(sessionContext.getUser().getId());
@@ -70,7 +70,7 @@ public class GoodsCategoryController {
     public ResponseView resetStatus(@Valid @RequestBody GoodsCategoryStatusForm form){
         GoodsCategory goodsCategory = goodsCategoryService.getById(form.getId());
         if(Objects.isNull(goodsCategory)){
-            throw new ResourceNotFoundException("goodsCategory not exists");
+            throw new ResourceNotFoundException("商品品类不存在");
         }
         BeanUtils.copyProperties(form,goodsCategory);
 //        goodsCategory.setUpdateBy(sessionContext.getUser().getId());
@@ -82,7 +82,7 @@ public class GoodsCategoryController {
     public ResponseView deleteById(@PathVariable Integer id){
         GoodsCategory goodsCategory = goodsCategoryService.getById(id);
         if(Objects.isNull(goodsCategory)){
-            throw new ResourceNotFoundException("goodsCategory not exists");
+            throw new ResourceNotFoundException("商品品类不存在");
         }
         goodsCategoryService.deleteById(id);
         return new ResponseView();

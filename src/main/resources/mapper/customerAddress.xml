@@ -8,8 +8,11 @@
 
     <select id="select" resultType="com.store.demo.domain.CustomerAddress" parameterType="java.util.Map">
         select * from `customer_address` where `valid` = 1
-        <if test="id!=null">
-            and `id` = #{id}
+        <if test="customerId!=null">
+            and `customerId` = #{customerId}
+        </if>
+        <if test="primary!=null">
+            and `primary` = #{primary}
         </if>
     </select>
 
@@ -22,6 +25,15 @@
             limit #{startIndex},#{pageSize}
         </if>
     </select>
+
+    <update id="setPrimary" parameterType="com.store.demo.domain.CustomerAddress">
+         update `customer_address` set
+        `primary` = 0
+        where `customerId` = #{customerId} and `primary` = 1;
+        update `customer_address` set
+        `primary` = 1
+        where `id` = #{id}
+    </update>
 
     <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         select count(*) from `customer_address` where `valid` = 1

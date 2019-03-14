@@ -25,4 +25,9 @@ public interface PaymentService {
 
     Payment getByOrderId(Integer id);
 
+    Payment getByNumber(String number);
+
+    void payNotify(String number,String transactionId);
+
+
 }

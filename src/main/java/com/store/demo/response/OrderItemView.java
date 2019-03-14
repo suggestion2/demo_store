@@ -14,6 +14,15 @@ public class OrderItemView {
     private Double amount;
     private Integer count;
     private Integer orderId;
+    private Integer unitId;
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
+    }
 
     public Integer getId() {
         return id;

@@ -72,6 +72,16 @@
                 <input type="button" value="列表" onclick="customerAddressModule.list()"/><br>
             </div>
             <div>
+                <strong>[主要地址]</strong><br/>
+                <input type="button" value="获取" onclick="customerAddressModule.getPrimary()"/><br>
+            </div>
+            <div>
+                <strong>[设为主要地址]</strong><br/>
+                id:<input class="textbox" type="text" id="customerAddress-primary-id" style="width: 100px;"
+                          value="1"/>
+                <input type="button" value="设置" onclick="customerAddressModule.primary()"/><br>
+            </div>
+            <div>
                 <strong>[详情]</strong><br/>
                 id:<input class="textbox" type="text" id="address-detail-id" style="width: 100px;"
                            value=""/><br>
@@ -141,8 +151,6 @@
                                    value=""/><br>
                 categoryId2:<input class="textbox" type="text" id="goods-api-list-categoryId2" style="width: 100px;"
                                    value=""/>
-                categoryId3:<input class="textbox" type="text" id="goods-api-list-categoryId3" style="width: 100px;"
-                                   value=""/><br>
                 pageIndex:<input class="textbox" type="text" id="goods-api-list-pageIndex" style="width: 100px;"
                                  value="0"/>
                 pageSize:<input class="textbox" type="text" id="goods-api-list-pageSize" style="width: 100px;"
@@ -265,6 +273,18 @@
                             value=""/>
                 <input type="button" value="删除" onclick="orderApiModule.confirm()"/><br>
             </div>
+            <h2>支付(payment)</h2>
+            <div>
+                <strong>[支付]</strong><br/>
+                payment编号:<input class="textbox" type="text" id="payment-pay-number" style="width: 100px;"
+                                 value=""/><br>
+                <input type="button" value="支付宝pc支付" onclick="paymentModule.aliPagePay()"/>
+                <input type="button" value="支付宝手机网站支付" onclick="paymentModule.aliWapPay()"/>
+                <strong>[查询支付结果]</strong><br/>
+                payment编号:<input class="textbox" type="text" id="payment-check-number" style="width: 100px;"
+                                 value=""/><br>
+                <input type="button" value="查询支付结果(1.待支付  2.已支付  0.已取消)" onclick="paymentModule.check()"/>
+            </div>
             <h2>商品评论(comment)</h2>
             <div>
                 <strong>[列表]</strong><br/>
@@ -315,19 +335,9 @@
                 <strong>[登出]</strong><br/>
                 <input type="button" value="登出" onclick="commonModule.logout()"/><br>
             </div>
-
-            <h2>系统参数(system_params)</h2>
             <div>
-                <strong>[列表]</strong><br/>
-                <input type="button" value="列表" onclick="systemParamsModule.list()"/><br>
-            </div>
-            <div>
-                <strong>[修改参数]</strong><br/>
-                id:<input class="textbox" type="text" id="systemParam-update-id" style="width: 100px;"
-                          value=""/>
-                value:<input class="textbox" type="text" id="systemParam-update-value" style="width: 100px;"
-                             value=""/><br>
-                <input type="button" value="修改" onclick="systemParamsModule.update()"/><br>
+                <strong>[图片上传参数]</strong><br/>
+                <input type="button" value="获取图片上传参数" onclick="commonModule.uploadParams()"/><br>
             </div>
             <h2>商品品类(goods_category)</h2>
             <div>
@@ -350,10 +360,6 @@
                           value="1"/>
                 name:<input class="textbox" type="text" id="goodsCategory-update-name" style="width: 100px;"
                             value=""/><br>
-                level:<input class="textbox" type="text" id="goodsCategory-update-level" style="width: 100px;"
-                             value="1"/>
-                parentId:<input class="textbox" type="text" id="goodsCategory-update-parentId" style="width: 100px;"
-                                value="0"/>
                 <input type="button" value="修改" onclick="goodsCategoryModule.update()"/><br>
             </div>
             <div>
@@ -414,6 +420,8 @@
                              value="image.jpg"/>
                 图片url:<input class="textbox" type="text" id="goods-create-imagesUrl" style="width: 100px;"
                              value="image.jpg,image1.jpg"/> &ensp;
+                单价:<input class="textbox" type="text" id="goods-create-price" style="width: 100px;"
+                          value="0.01"/>
                 描述:<input class="textbox" type="text" id="goods-create-remarks" style="width: 100px;"
                           value="<html>xxx</html>"/><br/>
                 sku1: &ensp;
@@ -474,8 +482,6 @@
                           value="100"/>
                 价格:<input class="textbox" type="text" id="goods-create-unit1-price" style="width: 100px;"
                           value="10"/>
-                促销价:<input class="textbox" type="text" id="goods-create-unit1-promotionPrice" style="width: 100px;"
-                           value="1"/><br>
                 运费:<input class="textbox" type="text" id="goods-create-unit1-shippingCost" style="width: 100px;"
                           value="0"/>
                 销量:<input class="textbox" type="text" id="goods-create-unit1-salesVolume" style="width: 100px;"
@@ -493,8 +499,6 @@
                           value="100"/>
                 价格:<input class="textbox" type="text" id="goods-create-unit2-price" style="width: 100px;"
                           value="10"/>
-                促销价:<input class="textbox" type="text" id="goods-create-unit2-promotionPrice" style="width: 100px;"
-                           value="1"/><br>
                 运费:<input class="textbox" type="text" id="goods-create-unit2-shippingCost" style="width: 100px;"
                           value="0"/>
                 销量:<input class="textbox" type="text" id="goods-create-unit2-salesVolume" style="width: 100px;"
@@ -512,8 +516,6 @@
                           value="100"/>
                 价格:<input class="textbox" type="text" id="goods-create-unit3-price" style="width: 100px;"
                           value="10"/>
-                促销价:<input class="textbox" type="text" id="goods-create-unit3-promotionPrice" style="width: 100px;"
-                           value="1"/><br>
                 运费:<input class="textbox" type="text" id="goods-create-unit3-shippingCost" style="width: 100px;"
                           value="0"/>
                 销量:<input class="textbox" type="text" id="goods-create-unit3-salesVolume" style="width: 100px;"
@@ -531,8 +533,6 @@
                           value="100"/>
                 价格:<input class="textbox" type="text" id="goods-create-unit4-price" style="width: 100px;"
                           value="10"/>
-                促销价:<input class="textbox" type="text" id="goods-create-unit4-promotionPrice" style="width: 100px;"
-                           value="1"/><br>
                 运费:<input class="textbox" type="text" id="goods-create-unit4-shippingCost" style="width: 100px;"
                           value="0"/>
                 销量:<input class="textbox" type="text" id="goods-create-unit4-salesVolume" style="width: 100px;"
@@ -561,6 +561,8 @@
                              value="image.jpg"/>
                 图片url:<input class="textbox" type="text" id="goods-update-imagesUrl" style="width: 100px;"
                              value="image.jpg,image1.jpg"/> &ensp;
+                单价:<input class="textbox" type="text" id="goods-update-price" style="width: 100px;"
+                          value="0.01"/>
                 描述:<input class="textbox" type="text" id="goods-update-remarks" style="width: 100px;"
                           value="<html>xxx</html>"/><br>
                 sku:<br>

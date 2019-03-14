@@ -1,6 +1,7 @@
 package com.store.demo.service.Impl;
 
 import com.store.demo.domain.GoodsSpecUnit;
+import com.store.demo.mapper.params.GoodsStockUpdateParams;
 import com.store.demo.mapper.sku.GoodsSpecUnitUpdateParams;
 import com.store.demo.request.SpecUnitEditForm;
 import com.store.demo.service.GoodsSpecUnitService;
@@ -46,12 +47,18 @@ public class GoodsSpecUnitServiceImpl implements GoodsSpecUnitService{
     }
 
     @Override
+    public int updateStocks(List<GoodsStockUpdateParams> list) {
+        int result = goodsSpecUnitMapper.updateStocks(list);
+        return result;
+    }
+
+    @Override
     public int batchUpdate(GoodsSpecUnitUpdateParams params) {
         return goodsSpecUnitMapper.batchUpdate(params);
     }
 
     private String getImage(String imageUrl){
-        return ossService.getPublicObject(GOODS + imageUrl);
+        return ossService.getBucket(GOODS) + imageUrl;
     }
 
     @Override

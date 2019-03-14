@@ -138,6 +138,14 @@ var commonModule = {
             dataType: "json"
         };
         showResult(settings);
+    },
+    uploadParams: function () {
+        var settings = {
+            type: "GET",
+            url: "/management/goods/uploadParams",
+            dataType: "json"
+        };
+        showResult(settings);
     }
 
 };
@@ -227,6 +235,25 @@ var customerAddressModule = {
         };
         showResult(settings);
     },
+    getPrimary: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/customerAddress/primary",
+            dataType: "json"
+        };
+        showResult(settings);
+    },
+    primary: function () {
+        var settings = {
+            type: "PUT",
+            url: "/api/customer/primary",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": $("#customerAddress-primary-id").val()
+            })
+        };
+        showResult(settings);
+    },
     detail: function () {
         var settings = {
             type: "GET",
@@ -281,28 +308,7 @@ var customerAddressModule = {
 };
 
 
-var systemParamsModule= {
-    list: function () {
-        var settings = {
-            type: "GET",
-            url: "/management/systemParams/list",
-            dataType: "json"
-        };
-        showResult(settings);
-    },
-    update: function () {
-        var settings = {
-            type: "PUT",
-            url: "/management/systemParams/update",
-            dataType: "json",
-            data: JSON.stringify({
-                "id": $("#systemParam-update-id").val(),
-                "value": $("#systemParam-update-value").val()
-            })
-        };
-        showResult(settings);
-    },
-};
+
 
 var goodsCategoryModule= {
     list: function () {
@@ -341,9 +347,7 @@ var goodsCategoryModule= {
             dataType: "json",
             data: JSON.stringify({
                 "id": $("#goodsCategory-update-id").val(),
-                "name": $("#goodsCategory-update-name").val(),
-                "level": $("#goodsCategory-update-level").val(),
-                "parentId": $("#goodsCategory-update-parentId").val()
+                "name": $("#goodsCategory-update-name").val()
             })
         };
         showResult(settings);
@@ -395,7 +399,6 @@ var goodsModule= {
                 "content": $("#goods-api-list-content").val(),
                 "categoryId1": $("#goods-api-list-categoryId1").val(),
                 "categoryId2": $("#goods-api-list-categoryId2").val(),
-                "categoryId3": $("#goods-api-list-categoryId3").val(),
                 "pageIndex": $("#goods-api-list-pageIndex").val(),
                 "pageSize": $("#goods-api-list-pageSize").val()
             })
@@ -447,6 +450,7 @@ var goodsModule= {
                 "bannerUrl": $("#goods-create-bannerUrl").val(),
                 "imagesUrl": $("#goods-create-imagesUrl").val(),
                 "remarks": $("#goods-create-remarks").val(),
+                "price": $("#goods-create-price").val(),
                 "specList":[
                     {
                         "form":{
@@ -550,6 +554,7 @@ var goodsModule= {
                 "bannerUrl": $("#goods-update-bannerUrl").val(),
                 "imagesUrl": $("#goods-update-imagesUrl").val(),
                 "remarks": $("#goods-update-remarks").val(),
+                "price": $("#goods-update-price").val(),
                 "specList":[
                     {
                         "form":{
@@ -1097,8 +1102,32 @@ var customerMaModule= {
         showResult(settings);
     },
 };
-
-
+var paymentModule = {
+    aliPagePay: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/alipay/page/pay/" + $("#payment-pay-number").val(),
+            dataType: "json"
+        };
+        showResult(settings);
+    },
+    aliWapPay: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/alipay/wap/pay/" + $("#payment-pay-number").val(),
+            dataType: "json"
+        };
+        showResult(settings);
+    },
+    check: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/alipay/status/"+ $("#payment-check-number").val(),
+            dataType: "json"
+        };
+        showResult(settings);
+    },
+};
 var systemApiParamsModule= {
     list: function () {
         var settings = {
@@ -1117,7 +1146,7 @@ var commentModule= {
             url: "/api/comment/list",
             dataType: "json",
             data: JSON.stringify({
-                "id": $("#comment-list-id").val(),
+                "goodsId": $("#comment-list-id").val(),
                 "pageIndex": $("#comment-list-startIndex").val(),
                 "pageSize": $("#comment-list-pageSize").val()
             })
@@ -1130,7 +1159,7 @@ var commentModule= {
             url: "/management/comment/list",
             dataType: "json",
             data: JSON.stringify({
-                "id": $("#comment-m-list-id").val(),
+                "goodsId": $("#comment-m-list-id").val(),
                 "pageIndex": $("#comment-m-list-startIndex").val(),
                 "pageSize": $("#comment-m-list-pageSize").val()
             })

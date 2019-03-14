@@ -45,7 +45,7 @@ public class UserController {
     public UserView login(@Valid @RequestBody UserLoginForm form) {
         User user = userService.getByName(form.getName());
         if(Objects.isNull(user) || !Objects.equals(user.getPassword(),MD5.encrypt(form.getPassword() + MD5_SALT))){
-            throw new InvalidRequestException("invalid name or password","invalid name or password");
+            throw new InvalidRequestException("用户名或密码错误","用户名或密码错误");
         }
         sessionContext.setUser(user);
         UserView userView = new UserView();
@@ -65,7 +65,7 @@ public class UserController {
     public ResponseView resetPassword(@Valid @RequestBody UserResetPasswordForm form) {
         User user = sessionContext.getUser();
         if(!user.getPassword().equalsIgnoreCase(MD5.encrypt(form.getOriginPassword() + MD5_SALT))){
-            throw new InvalidRequestException("invalid password","invalid password");
+            throw new InvalidRequestException("修改失败","原密码错误");
         }
         user.setPassword(MD5.encrypt(form.getNewPassword() + MD5_SALT));
         userService.update(user);

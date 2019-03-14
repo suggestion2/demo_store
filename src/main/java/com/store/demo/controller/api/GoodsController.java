@@ -69,7 +69,7 @@ public class GoodsController {
     public GoodsListView list(@Valid @RequestBody GoodsListForm form){
         form.setStatus(1);
         List<Goods> list = goodsService.selectList(form.getQueryMap());
-        list.forEach(g -> g.setBannerUrl(getImage(g.getBannerUrl())));
+        list.forEach(g -> g.setBannerUrl(ossService.getBucket(GOODS) + g.getBannerUrl()));
         return new GoodsListView(list, goodsService.selectCount(form.getQueryMap()));
     }
 

@@ -1,11 +1,16 @@
 package com.store.demo.service.Impl;
 
-import com.store.demo.domain.Payment;
-import com.store.demo.service.PaymentService;
+import com.store.demo.constants.OrderConstants;
+import com.store.demo.constants.PaymentConstants;
+import com.store.demo.domain.*;
+import com.store.demo.mapper.params.GoodsStockUpdateParams;
+import com.store.demo.response.OrderItemView;
+import com.store.demo.service.*;
 import com.store.demo.mapper.PaymentMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +22,18 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Autowired
     private PaymentMapper paymentMapper;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private OrderItemService orderItemService;
+
+    @Autowired
+    private GoodsSpecUnitService goodsSpecUnitService;
+
+    @Autowired
+    private CustomerService customerService;
 
     @Override
     public Payment getById(Integer id){
@@ -59,4 +76,40 @@ public class PaymentServiceImpl implements PaymentService{
         map.put("type",ORDER);
         return paymentMapper.select(map);
     }
+
+    @Override
+    public Payment getByNumber(String number) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("number",number);
+        return paymentMapper.select(map);
+    }
+
+    @Override
+    /**
+     * 修改库存
+     */
+    public void payNotify(String number,String transactionId) {
+        Payment payment = this.getByNumber(number);
+        payment.setStatus(PaymentConstants.PAID);
+
+        Order order = orderService.getById(payment.getOrderId());
+        order.setStatus(OrderConstants.PAID);
+
+        List<OrderItemView> orderItemList = orderItemService.getListByOrderId(order.getId());
+        List<GoodsStockUpdateParams> stockUpdateParamsList = new ArrayList<>();
+        orderItemList.forEach(o->{
+            GoodsStockUpdateParams goodsStockUpdateParams = new GoodsStockUpdateParams();
+            goodsStockUpdateParams.setGoodsId(o.getGoodsId());
+            goodsStockUpdateParams.setUnitId(o.getUnitId());
+            goodsStockUpdateParams.setCount(o.getCount());
+
+            stockUpdateParamsList.add(goodsStockUpdateParams);
+        });
+
+        goodsSpecUnitService.updateStocks(stockUpdateParamsList);
+
+        this.update(payment);
+        orderService.update(order);
+    }
+
 }

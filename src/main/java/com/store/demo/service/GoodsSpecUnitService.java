@@ -1,6 +1,7 @@
 package com.store.demo.service;
 
 import com.store.demo.domain.GoodsSpecUnit;
+import com.store.demo.mapper.params.GoodsStockUpdateParams;
 import com.store.demo.mapper.sku.GoodsSpecUnitUpdateParams;
 import com.store.demo.request.SpecUnitEditForm;
 import com.store.demo.service.stock.GoodsStocks;
@@ -34,5 +35,7 @@ public interface GoodsSpecUnitService {
 
 
     GoodsStocks getStocks(Integer unitId);
+
+    int updateStocks(List<GoodsStockUpdateParams>  list);
 
 }

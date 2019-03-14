@@ -203,7 +203,7 @@ public class OrderController {
         Customer customer = customerService.getCurrentCustomer();
         Integer type = sessionContext.getOrderType();
         if (Objects.isNull(type)) {
-            throw new InvalidRequestException("order overdue");
+            throw new InvalidRequestException("订单超时");
         }
         //获得当前订单
         List<OrderItem> orderCurrentItem = sessionContext.getCurrentOrderItem();
@@ -214,6 +214,11 @@ public class OrderController {
         if (type.equals(IMMEDIATE)) {
             if (Objects.isNull(orderCurrentItem) || orderCurrentItem.size() == 0) {
                 throw new RuntimeException("orderCurrentItem not found");
+            }
+            //判断商品库存是否足够
+            GoodsStocks goodsStocks = goodsSpecUnitService.getStocks(orderCurrentItem.get(0).getUnitId());
+            if (goodsStocks.getStocks() < orderCurrentItem.get(0).getCount()) {
+                throw new InvalidRequestException("商品库存不足");
             }
             orderItemList.add(orderCurrentItem.get(0));
         } else {
@@ -250,6 +255,9 @@ public class OrderController {
         CustomerAddress customerAddress = customerAddressService.getById(form.getCustomerAddressId());
         if (Objects.isNull(customerAddress) || !customerAddress.getCustomerId().equals(customer.getId())) {
             throw new ResourceNotFoundException("用户地址不存在");
+        }
+        if(Objects.isNull(orderItemList) || orderItemList.size() == 0){
+            throw new InvalidRequestException("商品库存不足");
         }
         Order order = new Order();
         order.setNumber("O" + SequenceNumUtils.generateNum());

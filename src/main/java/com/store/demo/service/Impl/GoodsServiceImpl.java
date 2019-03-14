@@ -2,8 +2,10 @@ package com.store.demo.service.Impl;
 
 import com.store.demo.domain.Goods;
 import com.store.demo.mapper.GoodsSpecUnitMapper;
+import com.store.demo.mapper.params.GoodsStockUpdateParams;
 import com.store.demo.service.GoodsService;
 import com.store.demo.mapper.GoodsMapper;
+import com.store.demo.service.oss.OssService;
 import com.store.demo.service.stock.GoodsStocks;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 
 import static com.store.demo.constants.GoodsConstants.FOR_SALE;
 import static com.store.demo.constants.GoodsConstants.STOCK;
+import static com.store.demo.service.oss.ImageConstants.GOODS;
 
 @Service
 public class GoodsServiceImpl implements GoodsService{
@@ -23,9 +26,25 @@ public class GoodsServiceImpl implements GoodsService{
     @Autowired
     private GoodsSpecUnitMapper goodsSpecUnitMapper;
 
+    @Autowired
+    private OssService ossService;
+
     @Override
     public Goods getById(Integer id){
-        return goodsMapper.selectById(id);
+        Goods goods = goodsMapper.selectById(id);
+        if(Objects.isNull(goods)){
+            return null;
+        }
+        List<String> imagesList = Arrays.asList(goods.getImagesUrl().split(","));
+        List<String> generateList = new ArrayList<>();
+        imagesList.forEach(i->generateList.add(getImage(i)));
+        goods.setImageList(generateList);
+        goods.setBannerUrl(getImage(goods.getBannerUrl()));
+        return goods;
+    }
+
+    private String getImage(String imageUrl){
+        return ossService.getBucket(GOODS) + imageUrl;
     }
     @Override
     public Goods select(Map<String, Object> map){
@@ -61,6 +80,7 @@ public class GoodsServiceImpl implements GoodsService{
         goodsMapper.updateStatus(goods);
         return goods;
     }
+
 
     @Override
     public Map<String,Integer> getStocks(List<GoodsStocks> checkList) {
