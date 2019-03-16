@@ -28,6 +28,6 @@ public class SmsService {
 
         SmsCaptchaForm form = new SmsCaptchaForm();
         form.setCode(captcha);
-        smsService.send(phone,new String(sign.getBytes("ISO-8859-1"),"UTF-8"),captchaTemp,form);
+        smsService.send(phone,sign,captchaTemp,form);
     }
 }
