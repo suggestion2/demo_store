@@ -21,6 +21,7 @@
         <if test="status!=null">
             and `status` = #{status}
         </if>
+        order by updateTime DESC
         <if test="startIndex != null and pageSize != null">
             limit #{startIndex},#{pageSize}
         </if>
