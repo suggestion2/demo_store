@@ -102,7 +102,9 @@
         `goodsAmount`,
         `totalAmount`,
         `count`,
-        `shippingCostAmount`
+        `shippingCostAmount`,
+        `contactName`,
+        `contactPhone`
         )
         values
         (
@@ -117,7 +119,9 @@
         #{goodsAmount},
         #{totalAmount},
         #{count},
-        #{shippingCostAmount}
+        #{shippingCostAmount},
+        #{contactName},
+        #{contactPhone}
         )
     </insert>
 

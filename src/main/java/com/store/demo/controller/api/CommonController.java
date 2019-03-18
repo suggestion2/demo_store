@@ -73,7 +73,7 @@ public class CommonController {
         }
 
         CaptchaView view = new CaptchaView();
-        if (!profiles.equalsIgnoreCase("prod")) {
+        if (profiles.equalsIgnoreCase("dev")) {
             view.setCaptcha(captcha);
         }
         return view;
@@ -110,6 +110,7 @@ public class CommonController {
         customer = new Customer();
         customer.setPhone(form.getPhone());
         customer.setPassword(MD5.encrypt(form.getPassword() + MD5_SALT));
+        customer.setName(form.getPhone());
         customerService.create(customer);
 
         sessionContext.login(customer);
