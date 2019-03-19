@@ -49,6 +49,7 @@
         <result property="count" column="order_count"/>
         <result property="status" column="order_status"/>
         <result property="createTime" column="order_createTime"/>
+        <result property="comment" column="order_comment"/>
         <collection property="list" javaType="ArrayList" ofType="com.store.demo.response.OrderItemShortView">
             <id column="item_id"/>
             <result property="goodsId" column="item_goodsId"/>
@@ -67,6 +68,7 @@
         o.`count` as order_count,
         o.`createTime` as order_createTime,
         o.`status` as order_status,
+        o.`comment` as order_comment,
         i.id as item_id,
         i.goodsId as item_goodsId,
         i.goodsName as item_goodsName,

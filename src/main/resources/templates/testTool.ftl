@@ -211,6 +211,10 @@
                                      value=""/><br>
                     <input type="button" value="结算" onclick="cartModule.checkout()"/><br>
                 </div>
+                <div>
+                    <strong>[结算展示]</strong><br/>
+                    <input type="button" value="结算" onclick="cartModule.checkoutView()"/><br>
+                </div>
             </div>
             <h2>订单(order)</h2>
             <div>

@@ -18,6 +18,15 @@ public class OrderShortView {
     private Integer status;
 
     private List<OrderItemShortView> list;
+    private Integer comment;
+
+    public Integer getComment() {
+        return comment;
+    }
+
+    public void setComment(Integer comment) {
+        this.comment = comment;
+    }
 
     public String getNumber() {
         return number;
