@@ -14,6 +14,8 @@ public class OrderView {
     private String number;
     private String customerName;
     private String customerPhone;
+    private String contactName;
+    private String contactPhone;
     private String customerAddress;
     private String dispatchCompany;
     private String dispatchNumber;
@@ -29,6 +31,22 @@ public class OrderView {
     private Date createTime;
     private Integer status;
     private List<OrderItemView> orderItemView;
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
 
     public Integer getId() {
         return id;

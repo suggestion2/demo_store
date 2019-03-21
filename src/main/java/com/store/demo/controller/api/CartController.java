@@ -283,9 +283,10 @@ public class CartController {
         return new CartView(cart);
     }
 
+    //筛选购买
     @RequestMapping(value = "/checkout", method = RequestMethod.POST)
     @CustomerLoginRequired
-    public OrderPrepareView checkout(@Valid @RequestBody CartItemCheckOutForm form) {
+    public ResponseView checkout(@Valid @RequestBody CartItemCheckOutForm form) {
         Cart cart = cartService.getCurrentCart();
         if (Objects.isNull(cart)) {
             throw new ResourceNotFoundException("没有购物车");
@@ -316,23 +317,44 @@ public class CartController {
             if (c.getCount() <= stocksMap.get(c.getGoodsId() + ":" + c.getUnitId())) {
                 OrderItem orderItem= new OrderItem();
                 BeanUtils.copyProperties(c, orderItem);
-                orderItem.setBannerUrl(ossService.getBucket(GOODS) + orderItem.getBannerUrl());
+//                orderItem.setBannerUrl(ossService.getBucket(GOODS) + orderItem.getBannerUrl());
                 orderlist.add(orderItem);
                 validList.add(c);
             }
         });
-        //计算运费
-        orderPrepareView.setShippingCostAmount(validList.stream().map(c -> BigDecimalUtils.multiply(c.getShippingCost(), c.getCount())).reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue());
-        //计算商品总价
-        orderPrepareView.setGoodsAmount(validList.stream().map(CartItem::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue());
-        //计算总价
-        orderPrepareView.setTotalAmount(new BigDecimal(orderPrepareView.getShippingCostAmount() + orderPrepareView.getGoodsAmount()).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
-        //计算总数
-        orderPrepareView.setCount(validList.stream().mapToInt(CartItem::getCount).sum());
-        orderPrepareView.setList(orderlist);
 
         sessionContext.setOrderType(BY_CART);
         sessionContext.setCurrentOrderItem(orderlist);
+
+        return new ResponseView();
+    }
+
+    //筛选购买展示
+    @RequestMapping(value = "/checkout/view", method = RequestMethod.GET)
+    @CustomerLoginRequired
+    public OrderPrepareView checkoutView() {
+        List<OrderItem> list = sessionContext.getCurrentOrderItem();
+        if(Objects.isNull(list) || Objects.equals(list.size(),0)){
+            throw new ResourceNotFoundException("orderItem not found");
+        }
+        OrderPrepareView orderPrepareView = new OrderPrepareView();
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        list.forEach(o->{
+            OrderItem orderItem = new OrderItem();
+            BeanUtils.copyProperties(o,orderItem);
+            orderItem.setBannerUrl(ossService.getBucket(GOODS) + o.getBannerUrl());
+            orderItemList.add(orderItem);
+        });
+        //计算运费
+        orderPrepareView.setShippingCostAmount(orderItemList.stream().map(c -> BigDecimalUtils.multiply(c.getShippingCost(), c.getCount())).reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue());
+        //计算商品总价
+        orderPrepareView.setGoodsAmount(orderItemList.stream().map(OrderItem::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue());
+        //计算总价
+        orderPrepareView.setTotalAmount(new BigDecimal(orderPrepareView.getShippingCostAmount() + orderPrepareView.getGoodsAmount()).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
+        //计算总数
+        orderPrepareView.setCount(orderItemList.stream().mapToInt(OrderItem::getCount).sum());
+        orderPrepareView.setList(orderItemList);
 
         return orderPrepareView;
     }

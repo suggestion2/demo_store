@@ -9,8 +9,10 @@ public class Order {
     private String number;
     private Integer customerId;
     private String customerName;
+    private String contactName;
     private String goodsName;
     private String customerPhone;
+    private String contactPhone;
     private String customerAddress;
     private Integer customerAddressId;
     private String dispatchCompany;
@@ -30,6 +32,22 @@ public class Order {
     private Integer valid;
     private Date cancelTime;
     private Integer cancelType;
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
 
     public Date getCancelTime() {
         return cancelTime;

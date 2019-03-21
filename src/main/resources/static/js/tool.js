@@ -729,6 +729,14 @@ var cartModule = {
             })
         };
         showResult(settings);
+    },
+    checkoutView: function () {
+        var settings = {
+            type: "GET",
+            url: "/api/cart/checkout/view",
+            dataType: "json",
+        };
+        showResult(settings);
     }
 };
 var orderApiModule = {

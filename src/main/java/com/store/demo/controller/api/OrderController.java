@@ -266,6 +266,8 @@ public class OrderController {
         order.setCustomerName(customer.getName());
         order.setCustomerPhone(customer.getPhone());
         order.setCustomerAddressId(customerAddress.getId());
+        order.setContactName(customerAddress.getContact());
+        order.setContactPhone(customerAddress.getContactPhone());
         order.setCustomerAddress(customerAddress.getProvince() + customerAddress.getCity() + customerAddress.getCounty() + customerAddress.getAddress());
         order.setGoodsAmount(orderItemList.stream().map(OrderItem::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
         order.setCount(orderItemList.stream().mapToInt(OrderItem::getCount).sum());
